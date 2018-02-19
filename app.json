@@ -1,5 +1,8 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
+    "name": "GPA Calculator by NOSA",
+    "slug": "gpa-calculator",
+    "sdkVersion": "25.0.0",
+    "privacy": "unlisted"
   }
 }
