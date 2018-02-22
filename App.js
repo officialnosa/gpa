@@ -4,9 +4,24 @@ import { Root } from './navigation'
 import getStore from './src/redux/store'
 import { PersistGate } from 'redux-persist/es/integration/react'
 import { Font, AppLoading } from 'expo'
-import { View } from '@shoutem/ui'
+import { View, Text, StatusBar } from 'react-native'
 
 const { store, persistor } = getStore()
+
+const Splash = () => (
+  <View
+    style={{
+      flex: 1,
+      backgroundColor: '#ffd200',
+
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}
+  >
+    <Text style={{ fontSize: 80, fontWeight: 'bold' }}>GPA</Text>
+    <Text style={{ fontSize: 20 }}>CALCULATOR</Text>
+  </View>
+)
 
 export default class App extends React.Component {
   state = {
@@ -36,7 +51,8 @@ export default class App extends React.Component {
       <Provider store={store}>
         {/* <PersistGate persistor={persistor}> */}
         <View style={{ paddingTop: 20, backgroundColor: '#fff', flex: 1 }}>
-          {this.state.fontsAreLoaded ? <Root /> : <AppLoading />}
+          <StatusBar backgroundColor="#ffd200" />
+          {this.state.fontsAreLoaded ? <Root /> : <Splash />}
         </View>
         {/* </PersistGate> */}
       </Provider>
