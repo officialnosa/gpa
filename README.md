@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/officialnosa/gpa/badge.svg?branch=master)](https://coveralls.io/github/officialnosa/gpa?branch=master)
+
 ### GPA Tracker
 
 ## Run the demo
