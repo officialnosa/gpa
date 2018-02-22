@@ -1,3 +1,5 @@
+import update from 'immutability-helper'
+
 const initialState = {
   biu$csc$411: { name: 'NET-CENTRIC COMPUTING', creditLoad: 3 },
   biu$csc$412: { name: 'SOFTWARE ENGINEERING', creditLoad: 3 },
@@ -15,8 +17,17 @@ const initialState = {
   }
 }
 
-const school = (state = initialState, action) => {
-  switch (action.type) {
+const school = (state = initialState, { type, id, data }) => {
+  switch (type) {
+    case 'EDIT_COURSE':
+      // state[id] = Object.assign({}, state[id], data)
+      // return Object.assign({}, state, data)
+
+      return update(state, {
+        [id]: {
+          $merge: data
+        }
+      })
     default:
       return state
   }

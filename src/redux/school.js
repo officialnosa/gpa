@@ -1,16 +1,20 @@
+import update from 'immutability-helper'
+
 const initialState = {
-  name: 'Benson idahosa University',
+  name: '',
   gradingSystem: {
     firstClass: 4.0,
     secondClassUpper: 3.5,
     secondClassLower: 2.5,
     thirdClass: 2.0,
-    fail: 1
+    pass: 2.0
   }
 }
 
-const school = (state = initialState, action) => {
-  switch (action.type) {
+const school = (state = initialState, { type, updater }) => {
+  switch (type) {
+    case 'UPDATE_SCHOOL':
+      return update(state, updater)
     default:
       return state
   }
