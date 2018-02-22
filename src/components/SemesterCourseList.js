@@ -1,8 +1,8 @@
 import React from 'react'
-import { VirtualizedList } from 'react-native'
+import { VirtualizedList, View } from 'react-native'
 import { CourseRow } from './CourseRow'
 import { connect } from 'react-redux'
-import { Caption, View, Text } from '@shoutem/ui'
+import { Subtitle, Divider, Caption } from '@shoutem/ui'
 
 const mapStateToProps = state => ({
   field: state.field,
@@ -26,13 +26,19 @@ class SemesterCourseListX extends React.Component {
   }
 
   calculate = async () => {
-    const data = this.state.registered.reduce((a, b, index) => ({
-      point:
-        (index < 2 ? a.point * a.creditLoad : a.point) + b.point * b.creditLoad,
-      creditLoad: a.creditLoad + b.creditLoad
-    }))
+    if (this.state.registered.length < 1) return 0
 
-    const gpa = data.point / data.creditLoad
+    const data = this.state.registered.reduce(
+      (a, b, index) => ({
+        point: a.point + b.point * b.creditLoad,
+        creditLoad: a.creditLoad + b.creditLoad
+      }),
+      { creditLoad: 0, point: 0 }
+    )
+
+    if (data.creditLoad < 1) return 0
+
+    const gpa = (data.point / data.creditLoad || 0).toPrecision(3)
     this.setState({ gpa })
   }
 
@@ -50,17 +56,26 @@ class SemesterCourseListX extends React.Component {
     const { year, semester, field } = this.props
     return (
       <View style={styles.container}>
-        <Caption style={styles.letter}>
-          Year {year} Semester{semester} GPA: {this.state.gpa}
-        </Caption>
+        {/* <Subtitle style={styles.letter}> */}
+        {/* <Subtitle styleName="bold" style={styles.letter}>
+          {this.state.gpa} GPA
+        </Subtitle> */}
+        {/* </Subtitle> */}
+
         <VirtualizedList
           data={this.state.registered}
           renderItem={({ item }) => (
             <CourseRow id={item.id} year={year} semester={semester} />
           )}
-          ItemSeparatorComponent={_ => (
-            <View style={{ height: 1, backgroundColor: '#ddd' }} />
-          )}
+          // ItemSeparatorComponent={_ => (
+          //   <View style={{ height: 1, backgroundColor: '#ddd' }} />
+          // )}
+          ListHeaderComponent={
+            <Divider styleName="section-header">
+              <Caption>COURSE - {this.state.gpa} GPA</Caption>
+              <Caption>GRADE</Caption>
+            </Divider>
+          }
           keyExtractor={item => item.id}
           getItemCount={data => data.length}
           getItem={(data, ii) => data[ii]}
@@ -76,11 +91,13 @@ export { SemesterCourseList }
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#f2f2f2'
   },
   letter: {
-    fontSize: 20,
-    color: '#000',
+    // fontSize: 20,
+    color: '#fff',
+    padding: 5,
+    backgroundColor: '#05f',
     textAlign: 'center'
   }
 }

@@ -1,32 +1,44 @@
 import React from 'react'
-import { Icon, View, Title } from '@shoutem/ui'
-import { CourseRow } from '../components/CourseRow'
-import { SemesterCourseList } from '../components/SemesterCourseList'
+import { View, Title, NavigationBar, Button, Text } from '@shoutem/ui'
+import { SemesterPager } from '../components/SemesterPager'
+import Icon from 'react-native-vector-icons/Feather'
 
 export class HomeScreen extends React.PureComponent {
   static navigationOptions = {
-    tabBarLabel: 'Home',
+    tabBarLabel: 'Courses',
     tabBarIcon: ({ tintColor, focused }) => (
-      <Icon name="home" size={focused ? 25 : 23} color={tintColor} />
+      <Icon name="book" size={focused ? 25 : 23} color={tintColor} />
     )
-  }
-
-  constructor(props) {
-    super(props)
   }
 
   render() {
     return (
-      <View styleName="flexible light">
-        <View
-          style={{ padding: 20, alignItems: 'center', backgroundColor: '#fff' }}
-        >
-          <Title>Benson Idahosa University</Title>
+      <View style={styles.container}>
+        <View style={{ padding: 20, backgroundColor: '#fff' }}>
+          <Title>Registered Courses</Title>
         </View>
-        {/* <CourseRow id="biu$csc$411" year={4} semester={1} /> */}
-        {/* <CourseRow id="biu$csc$412" year={4} semester={1} /> */}
-        <SemesterCourseList year={4} semester={1} />
+        <NavigationBar
+          style={{
+            componentsContainer: {
+              paddingLeft: 20
+            }
+          }}
+          leftComponent={<Title>Courses</Title>}
+          rightComponent={
+            <Button>
+              <Icon name="plus" size={20} />
+              <Text>Add Course</Text>
+            </Button>
+          }
+        />
+        <SemesterPager />
       </View>
     )
+  }
+}
+
+const styles = {
+  container: {
+    flex: 1
   }
 }
