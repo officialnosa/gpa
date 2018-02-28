@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/officialnosa/gpa/badge.svg?branch=master)](https://coveralls.io/github/officialnosa/gpa?branch=master) [![Build Status](https://travis-ci.org/officialnosa/gpa.svg?branch=master)](https://travis-ci.org/officialnosa/gpa)
+[![Coverage Status](https://coveralls.io/repos/github/officialnosa/gpa/badge.svg?branch=master)](https://coveralls.io/github/officialnosa/gpa?branch=master) [![Build Status](https://travis-ci.org/officialnosa/gpa.svg?branch=master)](https://travis-ci.org/officialnosa/gpa) [![Dependencies Status](https://david-dm.org/officialnosa/gpa.svg)]
 
 ### GPA Tracker
 
