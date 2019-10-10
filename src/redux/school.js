@@ -11,10 +11,14 @@ const initialState = {
   }
 }
 
-const school = (state = initialState, { type, updater }) => {
+const school = (state = initialState, { type, updater, data }) => {
   switch (type) {
+    case 'INIT_SCHOOL':
+      return { ...initialState, ...data }
     case 'UPDATE_SCHOOL':
       return update(state, updater)
+    case 'RESET':
+      return initialState
     default:
       return state
   }

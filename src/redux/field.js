@@ -1,40 +1,32 @@
 import update from 'immutability-helper'
 
 const initialState = {
-  id: 'biu$csc',
+  id: '[FIELD]',
   name: '',
-  structure: {
-    '1$1': {},
-    '1$2': {},
-    '2$1': {},
-    '2$2': {},
-    '3$1': {},
-    '3$2': {},
-    '4$1': {
-      biu$csc$411: 4,
-      biu$csc$412: 5,
-      biu$csc$416: 5,
-      biu$csc$418: 4,
-      biu$csc$413: 5,
-      biu$csc$414: 5,
-      biu$csc$415: 3,
-      biu$ent$318: 5
-    },
-    '4$2': {}
-  },
+  structure: {},
   levelWeight: {
-    1: 0.05,
-    2: 0.2,
-    3: 0.35,
-    4: 0.4
+    1: 1
   },
-  numOfYears: 4,
+  grades: {
+    a: 4,
+    b: 3,
+    c: 2,
+    d: 1,
+    f: 0
+  },
+  courses: {},
+  numOfYears: 1,
   currentLevel: 1,
   currentSemester: 1
 }
 
-const field = (state = initialState, { type, updater }) => {
+const field = (
+  state = initialState,
+  { type, updater, year, semester, id, grade, data }
+) => {
   switch (type) {
+    case 'INIT_FIELD':
+      return { ...initialState, ...data }
     case 'DEREGISTER_COURSE':
       return update(state, {
         structure: {
@@ -49,8 +41,25 @@ const field = (state = initialState, { type, updater }) => {
       return update(state, {
         structure: {
           [`${year}$${semester}`]: {
-            [id]: {
-              $set: grade
+            $auto: {
+              [id]: {
+                $set: grade
+              }
+            }
+          }
+        }
+      })
+    case 'RESET':
+      return initialState
+    case 'ADD_COURSE':
+      // const { key, year, semester } = data
+      return update(state, {
+        structure: {
+          [`${year}$${semester}`]: {
+            $auto: {
+              [data.key]: {
+                $set: Math.max(...Object.values(state.grades || {}))
+              }
             }
           }
         }

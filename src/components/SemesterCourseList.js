@@ -1,8 +1,18 @@
 import React from 'react'
-import { VirtualizedList, View } from 'react-native'
+import {
+  View,
+  VirtualizedList,
+  TouchableOpacity,
+  StyleSheet
+} from 'react-native'
 import { CourseRow } from './CourseRow'
 import { connect } from 'react-redux'
-import { Subtitle, Divider, Caption } from '@shoutem/ui'
+import { Title } from 'react-native-paper'
+import { runAsync } from '../utils'
+import { getCoursesBySemester, getAverageBySemester } from '../calculations'
+import { GradeIndicator } from './GradeIndicator'
+import { addCourse } from '../redux/actions'
+// import { SemesterScoreBadge } from './SemesterScoreBadge'
 
 const mapStateToProps = state => ({
   field: state.field,
@@ -16,65 +26,111 @@ class SemesterCourseListX extends React.Component {
   }
 
   async componentDidMount() {
-    this.setState({ registered: await this.getRegistered(this.props) })
-    await this.calculate()
+    const registered = await getCoursesBySemester(this.props)
+
+    this.setState({ registered: registered.reverse() })
+    // this.calculate()
   }
 
   async componentWillReceiveProps(props) {
-    this.setState({ registered: await this.getRegistered(props) })
-    await this.calculate()
+    const registered = await getCoursesBySemester(props)
+
+    this.setState({ registered: registered.reverse() })
+    // this.calculate()
   }
 
-  calculate = async () => {
-    if (this.state.registered.length < 1) return 0
+  shouldComponentUpdate(
+    { field: newField, courses: newCourses },
+    { registered: oldRegistered }
+  ) {
+    const {
+      id,
+      year,
+      semester,
+      field: oldField,
+      courses: oldCourses
+    } = this.props
 
-    const data = this.state.registered.reduce(
-      (a, b, index) => ({
-        point: a.point + b.point * b.creditLoad,
-        creditLoad: a.creditLoad + b.creditLoad
-      }),
-      { creditLoad: 0, point: 0 }
+    const oldFieldCourses = oldField.structure[`${year}$${semester}`]
+    const newFieldCourses = newField.structure[`${year}$${semester}`]
+
+    return (
+      oldFieldCourses !== newFieldCourses ||
+      JSON.stringify(oldCourses) !== JSON.stringify(newCourses) ||
+      oldRegistered !== this.state.registered
     )
-
-    if (data.creditLoad < 1) return 0
-
-    const gpa = (data.point / data.creditLoad || 0).toPrecision(3)
-    this.setState({ gpa })
   }
 
-  getRegistered = async ({ year, semester, field }) => {
-    const list = field.structure[`${year}$${semester}`]
+  // calculate = async () => {
+  //   const gpa = await getAverageBySemester({ list: this.state.registered })
+  //   this.setState({ gpa })
+  // }
 
-    return Object.keys(list).map(registered => ({
-      id: registered,
-      creditLoad: this.props.courses[registered].creditLoad,
-      point: list[registered]
-    }))
+  // getRegistered = ({ year, semester, field }) =>
+  //   runAsync(() => {
+  //     const list = field.structure[`${year}$${semester}`]
+
+  //     return Object.keys(list || {})
+  //       .map(registered => ({
+  //         id: registered,
+  //         creditLoad: this.props.courses[registered].creditLoad,
+  //         point: list[registered]
+  //       }))
+  //       // .reverse()
+  //   })
+
+  addCourse = () => {
+    const { dispatch, year, semester } = this.props
+    runAsync(() =>
+      dispatch(
+        addCourse({
+          year,
+          semester
+        })
+      )
+    )
   }
+
+  renderItem = ({ item }) => (
+    <CourseRow
+      id={item.id}
+      year={this.props.year}
+      semester={this.props.semester}
+    />
+  )
 
   render() {
-    const { year, semester, field } = this.props
     return (
-      <View style={styles.container}>
-        {/* <Subtitle style={styles.letter}> */}
-        {/* <Subtitle styleName="bold" style={styles.letter}>
-          {this.state.gpa} GPA
-        </Subtitle> */}
-        {/* </Subtitle> */}
-
+      <View style={{ flex: 1 }}>
+        {/* <View
+          style={{
+            flexDirection: 'row',
+            paddingVertical: 10,
+            justifyContent: 'center',
+            backgroundColor: '#f9f9f9'
+          }}
+        >
+          <Text styleName="h-center" style={{ color: '#000' }}>
+            GPA {this.state.gpa}
+          </Text>
+        </View> */}
+        {/* <SemesterScoreBadge year={year} semester={semester} /> */}
         <VirtualizedList
+          // ref={e => (this.list = e)}
           data={this.state.registered}
-          renderItem={({ item }) => (
-            <CourseRow id={item.id} year={year} semester={semester} />
-          )}
+          renderItem={this.renderItem}
           // ItemSeparatorComponent={_ => (
           //   <View style={{ height: 1, backgroundColor: '#ddd' }} />
           // )}
           ListHeaderComponent={
-            <Divider styleName="section-header">
-              <Caption>COURSE - {this.state.gpa} GPA</Caption>
-              <Caption>GRADE</Caption>
-            </Divider>
+            <TouchableOpacity
+              onPress={this.addCourse}
+              style={styles.addCourseButton}
+            >
+              <View styleName="flexible">
+                <Title className="h-center">Add Course</Title>
+              </View>
+            </TouchableOpacity>
           }
           keyExtractor={item => item.id}
           getItemCount={data => data.length}
@@ -88,16 +144,26 @@ class SemesterCourseListX extends React.Component {
 const SemesterCourseList = connect(mapStateToProps)(SemesterCourseListX)
 export { SemesterCourseList }
 
-const styles = {
-  container: {
-    flex: 1,
-    backgroundColor: '#f2f2f2'
-  },
+const styles = StyleSheet.create({
   letter: {
     // fontSize: 20,
     color: '#fff',
     padding: 5,
     backgroundColor: '#05f',
     textAlign: 'center'
+  },
+  addCourseButton: {
+    flexDirection: 'row',
+    margin: 10,
+    marginBottom: 20,
+    // padding: 10,
+    borderRadius: 10,
+    // elevation: 1,
+    borderWidth: 2,
+    borderColor: '#ffd20088',
+    padding: 15,
+    height: 60,
+    backgroundColor: '#ffd20088',
+    alignItems: 'center'
   }
-}
+})

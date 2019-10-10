@@ -1,25 +1,83 @@
 import React from 'react'
-import { Heading, View, TouchableOpacity } from '@shoutem/ui'
+import { TouchableOpacity } from 'react-native'
+import { Platform, View, Text, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
 import { withNavigation } from 'react-navigation'
+import { YELLOW } from '../ui'
 
-export const Toolbar = withNavigation(
-  ({ showNavIcon, backToHome, title, navigation }) => (
-    <View
-      styleName="horizontal"
-      style={{ marginHorizontal: 15, marginTop: 30, marginBottom: 15 }}
-    >
-      {showNavIcon ? (
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon
-            name="chevron-left"
-            size={30}
-            color="#000"
-            style={{ marginRight: 15 }}
-          />
-        </TouchableOpacity>
-      ) : null}
-      <Heading style={{}}>{title}</Heading>
-    </View>
-  )
-)
+class ToolbarX extends React.Component {
+  renderLeftComponent() {
+    const { leftComponent } = this.props
+    if (leftComponent)
+      return <View style={styles.middleLeft}>{leftComponent}</View>
+    return null
+  }
+
+  renderRightComponent() {
+    const { rightComponent } = this.props
+    if (rightComponent)
+      return <View style={styles.middleRight}>{rightComponent}</View>
+    return null
+  }
+
+  render() {
+    const {
+      showNavIcon,
+      backToHome,
+      title,
+      navigation,
+      clear,
+      light,
+      style,
+      textStyle,
+      titleStyle
+    } = this.props
+    return (
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: clear ? 'transparent' : light ? '#fff' : YELLOW },
+          style
+        ]}
+      >
+        {showNavIcon ? (
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon
+              name="chevron-left"
+              size={25}
+              color={light ? '#fff' : '#000'}
+              style={iconStyle}
+            />
+          </TouchableOpacity>
+        ) : null}
+        {this.renderLeftComponent()}
+        <Text style={[defaultTitleStyle, titleStyle, textStyle]}>{title}</Text>
+        {this.renderRightComponent()}
+      </View>
+    )
+  }
+}
+
+const Toolbar = withNavigation(ToolbarX)
+
+export { Toolbar }
+const iconStyle = { marginRight: 15 }
+const defaultTitleStyle = {
+  color: '#000',
+  fontFamily: 'Paprika-Regular'
+}
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 20,
+    height: 60,
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginTop: Platform.select({
+      web: 0,
+      default: 0
+    })
+    // paddingBottom: 15,
+  },
+  middleRight: { flex: 1, alignItems: 'flex-end', justifyContent: 'center' },
+  middleLeft: { flex: 1, alignItems: 'flex-start', justifyContent: 'center' }
+})

@@ -1,21 +1,19 @@
 import React from 'react'
-import Icon from 'react-native-vector-icons/Feather'
+import Icon from 'react-native-vector-icons/Ionicons'
 import {
-  Title,
   TextInput,
-  FormGroup,
+  Subtitle,
   Caption,
   Row,
   Divider,
-  Heading,
-  Subtitle,
-  View
+  View,
+  Screen
 } from '@shoutem/ui'
 import { ScrollView, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
-import { NumberSelector } from '../components/NumberSelector'
+// import { NumberSelector } from '../components/NumberSelector'
 import { Toolbar } from '../components/Toolbar'
-import { updateSchool } from '../redux/actions'
+import { updateSchool, updateField } from '../redux/actions'
 
 const mapStateToProps = state => ({
   school: state.school,
@@ -23,7 +21,7 @@ const mapStateToProps = state => ({
   gradingSystem: state.school.gradingSystem
 })
 
-const width = Dimensions.get('window').width
+// const width = Dimensions.get('window').width
 
 class AdvanceSettingsX extends React.Component {
   componentDidMount() {
@@ -33,8 +31,15 @@ class AdvanceSettingsX extends React.Component {
   changeGradingSystem = data =>
     this.props.dispatch(updateSchool({ gradingSystem: { $merge: data } }))
 
+  changeYearWeight = ({ year, weight }) =>
+    this.props.dispatch(
+      updateField({
+        levelWeight: { $auto: { [year]: { $set: Number(weight) / 100 } } }
+      })
+    )
+
   render() {
-    const { school, field, gradingSystem } = this.props
+    const { field, gradingSystem } = this.props
 
     return (
       <View>
@@ -43,57 +48,63 @@ class AdvanceSettingsX extends React.Component {
         </Divider>
         <Row>
           <View styleName="vertical flexible">
-            <View styleName="horizontal flexible">
-              <Subtitle styleName="flexible">First Class</Subtitle>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <Subtitle style={{ flex: 1 }}>First Class</Subtitle>
               <TextInput
                 style={styles.underline}
                 value={String(gradingSystem.firstClass)}
                 onChangeText={firstClass =>
-                  this.changeGradingSystem({ firstClass })
+                  this.changeGradingSystem({ firstClass: Number(firstClass) })
                 }
               />
             </View>
 
-            <View styleName="horizontal flexible">
-              <Subtitle styleName="flexible">
+            <View style={{ flexDirection: 'row', flex: 1 }}>
+              <Subtitle style={{ flex: 1 }}>
                 Second Class (UPPER DIVISION)
               </Subtitle>
               <TextInput
                 style={styles.underline}
                 value={String(gradingSystem.secondClassUpper)}
                 onChangeText={secondClassUpper =>
-                  this.changeGradingSystem({ secondClassUpper })
+                  this.changeGradingSystem({
+                    secondClassUpper: Number(secondClassUpper)
+                  })
                 }
               />
             </View>
-            <View styleName="horizontal flexible">
-              <Subtitle styleName="flexible">
+            <View style={{ flexDirection: 'row', flex: 1 }}>
+              <Subtitle style={{ flex: 1 }}>
                 Second Class (LOWER DIVISION)
               </Subtitle>
               <TextInput
                 style={styles.underline}
                 value={String(gradingSystem.secondClassLower)}
                 onChangeText={secondClassLower =>
-                  this.changeGradingSystem({ secondClassLower })
+                  this.changeGradingSystem({
+                    secondClassLower: Number(secondClassLower)
+                  })
                 }
               />
             </View>
-            <View styleName="horizontal flexible">
-              <Subtitle styleName="flexible">Third Class</Subtitle>
+            <View style={{ flexDirection: 'row', flex: 1 }}>
+              <Subtitle style={{ flex: 1 }}>Third Class</Subtitle>
               <TextInput
                 style={styles.underline}
                 value={String(gradingSystem.thirdClass)}
                 onChangeText={thirdClass =>
-                  this.changeGradingSystem({ thirdClass })
+                  this.changeGradingSystem({ thirdClass: Number(thirdClass) })
                 }
               />
             </View>
-            <View styleName="horizontal flexible">
-              <Subtitle styleName="flexible">Pass</Subtitle>
+            <View style={{ flexDirection: 'row', flex: 1 }}>
+              <Subtitle style={{ flex: 1 }}>Pass</Subtitle>
               <TextInput
                 style={styles.underline}
                 value={String(gradingSystem.pass)}
-                onChangeText={pass => this.changeGradingSystem({ pass })}
+                onChangeText={pass =>
+                  this.changeGradingSystem({ pass: Number(pass) })
+                }
               />
             </View>
           </View>
@@ -104,12 +115,15 @@ class AdvanceSettingsX extends React.Component {
         </Divider>
         <Row>
           <View styleName="vertical flexible">
-            {Object.keys(field.levelWeight).map(k => (
-              <View styleName="horizontal flexible" key={k}>
-                <Subtitle styleName="flexible">Year {k}</Subtitle>
+            {Array.from(new Array(field.numOfYears), (v, year) => (
+              <View style={{ flexDirection: 'row', flex: 1 }} key={year++}>
+                <Subtitle style={{ flex: 1 }}>Year {year}</Subtitle>
                 <TextInput
                   style={styles.underline}
-                  value={String(field.levelWeight[k] * 100)}
+                  onChangeText={weight =>
+                    this.changeYearWeight({ year, weight })
+                  }
+                  value={String((field.levelWeight[year] || 0) * 100)}
                 />
                 <Caption>% </Caption>
               </View>
@@ -128,18 +142,22 @@ export class AdvancedSettingsScreen extends React.PureComponent {
   static navigationOptions = {
     tabBarLabel: 'Advanced Settings',
     tabBarIcon: ({ tintColor, focused }) => (
-      <Icon name="settings" size={focused ? 25 : 23} color={tintColor} />
+      <Icon
+        name="ios-hammer-outline"
+        size={focused ? 25 : 23}
+        color={tintColor}
+      />
     )
   }
 
   render() {
     return (
-      <ScrollView>
-        <View style={{ backgroundColor: '#fff' }}>
-          <Toolbar title="Advanced Settings" showNavIcon />
+      <Screen>
+        <Toolbar title="Advanced Settings" showNavIcon />
+        <ScrollView>
           <AdvancedSettings />
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </Screen>
     )
   }
 }

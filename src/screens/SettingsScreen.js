@@ -1,5 +1,5 @@
 import React from 'react'
-import Icon from 'react-native-vector-icons/Feather'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import {
   Title,
   TextInput,
@@ -10,42 +10,171 @@ import {
   Heading,
   Subtitle,
   View,
-  Button
+  Text,
+  Button,
+  Screen
 } from '@shoutem/ui'
-import { ScrollView, Dimensions } from 'react-native'
+import { ScrollView, Alert, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import { NumberSelector } from '../components/NumberSelector'
-import { updateField, updateSchool } from '../redux/actions'
+import { updateField, updateSchool, resetData } from '../redux/actions'
+// import ModalSelector from 'react-native-modal-selector'
+import { runAsync } from '../utils'
+// import { resolve } from 'any-promise')
+import { Stepper } from '../components/Stepper'
+import { NavigationActions } from 'react-navigation'
+import { Toolbar } from '../components/Toolbar'
 
 const mapStateToProps = state => ({
-  school: state.school,
-  field: state.field,
-  gradingSystem: state.school.gradingSystem
+  schoolName: state.school.name,
+  fieldName: state.field.name,
+  numOfYears: state.field.numOfYears,
+  currentLevel: state.field.currentLevel,
+  currentSemester: state.field.currentSemester
 })
 
-const width = Dimensions.get('window').width
-
 class SettingsX extends React.Component {
-  componentDidMount() {
-    // this.school.focus()
+  constructor(props) {
+    super(props)
+    const { numOfYears, currentLevel, currentSemester } = props
+    this.state = {
+      numOfYears,
+      currentLevel,
+      currentSemester
+    }
   }
+
+  // componentWillReceiveProps(props) {
+  //   this.setState({...props})
+  // }
 
   openAdvanced = () => this.props.navigation.navigate('AdvancedSettings')
 
-  changeCurrentLevel = level =>
-    this.props.dispatch(updateField({ currentLevel: { $set: level } }))
+  changeCurrentLevel = currentLevel => {
+    this.setState({ currentLevel })
 
-  changeSchoolName = name =>
-    this.props.dispatch(updateSchool({ name: { $set: name } }))
+    runAsync(() =>
+      this.props.dispatch(updateField({ currentLevel: { $set: currentLevel } }))
+    )
+  }
 
-  changeFieldName = name =>
-    this.props.dispatch(updateField({ name: { $set: name } }))
+  changeSchoolName = schoolName => {
+    this.setState({ schoolName })
 
-  changeCurrentSemester = semester =>
-    this.props.dispatch(updateField({ currentSemester: { $set: semester } }))
+    runAsync(() =>
+      this.props.dispatch(updateSchool({ name: { $set: schoolName } }))
+    )
+  }
+
+  changeFieldName = fieldName => {
+    this.setState({ fieldName })
+    runAsync(() =>
+      this.props.dispatch(updateField({ name: { $set: fieldName } }))
+    )
+  }
+
+  changeCurrentSemester = currentSemester => {
+    this.setState({ currentSemester })
+    runAsync(() =>
+      this.props.dispatch(
+        updateField({ currentSemester: { $set: currentSemester } })
+      )
+    )
+  }
+
+  changeNumOfYears = obj => {
+    const currentLevel = Math.min(obj, this.state.currentLevel)
+    this.setState({ numOfYears: obj, currentLevel })
+
+    runAsync(() =>
+      this.props.dispatch(
+        updateField({
+          numOfYears: { $set: obj },
+          currentLevel: {
+            $set: currentLevel
+          }
+        })
+      )
+    )
+  }
+
+  reset = () => {
+    if (Platform.OS === 'web') {
+      if (
+        window.confirm(
+          'Are you sure? You are about to delete this course. You are about to delete all your data. This cannot be undone.'
+        )
+      ) {
+        this.props.dispatch(resetData())
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: 'Welcome' })]
+        })
+        this.props.navigation.dispatch(resetAction)
+      }
+    } else
+      Alert.alert(
+        'Are you sure?',
+        'You are about to delete all your data. This cannot be undone.',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+            onPress: () => {}
+          },
+          {
+            text: 'Delete',
+            style: 'destructive',
+            onPress: () => {
+              this.props.dispatch(resetData())
+              const resetAction = NavigationActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({ routeName: 'Welcome' })]
+              })
+              this.props.navigation.dispatch(resetAction)
+            }
+          }
+        ]
+      )
+  }
+
+  renderNumOfYears = () => {
+    const { numOfYears } = this.state
+    const data = [
+      { key: 0, section: true, label: 'Years required' },
+      ...Array.from(new Array(10), (val, index) => ({
+        key: ++index,
+        label: `${index} year${index === 1 ? '' : 's'}`
+      }))
+    ]
+
+    return (
+      <Row style={styles.underline}>
+        <Subtitle styleName="flexible">Years required</Subtitle>
+        <View>
+          <Stepper
+            label={numOfYears === 1 ? ' Year' : ' Years'}
+            min={1}
+            max={10}
+            containerStyle={{
+              justifyContent: 'flex-end'
+            }}
+            onValueChange={this.changeNumOfYears}
+            initialValue={numOfYears || 1}
+          />
+        </View>
+      </Row>
+    )
+  }
 
   render() {
-    const { school, field, gradingSystem } = this.props
+    const {
+      schoolName,
+      fieldName,
+      currentSemester,
+      currentLevel,
+      numOfYears
+    } = this.state
 
     return (
       <View>
@@ -56,7 +185,7 @@ class SettingsX extends React.Component {
             ref={_ => (this.school = _)}
             style={styles.underline}
             onChangeText={this.changeSchoolName}
-            value={school.name}
+            value={schoolName}
             placeholder="eg. Benson Idahosa University"
           />
         </FormGroup>
@@ -64,39 +193,64 @@ class SettingsX extends React.Component {
         <FormGroup>
           <Caption>Field of Study</Caption>
           <TextInput
-            value={field.name}
+            value={fieldName}
             onChangeText={this.changeFieldName}
             style={styles.underline}
             placeholder="eg. Computer Science"
           />
         </FormGroup>
+        <Divider styleName="section-header" />
+
+        {this.renderNumOfYears()}
         <Divider styleName="section-header">
           <Caption>ACADEMIC INFORMATION</Caption>
         </Divider>
 
         <Row>
           <Subtitle styleName="flexible">Your Current level</Subtitle>
-          <NumberSelector
-            max={4}
-            value={field.currentLevel}
+          {/* <NumberSelector
+            max={numOfYears}
+            value={currentLevel}
             onChangeNumber={this.changeCurrentLevel}
-          />
+          /> */}
+          <View>
+            <Stepper
+              label={`00 Level`}
+              min={1}
+              containerStyle={{
+                justifyContent: 'flex-end'
+              }}
+              max={numOfYears}
+              onValueChange={this.changeCurrentLevel}
+              initialValue={currentLevel || 1}
+            />
+          </View>
         </Row>
         <Row style={styles.underline}>
           <Subtitle styleName="flexible">Your Current semester</Subtitle>
           <NumberSelector
             max={2}
-            value={field.currentSemester}
+            value={currentSemester}
             onChangeNumber={this.changeCurrentSemester}
           />
         </Row>
         <Divider styleName="section-header" />
         <Button
           onPress={this.openAdvanced}
-          style={{ ...styles.underline, height: 50 }}
+          style={{ ...styles.underline, height: 60 }}
         >
           <Subtitle styleName="flexible">Advanced Settings</Subtitle>
         </Button>
+        <Divider styleName="section-header" />
+        <Button
+          onPress={this.reset}
+          style={{ ...styles.underline, height: 60 }}
+        >
+          <Subtitle styleName="flexible" style={{ color: '#ec2222' }}>
+            Delete All Data
+          </Subtitle>
+        </Button>
+        <Divider styleName="section-header" />
       </View>
     )
   }
@@ -115,16 +269,16 @@ export class SettingsScreen extends React.PureComponent {
   render() {
     const { navigation } = this.props
     return (
-      <ScrollView>
-        <View style={{ backgroundColor: '#fff' }}>
-          <Heading
-            style={{ marginHorizontal: 15, marginTop: 30, marginBottom: 15 }}
-          >
-            Settings
-          </Heading>
+      <Screen styleName="paper">
+        <Toolbar showNavIcon title="Settings" />
+        <ScrollView>
           <Settings navigation={navigation} />
-        </View>
-      </ScrollView>
+          <Divider />
+          <Text styleName="h-center">&copy; 2018 NOSAKHARE GROUP</Text>
+          <Text styleName="h-center">www.osarogie.com</Text>
+          <Divider />
+        </ScrollView>
+      </Screen>
     )
   }
 }

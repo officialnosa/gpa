@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Platform } from 'react-native'
 import { connect } from 'react-redux'
 
 export class NumberSelector extends React.Component {
@@ -12,16 +12,16 @@ export class NumberSelector extends React.Component {
   }
   shouldComponentUpdate(nextProps, nextState) {
     return (
-      nextState.max != this.state.max ||
-      nextState.value != this.state.value ||
-      nextProps.max != this.props.max ||
-      nextProps.value != this.props.value
+      nextState.max !== this.state.max ||
+      nextState.value !== this.state.value ||
+      nextProps.max !== this.props.max ||
+      nextProps.value !== this.props.value
     )
   }
   onChangeNumber = value => {
     const { onChangeNumber } = this.props
 
-    if (value != this.state.value) {
+    if (value !== this.state.value) {
       this.setState({ value })
       onChangeNumber && onChangeNumber(value)
     }
@@ -60,11 +60,11 @@ export class NumberSelector extends React.Component {
 
 const styles = {
   bubble: {
-    height: 50,
+    height: 30,
     width: 30,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 6,
+    borderRadius: 15,
     marginLeft: 15,
     borderColor: '#ffd200',
     borderWidth: 2,
@@ -78,9 +78,9 @@ const styles = {
     // color: '#fff'
   },
   letter: {
-    fontWeight: 'bold',
     fontSize: 14,
-    color: '#000'
+    color: '#000',
+    ...Platform.select({ web: { fontWeight: 'bold' }, default: {} })
   },
   row: { flexDirection: 'row' }
 }

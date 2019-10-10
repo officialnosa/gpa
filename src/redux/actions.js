@@ -13,10 +13,10 @@ export const setNightMode = night_mode => ({
   night_mode
 })
 
-export const addCourse = ({ course }) => ({
-  type: 'ADD_COURSE',
-  course
-})
+// export const addCourse = ({ course }) => ({
+//   type: 'ADD_COURSE',
+//   course
+// })
 
 export const editCourse = ({ id, ...data }) => ({
   type: 'EDIT_COURSE',
@@ -54,9 +54,42 @@ export const updateSchool = updater => ({
   updater
 })
 
+export const updateUser = updater => ({
+  type: 'UPDATE_USER',
+  updater
+})
+
 export const editSchool = ({ course, semester, year }) => ({
   type: 'EDIT_SCHOOL',
   course,
   semester,
   year
+})
+
+export const initSchool = data => ({
+  type: 'INIT_SCHOOL',
+  data
+})
+
+export const initField = data => ({
+  type: 'INIT_FIELD',
+  data
+})
+
+export const initCourses = data => ({
+  type: 'INIT_COURSES',
+  data
+})
+
+export const resetData = () => ({ type: 'RESET' })
+
+export const addCourse = data => ({
+  type: 'ADD_COURSE',
+  data: {
+    ...data,
+    key: new Date().getTime(),
+    name: data.name || 'Untitled Course'
+  },
+  year: data.year,
+  semester: data.semester
 })
