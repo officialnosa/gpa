@@ -10,7 +10,7 @@ import {
 } from '@shoutem/ui'
 import { Platform } from 'react-native'
 import fields from '../offlineData/fields'
-import { connect, useDispatch } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { ScrollView } from 'react-native'
 import { Toolbar } from '../components/Toolbar'
 import { withNavigation } from 'react-navigation'
@@ -39,13 +39,22 @@ function SchoolItem({ id, navigation }) {
 
 SchoolItem = withNavigation(SchoolItem)
 
-export function ChooseFieldScreen({ navigation, schoolName, user }) {
+export function ChooseFieldScreen({ navigation }) {
+  const { school, schoolName } = useSelector((state) => ({
+    // user: state.user,
+    school: state.school,
+    schoolName: state.school.name,
+  }))
+
   const school = useMemo(() => {
     // if (user.hasSchool) return school.id
     return navigation?.state?.params?.school
   }, [navigation])
 
   const schoolObject = useMemo(() => fields[school], [school])
+  const schoolIds = useMemo(() => Object.keys(schoolObject || {}), [
+    schoolObject,
+  ])
 
   const openOthers = useCallback(() => {
     navigation.navigate('SetField')
@@ -59,7 +68,7 @@ export function ChooseFieldScreen({ navigation, schoolName, user }) {
           <Heading styleName="h-center">Choose your Field</Heading>
           <Caption styleName="h-center">({schoolName})</Caption>
         </View>
-        {Object.keys(schoolObject || {}).map((id) => (
+        {schoolIds.map((id) => (
           <SchoolItem key={id} id={id} />
         ))}
         <Button styleName="clear" onPress={openOthers}>
@@ -71,12 +80,6 @@ export function ChooseFieldScreen({ navigation, schoolName, user }) {
     </Screen>
   )
 }
-
-ChooseFieldScreen = connect((state) => ({
-  user: state.user,
-  school: state.school,
-  schoolName: state.school.name,
-}))(ChooseFieldScreen)
 
 const styles = {
   screen: { backgroundColor: '#ffd200' },
