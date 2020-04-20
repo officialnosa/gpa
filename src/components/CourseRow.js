@@ -1,5 +1,5 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { useMemo, useState, useEffect, useCallback } from 'react'
+import { connect, useDispatch } from 'react-redux'
 import {
   TextInput,
   Button,
@@ -9,7 +9,7 @@ import {
   Caption,
   Subtitle,
   TouchableOpacity,
-  Divider
+  Divider,
 } from '@shoutem/ui'
 import { Alert, Platform, View as RNView, View, StyleSheet } from 'react-native'
 import { GradeIndicator } from './GradeIndicator'
@@ -19,11 +19,6 @@ import { runAsync } from '../utils'
 import Icon from 'react-native-vector-icons/Entypo'
 import { Stepper } from '../components/Stepper'
 import Collapsible from 'react-native-collapsible'
-
-const mapStateToProps = state => ({
-  courses: state.courses,
-  field: state.field
-})
 
 // const options = [
 //   { grade: 'F', point: 0 },
@@ -37,76 +32,62 @@ const mapStateToProps = state => ({
 // const emptyOption = { point: 0, grade: '-' }
 // const optionsWithEmptyOption = [emptyOption, ...options]
 
-class CourseRowX extends React.Component {
-  // state = {
-  //   editingMode: false,
-  //   grade: 0,
-  //   title: '',
-  //   credits: 0
-  // }
-  constructor(props) {
-    super(props)
-    const { courses, id } = props
-    const grade = this.getScore(this.props)
+export function CourseRow({ courses, field, semester, year, id }) {
+  const course = courses[id]
+  const dispatch = useDispatch()
+  const [editingMode, setEditingMode] = useState(false)
+  const [title, setTitle] = useState(course?.name)
+  const [credits, setCredits] = useState(course?.creditLoad)
+  const [code, setCode] = useState(course?.code)
 
-    if (courses[id]) {
-      this.state = {
-        editingMode: false,
-        grade,
-        title: courses[id].name,
-        credits: courses[id].creditLoad,
-        code: courses[id].code
-      }
-    }
-  }
+  const grade = useMemo(() => field.structure[`${year}$${semester}`][id], [
+    field,
+    semester,
+    year,
+    id,
+  ])
 
-  componentDidMount() {
-    const { editingMode, grade, title, credits } = this.state
-
+  useEffect(() => {
     if (editingMode || grade || title != 'Untitled Course' || credits) return
     else {
-      runAsync(() =>
-        this.setState({
-          editingMode: true
-        })
-      )
+      runAsync(() => setEditingMode(true))
     }
-  }
+  }, [editingMode, grade, title, credits])
 
-  onChangeName = name =>
-    this.setState({ title: name }, () =>
-      runAsync(() =>
-        this.props.dispatch(editCourse({ id: this.props.id, name }))
+  const onChangeName = useCallback(
+    (name) => {
+      setTitle(name)
+      runAsync(() => dispatch(editCourse({ id: id, name })))
+    },
+    [id]
+  )
+
+  const onChangeCode = useCallback(
+    (code) => {
+      setCode(code)
+      runAsync(() => dispatch(editCourse({ id: id, code })))
+    },
+    [id]
+  )
+
+  const onChangeCreditLoad = useCallback((creditLoad) => {
+    setCredits(Number(creditLoad))
+    runAsync(() =>
+      dispatch(editCourse({ id: id, creditLoad: Number(creditLoad) }))
+    )
+  })
+
+  const onChangeGrade = useCallback(
+    (grade) => {
+      // toggleEditingMode()
+      setState({ grade }, () =>
+        runAsync(() => dispatch(changeGrade({ id, semester, year, grade })))
       )
-    )
+    },
+    [id, semester, year, dispatch]
+  )
 
-  onChangeCode = code =>
-    this.setState({ code }, () =>
-      runAsync(() =>
-        this.props.dispatch(editCourse({ id: this.props.id, code }))
-      )
-    )
-
-  onChangeCreditLoad = creditLoad =>
-    this.setState({ credits: Number(creditLoad) }, () =>
-      runAsync(() =>
-        this.props.dispatch(
-          editCourse({ id: this.props.id, creditLoad: Number(creditLoad) })
-        )
-      )
-    )
-
-  onChangeGrade = grade => {
-    const { id, semester, year, dispatch } = this.props
-    // this.toggleEditingMode()
-    this.setState({ grade }, () =>
-      runAsync(() => dispatch(changeGrade({ id, semester, year, grade })))
-    )
-  }
-
-  deregisterCourse = () => {
-    const { id, semester, year, dispatch } = this.props
-
+  const tryDeregisterCourse = useCallback(() => {
     if (Platform.OS === 'web') {
       if (
         window.confirm(
@@ -123,74 +104,25 @@ class CourseRowX extends React.Component {
           {
             text: 'Cancel',
             style: 'cancel',
-            onPress: () => {}
+            onPress: () => {},
           },
           {
             text: 'Delete',
             style: 'destructive',
             onPress: () => {
               dispatch(deregisterCourse({ id, semester, year }))
-            }
-          }
+            },
+          },
         ]
       )
-  }
+  }, [id, semester, year])
 
-  getScore = ({ field, semester, year, id }) =>
-    field.structure[`${year}$${semester}`][id]
+  const toggleEditingMode = useCallback(
+    () => setEditingMode((editingMode) => !editingMode),
+    [editingMode]
+  )
 
-  toggleEditingMode = () =>
-    this.setState(oldState => ({ editingMode: !oldState.editingMode }))
-
-  _shouldComponentUpdate(
-    { field: newField, courses: newCourses },
-    { editingMode: newEditingMode }
-  ) {
-    const {
-      id,
-      year,
-      semester,
-      field: oldField,
-      courses: oldCourses
-    } = this.props
-
-    const oldFieldCourses = oldField.structure[`${year}$${semester}`][id]
-    const newFieldCourses = newField.structure[`${year}$${semester}`][id]
-
-    return (
-      oldFieldCourses !== newFieldCourses ||
-      JSON.stringify(oldCourses[id]) !== JSON.stringify(newCourses[id]) ||
-      this.state.editingMode !== newEditingMode
-    )
-  }
-  shouldComponentUpdate(
-    nextProps,
-    {
-      editingMode: newEditingMode,
-      grade: newGrade,
-      title: newTitle,
-      code: newCode,
-      credits: newCredit
-    }
-  ) {
-    const {
-      editingMode: oldEditingMode,
-      grade: oldGrade,
-      title: oldTitle,
-      code: oldCode,
-      credits: oldCredit
-    } = this.state
-
-    return (
-      newEditingMode !== oldEditingMode ||
-      newGrade !== oldGrade ||
-      newTitle !== oldTitle ||
-      newCode !== oldCode ||
-      newCredit !== oldCredit
-    )
-  }
-
-  renderNormalMode = ({ credits, code, grade, title }) => (
+  const renderNormalMode = () => (
     <View style={styles.normalContainer}>
       <View style={styles.flex}>
         <Title>{title}</Title>
@@ -200,11 +132,11 @@ class CourseRowX extends React.Component {
       </View>
       <GradeIndicator point={grade} />
       <View styleName="vertical" style={{ marginLeft: 10 }}>
-        <TouchableOpacity onPress={this.deregisterCourse}>
+        <TouchableOpacity onPress={tryDeregisterCourse}>
           <Icon name="cross" size={25} color="#aaa" />
         </TouchableOpacity>
         <Icon
-          name={this.state.editingMode ? 'chevron-up' : 'chevron-down'}
+          name={editingMode ? 'chevron-up' : 'chevron-down'}
           style={{ marginTop: 20 }}
           size={25}
           color="#aaa"
@@ -213,25 +145,21 @@ class CourseRowX extends React.Component {
     </View>
   )
 
-  renderEditingMode = ({ credits, grade, title, code }) => (
+  const renderEditingMode = () => (
     <RNView
       style={[
         styles.editorContainer,
-        Platform.OS === 'web' && !this.state.editingMode && { display: 'none' }
+        Platform.OS === 'web' && !editingMode && { display: 'none' },
       ]}
     >
       <FormGroup styleName="stretch">
         <Caption key="course">COURSE CODE</Caption>
-        <TextInput
-          placeholder="..."
-          value={code}
-          onChangeText={this.onChangeCode}
-        />
+        <TextInput placeholder="..." value={code} onChangeText={onChangeCode} />
         <Caption>COURSE TITLE</Caption>
         <TextInput
           placeholder="..."
           value={title}
-          onChangeText={this.onChangeName}
+          onChangeText={onChangeName}
         />
         <Divider styleName="line" />
       </FormGroup>
@@ -243,9 +171,9 @@ class CourseRowX extends React.Component {
             min={0}
             max={10}
             containerStyle={{
-              justifyContent: 'flex-end'
+              justifyContent: 'flex-end',
             }}
-            onValueChange={this.onChangeCreditLoad}
+            onValueChange={onChangeCreditLoad}
             initialValue={credits}
           />
         </View>
@@ -254,46 +182,44 @@ class CourseRowX extends React.Component {
         <Caption style={{ textAlign: 'center' }}>GRADE</Caption>
 
         <View style={{ alignSelf: 'center' }}>
-          <GradeSelector value={grade} onChangeValue={this.onChangeGrade} />
+          <GradeSelector value={grade} onChangeValue={onChangeGrade} />
         </View>
       </FormGroup>
     </RNView>
   )
 
-  render() {
-    const { id, courses } = this.props
-    const { editingMode } = this.state
-    const course = courses[id]
-
-    if (!course)
-      return (
-        <Row>
-          <Title>NO DATA</Title>
-        </Row>
-      )
-
-    // const score = this.getScore(this.props)
-    // const selectedGrade = options[score] || { point: 0, grade: '-' }
-
+  if (!course)
     return (
-      <View style={styles.container}>
-        <TouchableOpacity onPress={this.toggleEditingMode}>
-          {this.renderNormalMode(this.state)}
-        </TouchableOpacity>
-        {Platform.OS === 'web' ? (
-          this.renderEditingMode(this.state)
-        ) : (
-          <Collapsible collapsed={!editingMode}>
-            {this.renderEditingMode(this.state)}
-          </Collapsible>
-        )}
-        {/* <GradeSelector /> */}
-      </View>
+      <Row>
+        <Title>NO DATA</Title>
+      </Row>
     )
-  }
+
+  // const score = getScore(props)
+  // const selectedGrade = options[score] || { point: 0, grade: '-' }
+
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity onPress={toggleEditingMode}>
+        {renderNormalMode()}
+      </TouchableOpacity>
+      {Platform.OS === 'web' ? (
+        renderEditingMode()
+      ) : (
+        <Collapsible collapsed={!editingMode}>
+          {renderEditingMode()}
+        </Collapsible>
+      )}
+      {/* <GradeSelector /> */}
+    </View>
+  )
 }
-const CourseRow = connect(mapStateToProps)(CourseRowX)
-export { CourseRow }
+
+const mapStateToProps = (state) => ({
+  courses: state.courses,
+  field: state.field,
+})
+CourseRow = connect(mapStateToProps)(CourseRow)
 
 const styles = StyleSheet.create({
   red: { color: '#f56' },
@@ -304,13 +230,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     borderTopWidth: 2,
-    borderTopColor: '#ffd20088'
+    borderTopColor: '#ffd20088',
   },
   normalContainer: {
     padding: 15,
     backgroundColor: '#fff',
     borderRadius: 10,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   underline: { borderBottomWidth: 2, borderBottomColor: '#ddd' },
   container: {
@@ -321,7 +247,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     // elevation: 1,
     borderWidth: 2,
-    borderColor: '#ffd20088'
+    borderColor: '#ffd20088',
   },
-  flex: { flex: 1 }
+  flex: { flex: 1 },
 })
