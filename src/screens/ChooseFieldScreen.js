@@ -1,16 +1,23 @@
 import React, { useCallback, useMemo } from 'react'
+
+import { TextInput } from '@shoutem/ui/components/TextInput'
+import { Button } from '@shoutem/ui/components/Button'
+import { Row } from '@shoutem/ui/components/Row'
 import {
-  View,
   Title,
-  Screen,
-  Heading,
-  Button,
-  Divider,
+  Subtitle,
   Caption,
-} from '@shoutem/ui'
-import { Platform } from 'react-native'
+  Text,
+  Heading,
+} from '@shoutem/ui/components/Text'
+import { FormGroup } from '@shoutem/ui/components/FormGroup'
+import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
+import { Divider } from '@shoutem/ui/components/Divider'
+import { Screen } from '@shoutem/ui/components/Screen'
+
+import { Platform, View } from 'react-native'
 import fields from '../offlineData/fields'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { ScrollView } from 'react-native'
 import { Toolbar } from '../components/Toolbar'
 import { withNavigation } from 'react-navigation'
@@ -39,12 +46,14 @@ function SchoolItem({ id, navigation }) {
 
 SchoolItem = withNavigation(SchoolItem)
 
+const mapStateToProps = (state) => ({
+  // user: state.user,
+  // school: state.school,
+  schoolName: state.school.name,
+})
+
 export function ChooseFieldScreen({ navigation }) {
-  const { school, schoolName } = useSelector((state) => ({
-    // user: state.user,
-    school: state.school,
-    schoolName: state.school.name,
-  }))
+  const { schoolName } = useSelector(mapStateToProps)
 
   const school = useMemo(() => {
     // if (user.hasSchool) return school.id

@@ -1,41 +1,25 @@
-import React, { Component } from 'react'
+import React, { useMemo } from 'react'
 import { Text } from 'react-native-paper'
 import { getAverageByYear } from '../calculations'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   field: state.field,
   courses: state.courses,
-  firstClass: state.school.gradingSystem.firstClass
+  firstClass: state.school.gradingSystem.firstClass,
 })
 
-class YearScoreBadgeX extends Component {
-  state = {
-    gpa: '...'
-  }
+export function YearScoreBadge({ style, styleName, year }) {
+  const { field, firstClass, courses } = useSelector(mapStateToProps)
 
-  async componentDidMount() {
-    this.calculate()
-  }
+  const gpa = useMemo(
+    () => getAverageByYear({ firstClass, field, courses, year }).toFixed(2),
+    [firstClass, field, courses, year]
+  )
 
-  async componentWillReceiveProps(props) {
-    this.calculate()
-  }
-
-  calculate = async () => {
-    const gpa = await getAverageByYear(this.props)
-    // this.setState({ gpa: (gpa - 5 + 1 + this.props.firstClass).toFixed(2) })
-    this.setState({ gpa: gpa.toFixed(2) })
-  }
-
-  render() {
-    return (
-      <Text styleName={this.props.styleName} style={this.props.style}>
-        {this.state.gpa}
-      </Text>
-    )
-  }
+  return (
+    <Text styleName={styleName} style={style}>
+      {gpa}
+    </Text>
+  )
 }
-
-const YearScoreBadge = connect(mapStateToProps)(YearScoreBadgeX)
-export { YearScoreBadge }

@@ -1,20 +1,22 @@
 import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+
+import { TextInput } from '@shoutem/ui/components/TextInput'
+import { Button } from '@shoutem/ui/components/Button'
+import { Row } from '@shoutem/ui/components/Row'
 import {
   Title,
-  TextInput,
-  FormGroup,
-  Caption,
-  Row,
-  Divider,
-  Heading,
   Subtitle,
-  View,
+  Caption,
   Text,
-  Button,
-  Screen
-} from '@shoutem/ui'
-import { ScrollView, Alert, Platform } from 'react-native'
+  Heading,
+} from '@shoutem/ui/components/Text'
+import { FormGroup } from '@shoutem/ui/components/FormGroup'
+import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
+import { Divider } from '@shoutem/ui/components/Divider'
+import { Screen } from '@shoutem/ui/components/Screen'
+
+import { ScrollView, Alert, Platform, View } from 'react-native'
 import { connect } from 'react-redux'
 import { NumberSelector } from '../components/NumberSelector'
 import { updateField, updateSchool, resetData } from '../redux/actions'
@@ -25,12 +27,12 @@ import { Stepper } from '../components/Stepper'
 import { NavigationActions } from 'react-navigation'
 import { Toolbar } from '../components/Toolbar'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   schoolName: state.school.name,
   fieldName: state.field.name,
   numOfYears: state.field.numOfYears,
   currentLevel: state.field.currentLevel,
-  currentSemester: state.field.currentSemester
+  currentSemester: state.field.currentSemester,
 })
 
 class SettingsX extends React.Component {
@@ -40,7 +42,7 @@ class SettingsX extends React.Component {
     this.state = {
       numOfYears,
       currentLevel,
-      currentSemester
+      currentSemester,
     }
   }
 
@@ -50,7 +52,7 @@ class SettingsX extends React.Component {
 
   openAdvanced = () => this.props.navigation.navigate('AdvancedSettings')
 
-  changeCurrentLevel = currentLevel => {
+  changeCurrentLevel = (currentLevel) => {
     this.setState({ currentLevel })
 
     runAsync(() =>
@@ -58,7 +60,7 @@ class SettingsX extends React.Component {
     )
   }
 
-  changeSchoolName = schoolName => {
+  changeSchoolName = (schoolName) => {
     this.setState({ schoolName })
 
     runAsync(() =>
@@ -66,14 +68,14 @@ class SettingsX extends React.Component {
     )
   }
 
-  changeFieldName = fieldName => {
+  changeFieldName = (fieldName) => {
     this.setState({ fieldName })
     runAsync(() =>
       this.props.dispatch(updateField({ name: { $set: fieldName } }))
     )
   }
 
-  changeCurrentSemester = currentSemester => {
+  changeCurrentSemester = (currentSemester) => {
     this.setState({ currentSemester })
     runAsync(() =>
       this.props.dispatch(
@@ -82,7 +84,7 @@ class SettingsX extends React.Component {
     )
   }
 
-  changeNumOfYears = obj => {
+  changeNumOfYears = (obj) => {
     const currentLevel = Math.min(obj, this.state.currentLevel)
     this.setState({ numOfYears: obj, currentLevel })
 
@@ -91,8 +93,8 @@ class SettingsX extends React.Component {
         updateField({
           numOfYears: { $set: obj },
           currentLevel: {
-            $set: currentLevel
-          }
+            $set: currentLevel,
+          },
         })
       )
     )
@@ -108,7 +110,7 @@ class SettingsX extends React.Component {
         this.props.dispatch(resetData())
         const resetAction = NavigationActions.reset({
           index: 0,
-          actions: [NavigationActions.navigate({ routeName: 'Welcome' })]
+          actions: [NavigationActions.navigate({ routeName: 'Welcome' })],
         })
         this.props.navigation.dispatch(resetAction)
       }
@@ -120,7 +122,7 @@ class SettingsX extends React.Component {
           {
             text: 'Cancel',
             style: 'cancel',
-            onPress: () => {}
+            onPress: () => {},
           },
           {
             text: 'Delete',
@@ -129,11 +131,11 @@ class SettingsX extends React.Component {
               this.props.dispatch(resetData())
               const resetAction = NavigationActions.reset({
                 index: 0,
-                actions: [NavigationActions.navigate({ routeName: 'Welcome' })]
+                actions: [NavigationActions.navigate({ routeName: 'Welcome' })],
               })
               this.props.navigation.dispatch(resetAction)
-            }
-          }
+            },
+          },
         ]
       )
   }
@@ -144,8 +146,8 @@ class SettingsX extends React.Component {
       { key: 0, section: true, label: 'Years required' },
       ...Array.from(new Array(10), (val, index) => ({
         key: ++index,
-        label: `${index} year${index === 1 ? '' : 's'}`
-      }))
+        label: `${index} year${index === 1 ? '' : 's'}`,
+      })),
     ]
 
     return (
@@ -157,7 +159,7 @@ class SettingsX extends React.Component {
             min={1}
             max={10}
             containerStyle={{
-              justifyContent: 'flex-end'
+              justifyContent: 'flex-end',
             }}
             onValueChange={this.changeNumOfYears}
             initialValue={numOfYears || 1}
@@ -173,7 +175,7 @@ class SettingsX extends React.Component {
       fieldName,
       currentSemester,
       currentLevel,
-      numOfYears
+      numOfYears,
     } = this.state
 
     return (
@@ -182,7 +184,7 @@ class SettingsX extends React.Component {
         <FormGroup>
           <Caption>School name</Caption>
           <TextInput
-            ref={_ => (this.school = _)}
+            ref={(_) => (this.school = _)}
             style={styles.underline}
             onChangeText={this.changeSchoolName}
             value={schoolName}
@@ -218,7 +220,7 @@ class SettingsX extends React.Component {
               label={`00 Level`}
               min={1}
               containerStyle={{
-                justifyContent: 'flex-end'
+                justifyContent: 'flex-end',
               }}
               max={numOfYears}
               onValueChange={this.changeCurrentLevel}
@@ -263,7 +265,7 @@ export class SettingsScreen extends React.PureComponent {
     tabBarLabel: 'Settings',
     tabBarIcon: ({ tintColor, focused }) => (
       <Icon name="settings" size={focused ? 25 : 23} color={tintColor} />
-    )
+    ),
   }
 
   render() {
@@ -284,5 +286,5 @@ export class SettingsScreen extends React.PureComponent {
 }
 
 const styles = {
-  underline: { borderBottomWidth: 2, borderBottomColor: '#ddd' }
+  underline: { borderBottomWidth: 2, borderBottomColor: '#ddd' },
 }

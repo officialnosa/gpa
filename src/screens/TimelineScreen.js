@@ -7,14 +7,14 @@ import { runAsync } from '../utils'
 import { getAverageBySemester } from '../calculations'
 import { Toolbar } from '../components/Toolbar'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   // schoolName: state.school.name,
   // fieldName: state.field.name,
   numOfYears: state.field.numOfYears,
   currentLevel: state.field.currentLevel,
   currentSemester: state.field.currentSemester,
   field: state.field,
-  courses: state.courses
+  courses: state.courses,
 })
 const nth = [0, '1st', '2nd']
 
@@ -29,7 +29,7 @@ class DashboardX extends React.Component {
     this.updateAverage(props)
   }
 
-  getRoute = i => {
+  getRoute = (i) => {
     const [year, semester] = [(i / 2).toFixed(), i % 2 || 2]
 
     return (
@@ -53,20 +53,19 @@ class DashboardX extends React.Component {
     return routes.reverse()
   }
 
-  updateAverage = ({ field, courses, currentLevel, currentSemester }) =>
-    runAsync(async () => {
-      const it = 2 * (currentLevel - 1) + currentSemester
-      for (let i = 1; i <= it; i++) {
-        const [year, semester] = [(i / 2).toFixed(), i % 2 || 2]
-        const gpa = await getAverageBySemester({
-          year,
-          semester,
-          field,
-          courses
-        })
-        this.setState({ [`${year}$${semester}`]: gpa })
-      }
-    })
+  updateAverage = ({ field, courses, currentLevel, currentSemester }) => {
+    const it = 2 * (currentLevel - 1) + currentSemester
+    for (let i = 1; i <= it; i++) {
+      const [year, semester] = [(i / 2).toFixed(), i % 2 || 2]
+      const gpa = getAverageBySemester({
+        year,
+        semester,
+        field,
+        courses,
+      })
+      this.setState({ [`${year}$${semester}`]: gpa })
+    }
+  }
 
   // updateAverage=async ()=>{
   //   const { currentLevel, currentSemester } = this.props
@@ -99,7 +98,7 @@ export class TimelineScreen extends React.Component {
     tabBarLabel: 'Dashboard',
     tabBarIcon: ({ tintColor, focused }) => (
       <Icon name="dashboard" size={focused ? 25 : 23} color={tintColor} />
-    )
+    ),
   }
 
   render() {

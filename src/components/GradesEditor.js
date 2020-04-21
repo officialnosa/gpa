@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
-import {
-  Row,
-  Divider,
-  Caption,
-  View,
-  Button,
-  Text,
-  TouchableOpacity,
-  Screen,
-  FormGroup,
-  TextInput
-} from '@shoutem/ui'
-import { Platform } from 'react-native'
+
+import { TextInput } from '@shoutem/ui/components/TextInput'
+import { Button } from '@shoutem/ui/components/Button'
+import { Row } from '@shoutem/ui/components/Row'
+import { Title, Subtitle, Caption, Text } from '@shoutem/ui/components/Text'
+import { FormGroup } from '@shoutem/ui/components/FormGroup'
+import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
+import { Divider } from '@shoutem/ui/components/Divider'
+import { Screen } from '@shoutem/ui/components/Screen'
+
+import { Platform, View } from 'react-native'
 import { connect } from 'react-redux'
 import { GradesEditorRow } from './GradesEditorRow'
 import update from 'immutability-helper'
@@ -19,8 +17,8 @@ import { Modal } from './modal'
 import { YELLOW } from '../ui'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
-const mapStateToProps = state => ({
-  grades: state.field.grades
+const mapStateToProps = (state) => ({
+  grades: state.field.grades,
 })
 
 export class GradesEditor extends Component {
@@ -28,7 +26,7 @@ export class GradesEditor extends Component {
     super(props)
     this.state = {
       modalVisible: false,
-      grades: props.grades
+      grades: props.grades,
     }
   }
   getGrades = () => this.state.grades
@@ -43,17 +41,17 @@ export class GradesEditor extends Component {
         tempPoint: '',
         grades: update(grades, {
           [String(tempLabel).toLowerCase()]: {
-            $set: Number(tempPoint || 0)
-          }
-        })
+            $set: Number(tempPoint || 0),
+          },
+        }),
       }))
   }
-  changeTempPoint = tempPoint => this.setState({ tempPoint })
-  changeTempLabel = tempLabel => this.setState({ tempLabel })
-  setModalVisible = v => this.setState({ modalVisible: v })
-  onDeletePress = key =>
+  changeTempPoint = (tempPoint) => this.setState({ tempPoint })
+  changeTempLabel = (tempLabel) => this.setState({ tempLabel })
+  setModalVisible = (v) => this.setState({ modalVisible: v })
+  onDeletePress = (key) =>
     this.setState(({ grades }) => ({
-      grades: update(grades, { $unset: [key] })
+      grades: update(grades, { $unset: [key] }),
     }))
 
   render() {
@@ -72,7 +70,7 @@ export class GradesEditor extends Component {
             style={{
               backgroundColor: YELLOW,
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
             }}
           >
             <Caption>Grade</Caption>
@@ -125,7 +123,7 @@ export class GradesEditor extends Component {
             <View>
               {Object.keys(this.state.grades)
                 .sort((a, b) => grades[b] - grades[a])
-                .map(g => (
+                .map((g) => (
                   <GradesEditorRow
                     onDeletePress={this.onDeletePress}
                     label={g}
@@ -140,7 +138,7 @@ export class GradesEditor extends Component {
                 width: 200,
                 borderRadius: 20,
                 marginTop: 40,
-                alignSelf: 'flex-end'
+                alignSelf: 'flex-end',
               }}
               onPress={this.openAddGrade}
             >
@@ -164,17 +162,17 @@ const styles = {
     backgroundColor: 'transparent',
     borderBottomColor: '#000',
     borderBottomWidth: 1,
-    ...Platform.select({ web: { borderBottomStyle: 'solid' }, default: {} })
+    ...Platform.select({ web: { borderBottomStyle: 'solid' }, default: {} }),
   },
   gradeBox: {
     marginRight: 20,
     height: 30,
     width: 60,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   pointBox: {
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
-  gradeText: { color: '#000' }
+  gradeText: { color: '#000' },
 }

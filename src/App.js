@@ -8,7 +8,7 @@ import {
   Text,
   StatusBar,
   ActivityIndicator,
-  Platform
+  Platform,
 } from 'react-native'
 import update from 'immutability-helper'
 
@@ -23,13 +23,13 @@ const Splash = () => (
       backgroundColor: '#ffd200',
 
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
     }}
   >
     <Text
       style={{
         fontSize: 80,
-        ...Platform.select({ web: { fontWeight: 'bold' }, default: {} })
+        ...Platform.select({ web: { fontWeight: 'bold' }, default: {} }),
       }}
     >
       GPA
@@ -41,7 +41,7 @@ const Splash = () => (
 
 export default class App extends React.Component {
   state = {
-    fontsAreLoaded: true
+    fontsAreLoaded: true,
   }
 
   // async componentWillMount() {

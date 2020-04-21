@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
-import {
-  Row,
-  Divider,
-  Caption,
-  View,
-  Text,
-  TouchableOpacity
-} from '@shoutem/ui'
+
+import { TextInput } from '@shoutem/ui/components/TextInput'
+import { Button } from '@shoutem/ui/components/Button'
+import { Row } from '@shoutem/ui/components/Row'
+import { Title, Subtitle, Caption, Text } from '@shoutem/ui/components/Text'
+import { FormGroup } from '@shoutem/ui/components/FormGroup'
+import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
+import { Divider } from '@shoutem/ui/components/Divider'
+import { Screen } from '@shoutem/ui/components/Screen'
+
+import { View } from 'react-native'
+
 import Icon from 'react-native-vector-icons/EvilIcons'
 import { YELLOW } from '../ui'
 export class GradesEditorRow extends Component {
@@ -48,12 +52,12 @@ const styles = {
     width: 60,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: YELLOW
+    backgroundColor: YELLOW,
   },
   pointBox: {
     alignItems: 'flex-start',
     paddingLeft: 20,
-    backgroundColor: '#eee'
+    backgroundColor: '#eee',
   },
-  gradeText: { color: '#000' }
+  gradeText: { color: '#000' },
 }

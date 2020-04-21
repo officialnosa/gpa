@@ -1,24 +1,32 @@
 import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
+
+import { TextInput } from '@shoutem/ui/components/TextInput'
+import { Button } from '@shoutem/ui/components/Button'
+import { Row } from '@shoutem/ui/components/Row'
 import {
-  TextInput,
+  Title,
   Subtitle,
   Caption,
-  Row,
-  Divider,
-  View,
-  Screen
-} from '@shoutem/ui'
+  Text,
+  Heading,
+} from '@shoutem/ui/components/Text'
+import { FormGroup } from '@shoutem/ui/components/FormGroup'
+import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
+import { Divider } from '@shoutem/ui/components/Divider'
+import { Screen } from '@shoutem/ui/components/Screen'
+import { View } from '@shoutem/ui/components/View'
+
 import { ScrollView, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 // import { NumberSelector } from '../components/NumberSelector'
 import { Toolbar } from '../components/Toolbar'
 import { updateSchool, updateField } from '../redux/actions'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   school: state.school,
   field: state.field,
-  gradingSystem: state.school.gradingSystem
+  gradingSystem: state.school.gradingSystem,
 })
 
 // const width = Dimensions.get('window').width
@@ -28,13 +36,13 @@ class AdvanceSettingsX extends React.Component {
     // this.school.focus()
   }
 
-  changeGradingSystem = data =>
+  changeGradingSystem = (data) =>
     this.props.dispatch(updateSchool({ gradingSystem: { $merge: data } }))
 
   changeYearWeight = ({ year, weight }) =>
     this.props.dispatch(
       updateField({
-        levelWeight: { $auto: { [year]: { $set: Number(weight) / 100 } } }
+        levelWeight: { $auto: { [year]: { $set: Number(weight) / 100 } } },
       })
     )
 
@@ -53,7 +61,7 @@ class AdvanceSettingsX extends React.Component {
               <TextInput
                 style={styles.underline}
                 value={String(gradingSystem.firstClass)}
-                onChangeText={firstClass =>
+                onChangeText={(firstClass) =>
                   this.changeGradingSystem({ firstClass: Number(firstClass) })
                 }
               />
@@ -66,9 +74,9 @@ class AdvanceSettingsX extends React.Component {
               <TextInput
                 style={styles.underline}
                 value={String(gradingSystem.secondClassUpper)}
-                onChangeText={secondClassUpper =>
+                onChangeText={(secondClassUpper) =>
                   this.changeGradingSystem({
-                    secondClassUpper: Number(secondClassUpper)
+                    secondClassUpper: Number(secondClassUpper),
                   })
                 }
               />
@@ -80,9 +88,9 @@ class AdvanceSettingsX extends React.Component {
               <TextInput
                 style={styles.underline}
                 value={String(gradingSystem.secondClassLower)}
-                onChangeText={secondClassLower =>
+                onChangeText={(secondClassLower) =>
                   this.changeGradingSystem({
-                    secondClassLower: Number(secondClassLower)
+                    secondClassLower: Number(secondClassLower),
                   })
                 }
               />
@@ -92,7 +100,7 @@ class AdvanceSettingsX extends React.Component {
               <TextInput
                 style={styles.underline}
                 value={String(gradingSystem.thirdClass)}
-                onChangeText={thirdClass =>
+                onChangeText={(thirdClass) =>
                   this.changeGradingSystem({ thirdClass: Number(thirdClass) })
                 }
               />
@@ -102,7 +110,7 @@ class AdvanceSettingsX extends React.Component {
               <TextInput
                 style={styles.underline}
                 value={String(gradingSystem.pass)}
-                onChangeText={pass =>
+                onChangeText={(pass) =>
                   this.changeGradingSystem({ pass: Number(pass) })
                 }
               />
@@ -120,7 +128,7 @@ class AdvanceSettingsX extends React.Component {
                 <Subtitle style={{ flex: 1 }}>Year {year}</Subtitle>
                 <TextInput
                   style={styles.underline}
-                  onChangeText={weight =>
+                  onChangeText={(weight) =>
                     this.changeYearWeight({ year, weight })
                   }
                   value={String((field.levelWeight[year] || 0) * 100)}
@@ -147,7 +155,7 @@ export class AdvancedSettingsScreen extends React.PureComponent {
         size={focused ? 25 : 23}
         color={tintColor}
       />
-    )
+    ),
   }
 
   render() {
@@ -163,5 +171,5 @@ export class AdvancedSettingsScreen extends React.PureComponent {
 }
 
 const styles = {
-  underline: { borderBottomWidth: 2, borderBottomColor: '#ddd' }
+  underline: { borderBottomWidth: 2, borderBottomColor: '#ddd' },
 }

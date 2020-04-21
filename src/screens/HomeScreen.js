@@ -11,7 +11,7 @@ export class HomeScreen extends React.Component {
     tabBarLabel: 'Courses',
     tabBarIcon: ({ tintColor, focused }) => (
       <Icon name="open-book" size={focused ? 25 : 23} color={tintColor} />
-    )
+    ),
   }
 
   render() {
@@ -76,9 +76,9 @@ export class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   toolbarText: { fontSize: 16 },
   toolbar: { height: 50 },
-  yearScore: { color: '#000' }
+  yearScore: { color: '#000' },
 })

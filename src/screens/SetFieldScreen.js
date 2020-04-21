@@ -1,19 +1,22 @@
 import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
+
+import { TextInput } from '@shoutem/ui/components/TextInput'
+import { Button } from '@shoutem/ui/components/Button'
+import { Row } from '@shoutem/ui/components/Row'
 import {
-  Text,
-  TextInput,
-  FormGroup,
-  Caption,
-  Row,
-  Divider,
+  Title,
   Subtitle,
-  View,
-  Screen,
-  Button,
-  TouchableOpacity
-} from '@shoutem/ui'
-import { ScrollView, Alert } from 'react-native'
+  Caption,
+  Text,
+  Heading,
+} from '@shoutem/ui/components/Text'
+import { FormGroup } from '@shoutem/ui/components/FormGroup'
+import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
+import { Divider } from '@shoutem/ui/components/Divider'
+import { Screen } from '@shoutem/ui/components/Screen'
+
+import { ScrollView, Alert, View } from 'react-native'
 import { connect } from 'react-redux'
 import { NumberSelector } from '../components/NumberSelector'
 // import ModalSelector from 'react-native-modal-selector'
@@ -36,25 +39,25 @@ class SettingsX extends React.Component {
       1: 0.05,
       2: 0.2,
       3: 0.35,
-      4: 0.4
-    }
+      4: 0.4,
+    },
   }
 
   openAdvanced = () => this.props.navigation.navigate('AdvancedSettings')
 
-  changeCurrentLevel = currentLevel => {
+  changeCurrentLevel = (currentLevel) => {
     this.setState({ currentLevel })
   }
 
-  changeFieldName = name => {
+  changeFieldName = (name) => {
     this.setState({ name })
   }
 
-  changeCurrentSemester = currentSemester => {
+  changeCurrentSemester = (currentSemester) => {
     this.setState({ currentSemester })
   }
 
-  changeNumOfYears = obj => {
+  changeNumOfYears = (obj) => {
     const currentLevel = Math.min(obj, this.state.currentLevel)
     this.setState({ numOfYears: obj, currentLevel })
   }
@@ -63,20 +66,20 @@ class SettingsX extends React.Component {
     this.setState({ grades: this.gradeEditor.getGrades() }, () =>
       this.props.dispatch(
         initField({
-          ...this.state
+          ...this.state,
         })
       )
     )
 
     const resetAction = NavigationActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'Tabs' })]
+      actions: [NavigationActions.navigate({ routeName: 'Tabs' })],
     })
     this.props.navigation.dispatch(resetAction)
   }
-  changeLevelWeight = data =>
-    this.setState(prev => ({
-      levelWeight: { ...prev.levelWeight, ...data }
+  changeLevelWeight = (data) =>
+    this.setState((prev) => ({
+      levelWeight: { ...prev.levelWeight, ...data },
     }))
 
   renderNumOfYears = () => {
@@ -85,8 +88,8 @@ class SettingsX extends React.Component {
       { key: 0, section: true, label: 'Years required' },
       ...Array.from(new Array(10), (val, index) => ({
         key: ++index,
-        label: `${index} year${index === 1 ? '' : 's'}`
-      }))
+        label: `${index} year${index === 1 ? '' : 's'}`,
+      })),
     ]
 
     return (
@@ -102,7 +105,7 @@ class SettingsX extends React.Component {
           label={numOfYears === 1 ? ' Year' : ' Years'}
           min={1}
           containerStyle={{
-            justifyContent: 'flex-end'
+            justifyContent: 'flex-end',
           }}
           max={10}
           onValueChange={this.changeNumOfYears}
@@ -158,7 +161,7 @@ class SettingsX extends React.Component {
                 label={`00 Level`}
                 min={1}
                 containerStyle={{
-                  justifyContent: 'flex-end'
+                  justifyContent: 'flex-end',
                 }}
                 max={numOfYears}
                 onValueChange={this.changeCurrentLevel}
@@ -176,7 +179,7 @@ class SettingsX extends React.Component {
 
             <GradesEditor
               grades={this.props.grades}
-              ref={gradeEditor => (this.gradeEditor = gradeEditor)}
+              ref={(gradeEditor) => (this.gradeEditor = gradeEditor)}
             />
             <Divider />
             <Divider />
@@ -191,7 +194,7 @@ class SettingsX extends React.Component {
                 width: 100,
                 borderRadius: 20,
 
-                alignSelf: 'flex-end'
+                alignSelf: 'flex-end',
               }}
               onPress={this.save}
             >
@@ -206,7 +209,7 @@ class SettingsX extends React.Component {
   }
 }
 
-const Settings = connect(state => ({ grades: state.field.grades }))(SettingsX)
+const Settings = connect((state) => ({ grades: state.field.grades }))(SettingsX)
 
 export class SetFieldScreen extends React.PureComponent {
   render() {
@@ -216,5 +219,5 @@ export class SetFieldScreen extends React.PureComponent {
 }
 
 const styles = {
-  underline: { borderBottomWidth: 2, borderBottomColor: '#ddd' }
+  underline: { borderBottomWidth: 2, borderBottomColor: '#ddd' },
 }

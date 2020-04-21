@@ -1,52 +1,38 @@
-import React, { Component } from 'react'
+import React, { useMemo } from 'react'
 import { Text } from 'react-native-paper'
 import { getCoursesBySemester, getAverageBySemester } from '../calculations'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   field: state.field,
   courses: state.courses,
-  firstClass: state.school.gradingSystem.firstClass
+  firstClass: state.school.gradingSystem.firstClass,
 })
 
-class SemesterScoreBadgeX extends Component {
-  state = {
-    registered: [],
-    gpa: '...'
-  }
+export function SemesterScoreBadge({ semester, year, style, styleName }) {
+  const { field, courses, firstClass } = useSelector(mapStateToProps)
 
-  async componentDidMount() {
-    const registered = await getCoursesBySemester(this.props)
+  const registered = useMemo(
+    () =>
+      getCoursesBySemester({
+        field,
+        courses,
+        firstClass,
+        semester,
+        year,
+      }).reverse(),
+    [field, courses, firstClass, semester, year]
+  )
 
-    this.setState({ registered: registered.reverse() })
-    this.calculate()
-  }
+  const gpa = useMemo(
+    () => getAverageBySemester({ list: registered }).toFixed(2),
+    [registered]
+  )
+  // gpa = (gpa - 5 + 1 + firstClass).toFixed(2)
 
-  async componentWillReceiveProps(props) {
-    const registered = await getCoursesBySemester(props)
-
-    this.setState({ registered: registered.reverse() })
-    this.calculate()
-  }
-
-  shouldComponentUpdate(p, { gpa }) {
-    return gpa !== this.state.gpa
-  }
-
-  calculate = async () => {
-    const gpa = await getAverageBySemester({ list: this.state.registered })
-    // this.setState({ gpa: (gpa - 5 + 1 + this.props.firstClass).toFixed(2) })
-    this.setState({ gpa: gpa.toFixed(2) })
-  }
-
-  render() {
-    return (
-      <Text styleName={this.props.styleName} style={this.props.style}>
-        {this.state.gpa}
-      </Text>
-    )
-  }
+  return (
+    <Text styleName={styleName} style={style}>
+      {gpa}
+    </Text>
+  )
 }
-
-const SemesterScoreBadge = connect(mapStateToProps)(SemesterScoreBadgeX)
-export { SemesterScoreBadge }

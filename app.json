@@ -3,7 +3,6 @@
     "name": "School Assistant",
     "slug": "schoolassistant",
     "privacy": "public",
-    "sdkVersion": "34.0.0",
     "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
@@ -11,7 +10,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffd200"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,7 +22,12 @@
     "web": {
       "build": {
         "babel": {
-          "include": ["native-base-shoutem-theme", "@shoutem/ui", "ui", "@shoutem"]
+          "include": [
+            "native-base-shoutem-theme",
+            "@shoutem/ui",
+            "ui",
+            "@shoutem"
+          ]
         }
       }
     }

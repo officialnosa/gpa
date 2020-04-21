@@ -1,18 +1,16 @@
 import React from 'react'
 // import Icon from 'react-native-vector-icons/Ionicons'
-import {
-  Text,
-  TextInput,
-  FormGroup,
-  Caption,
-  Row,
-  Divider,
-  Subtitle,
-  View,
-  Screen,
-  Button
-} from '@shoutem/ui'
-import { ScrollView } from 'react-native'
+
+import { TextInput } from '@shoutem/ui/components/TextInput'
+import { Button } from '@shoutem/ui/components/Button'
+import { Row } from '@shoutem/ui/components/Row'
+import { Title, Subtitle, Caption, Text } from '@shoutem/ui/components/Text'
+import { FormGroup } from '@shoutem/ui/components/FormGroup'
+import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
+import { Divider } from '@shoutem/ui/components/Divider'
+import { Screen } from '@shoutem/ui/components/Screen'
+
+import { ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
 // import { NumberSelector } from '../components/NumberSelector'
 import { Toolbar } from '../components/Toolbar'
@@ -20,7 +18,7 @@ import {
   // updateField,
   // updateSchool,
   // resetData,
-  initSchool
+  initSchool,
 } from '../redux/actions'
 // import ModalSelector from 'react-native-modal-selector'
 // import { runAsync } from '../utils'
@@ -35,16 +33,16 @@ class SettingsX extends React.Component {
       secondClassUpper: 3.5,
       secondClassLower: 2.5,
       thirdClass: 2.0,
-      pass: 2.0
-    }
+      pass: 2.0,
+    },
   }
 
-  changeGradingSystem = data =>
-    this.setState(prev => ({
-      gradingSystem: { ...prev.gradingSystem, ...data }
+  changeGradingSystem = (data) =>
+    this.setState((prev) => ({
+      gradingSystem: { ...prev.gradingSystem, ...data },
     }))
 
-  changeSchoolName = name => this.setState({ name })
+  changeSchoolName = (name) => this.setState({ name })
 
   save = () => {
     this.props.dispatch(initSchool(this.state))
@@ -73,7 +71,7 @@ class SettingsX extends React.Component {
             <FormGroup>
               <Caption>School name</Caption>
               <TextInput
-                ref={_ => (this.school = _)}
+                ref={(_) => (this.school = _)}
                 // style={styles.underline}
                 onChangeText={this.changeSchoolName}
                 value={name}
@@ -90,9 +88,9 @@ class SettingsX extends React.Component {
                   <TextInput
                     style={styles.underline}
                     value={String(gradingSystem.firstClass)}
-                    onChangeText={firstClass =>
+                    onChangeText={(firstClass) =>
                       this.changeGradingSystem({
-                        firstClass: Number(firstClass)
+                        firstClass: Number(firstClass),
                       })
                     }
                   />
@@ -105,9 +103,9 @@ class SettingsX extends React.Component {
                   <TextInput
                     style={styles.underline}
                     value={String(gradingSystem.secondClassUpper)}
-                    onChangeText={secondClassUpper =>
+                    onChangeText={(secondClassUpper) =>
                       this.changeGradingSystem({
-                        secondClassUpper: Number(secondClassUpper)
+                        secondClassUpper: Number(secondClassUpper),
                       })
                     }
                   />
@@ -119,9 +117,9 @@ class SettingsX extends React.Component {
                   <TextInput
                     style={styles.underline}
                     value={String(gradingSystem.secondClassLower)}
-                    onChangeText={secondClassLower =>
+                    onChangeText={(secondClassLower) =>
                       this.changeGradingSystem({
-                        secondClassLower: Number(secondClassLower)
+                        secondClassLower: Number(secondClassLower),
                       })
                     }
                   />
@@ -131,9 +129,9 @@ class SettingsX extends React.Component {
                   <TextInput
                     style={styles.underline}
                     value={String(gradingSystem.thirdClass)}
-                    onChangeText={thirdClass =>
+                    onChangeText={(thirdClass) =>
                       this.changeGradingSystem({
-                        thirdClass: Number(thirdClass)
+                        thirdClass: Number(thirdClass),
                       })
                     }
                   />
@@ -143,7 +141,7 @@ class SettingsX extends React.Component {
                   <TextInput
                     style={styles.underline}
                     value={String(gradingSystem.pass)}
-                    onChangeText={pass =>
+                    onChangeText={(pass) =>
                       this.changeGradingSystem({ pass: Number(pass) })
                     }
                   />
@@ -160,7 +158,7 @@ class SettingsX extends React.Component {
                 backgroundColor: '#ffd200',
                 borderRadius: 20,
                 width: 100,
-                alignSelf: 'flex-end'
+                alignSelf: 'flex-end',
               }}
               onPress={this.save}
             >
@@ -185,5 +183,5 @@ export class SetSchoolScreen extends React.PureComponent {
 }
 
 const styles = {
-  underline: { borderBottomWidth: 2, borderBottomColor: '#ddd' }
+  underline: { borderBottomWidth: 2, borderBottomColor: '#ddd' },
 }

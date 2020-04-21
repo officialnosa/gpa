@@ -1,16 +1,14 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react'
-import { connect, useDispatch } from 'react-redux'
-import {
-  TextInput,
-  Button,
-  Row,
-  Title,
-  FormGroup,
-  Caption,
-  Subtitle,
-  TouchableOpacity,
-  Divider,
-} from '@shoutem/ui'
+import { connect, useDispatch, useSelector } from 'react-redux'
+
+import { TextInput } from '@shoutem/ui/components/TextInput'
+import { Button } from '@shoutem/ui/components/Button'
+import { Row } from '@shoutem/ui/components/Row'
+import { Title, Subtitle, Caption } from '@shoutem/ui/components/Text'
+import { FormGroup } from '@shoutem/ui/components/FormGroup'
+import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
+import { Divider } from '@shoutem/ui/components/Divider'
+
 import { Alert, Platform, View as RNView, View, StyleSheet } from 'react-native'
 import { GradeIndicator } from './GradeIndicator'
 import { editCourse, deregisterCourse, changeGrade } from '../redux/actions'
@@ -32,32 +30,37 @@ import Collapsible from 'react-native-collapsible'
 // const emptyOption = { point: 0, grade: '-' }
 // const optionsWithEmptyOption = [emptyOption, ...options]
 
-export function CourseRow({ courses, field, semester, year, id }) {
-  const course = courses[id]
+export function CourseRow({ semester, year, id }) {
+  const { course, grade } = useSelector((state) => ({
+    course: state.courses[id],
+    // field: state.field,
+    grade: state.field.structure[`${year}$${semester}`][id],
+  }))
+
   const dispatch = useDispatch()
   const [editingMode, setEditingMode] = useState(false)
   const [title, setTitle] = useState(course?.name)
   const [credits, setCredits] = useState(course?.creditLoad)
   const [code, setCode] = useState(course?.code)
 
-  const grade = useMemo(() => field.structure[`${year}$${semester}`][id], [
-    field,
-    semester,
-    year,
-    id,
-  ])
+  // const grade = useMemo(() => field.structure[`${year}$${semester}`][id], [
+  //   field,
+  //   semester,
+  //   year,
+  //   id,
+  // ])
 
   useEffect(() => {
     if (editingMode || grade || title != 'Untitled Course' || credits) return
     else {
-      runAsync(() => setEditingMode(true))
+      setEditingMode(true)
     }
   }, [editingMode, grade, title, credits])
 
   const onChangeName = useCallback(
     (name) => {
       setTitle(name)
-      runAsync(() => dispatch(editCourse({ id: id, name })))
+      dispatch(editCourse({ id: id, name }))
     },
     [id]
   )
@@ -65,24 +68,22 @@ export function CourseRow({ courses, field, semester, year, id }) {
   const onChangeCode = useCallback(
     (code) => {
       setCode(code)
-      runAsync(() => dispatch(editCourse({ id: id, code })))
+      dispatch(editCourse({ id: id, code }))
     },
     [id]
   )
 
   const onChangeCreditLoad = useCallback((creditLoad) => {
     setCredits(Number(creditLoad))
-    runAsync(() =>
-      dispatch(editCourse({ id: id, creditLoad: Number(creditLoad) }))
-    )
+
+    dispatch(editCourse({ id: id, creditLoad: Number(creditLoad) }))
   })
 
   const onChangeGrade = useCallback(
     (grade) => {
       // toggleEditingMode()
-      setState({ grade }, () =>
-        runAsync(() => dispatch(changeGrade({ id, semester, year, grade })))
-      )
+      // setGrade(grade)
+      dispatch(changeGrade({ id, semester, year, grade }))
     },
     [id, semester, year, dispatch]
   )
@@ -214,12 +215,6 @@ export function CourseRow({ courses, field, semester, year, id }) {
     </View>
   )
 }
-
-const mapStateToProps = (state) => ({
-  courses: state.courses,
-  field: state.field,
-})
-CourseRow = connect(mapStateToProps)(CourseRow)
 
 const styles = StyleSheet.create({
   red: { color: '#f56' },
