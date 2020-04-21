@@ -1,21 +1,15 @@
 import React, { useCallback, useMemo } from 'react'
 
-import { TextInput } from '@shoutem/ui/components/TextInput'
-import { Button } from '@shoutem/ui/components/Button'
-import { Row } from '@shoutem/ui/components/Row'
 import {
   Title,
-  Subtitle,
+  Button,
+  Divider,
+  FAB,
+  TouchableRipple,
   Caption,
-  Text,
-  Heading,
-} from '@shoutem/ui/components/Text'
-import { FormGroup } from '@shoutem/ui/components/FormGroup'
-import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
-import { Divider } from '@shoutem/ui/components/Divider'
-import { Screen } from '@shoutem/ui/components/Screen'
+} from 'react-native-paper'
 
-import { Platform, View } from 'react-native'
+import { Platform, View, StyleSheet } from 'react-native'
 import fields from '../offlineData/fields'
 import { useSelector } from 'react-redux'
 import { ScrollView } from 'react-native'
@@ -24,27 +18,30 @@ import { withNavigation } from 'react-navigation'
 // import { initField } from '../redux/actions'
 // import Icon from 'react-native-vector-icons/Feather'
 
-function SchoolItem({ id, navigation }) {
+function FieldItem({ id, navigation, name, schoolId }) {
   const select = useCallback(() => {
     // const dispatch = useDispatch()
     // dispatch(initField(fields[id]))
     navigation.navigate('ChooseStructure', {
       field: id,
-      id,
+      school: schoolId,
     })
-  }, [navigation, id])
+  }, [navigation, id, schoolId])
 
   return (
-    <View>
-      <Button styleName="clear" onPress={() => select(key)}>
-        <Title styleName="bold">{schoolObject[key].name}</Title>
-      </Button>
+    <>
+      <TouchableRipple
+        style={{ paddingHorizontal: 20, paddingVertical: 10 }}
+        onPress={select}
+      >
+        <Title>{name}</Title>
+      </TouchableRipple>
       <Divider />
-    </View>
+    </>
   )
 }
 
-SchoolItem = withNavigation(SchoolItem)
+FieldItem = withNavigation(FieldItem)
 
 const mapStateToProps = (state) => ({
   // user: state.user,
@@ -60,42 +57,63 @@ export function ChooseFieldScreen({ navigation }) {
     return navigation?.state?.params?.school
   }, [navigation])
 
-  const schoolObject = useMemo(() => fields[school], [school])
-  const schoolIds = useMemo(() => Object.keys(schoolObject || {}), [
-    schoolObject,
-  ])
+  const fieldObject = useMemo(() => fields[school], [school])
+  const fieldIds = useMemo(() => Object.keys(fieldObject || {}), [fieldObject])
 
   const openOthers = useCallback(() => {
     navigation.navigate('SetField')
   }, [navigation])
 
   return (
-    <Screen styleName="paper middleCenter" style={styles.screen}>
+    <View style={styles.screen}>
+      <Toolbar showNavIcon clear />
+
       <ScrollView>
-        <Toolbar showNavIcon clear />
-        <View style={styles.title}>
-          <Heading styleName="h-center">Choose your Field</Heading>
-          <Caption styleName="h-center">({schoolName})</Caption>
-        </View>
-        {schoolIds.map((id) => (
-          <SchoolItem key={id} id={id} />
+        <Title style={styles.title}>Choose your Field</Title>
+        <Caption style={{ marginStart: 20, marginBottom: 20 }}>
+          ({schoolName})
+        </Caption>
+
+        {fieldIds.map((id) => (
+          <FieldItem
+            key={id}
+            id={id}
+            name={fieldObject[id].name}
+            schoolId={school}
+          />
         ))}
-        <Button styleName="clear" onPress={openOthers}>
-          <Title style={styles.others} styleName="bold">
-            New Field
-          </Title>
-        </Button>
       </ScrollView>
-    </Screen>
+
+      <FAB
+        icon="add"
+        label="Add Yours"
+        onPress={openOthers}
+        color="#fff"
+        style={styles.fab}
+      />
+    </View>
   )
 }
 
-const styles = {
-  screen: { backgroundColor: '#ffd200' },
+const styles = StyleSheet.create({
+  screen: { backgroundColor: '#ffd200', flex: 1 },
   others: {
     borderBottomWidth: 2,
     ...Platform.select({ web: { borderBottomStyle: 'solid' }, default: {} }),
     borderBottomColor: '#2c2c2c',
   },
-  title: { marginTop: 100, marginBottom: 80 },
-}
+  title: {
+    marginTop: 30,
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginStart: 20,
+  },
+  fab: {
+    margin: 20,
+    height: 50,
+    width: 170,
+    alignSelf: 'flex-end',
+    alignItems: 'flex-end',
+    backgroundColor: '#000',
+  },
+})

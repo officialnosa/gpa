@@ -1,5 +1,5 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import React, { useMemo, useState, useEffect, useCallback, useRef } from 'react'
+import { connect, useDispatch, useSelector, useStore } from 'react-redux'
 
 import { TextInput } from '@shoutem/ui/components/TextInput'
 import { Button } from '@shoutem/ui/components/Button'
@@ -30,25 +30,65 @@ import Collapsible from 'react-native-collapsible'
 // const emptyOption = { point: 0, grade: '-' }
 // const optionsWithEmptyOption = [emptyOption, ...options]
 
+function useReduxState(initialState, action, delay = 100) {
+  const [state, setState] = useState(initialState)
+  const firstUpdate = useRef(true)
+
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false
+      return
+    }
+
+    const handle = setTimeout(() => {
+      action(state)
+    }, delay)
+
+    return () => {
+      clearTimeout(handle)
+    }
+  }, [state])
+
+  return [state, setState]
+}
+
 export function CourseRow({ semester, year, id }) {
-  const { course, grade } = useSelector((state) => ({
+  const { course, initialGrade } = useSelector((state) => ({
     course: state.courses[id],
     // field: state.field,
-    grade: state.field.structure[`${year}$${semester}`][id],
+    initialGrade: state.field.structure[`${year}$${semester}`][id],
   }))
+  // const store = useStore()
+  // const { course, initialGrade } = useMemo(() => {
+  //   const state = store.getState()
+
+  //   return {
+  //     course: state.courses[id],
+  //     // field: state.field,
+  //     initialGrade: state.field.structure[`${year}$${semester}`][id],
+  //   }
+  // }, [])
 
   const dispatch = useDispatch()
   const [editingMode, setEditingMode] = useState(false)
-  const [title, setTitle] = useState(course?.name)
-  const [credits, setCredits] = useState(course?.creditLoad)
-  const [code, setCode] = useState(course?.code)
 
-  // const grade = useMemo(() => field.structure[`${year}$${semester}`][id], [
-  //   field,
-  //   semester,
-  //   year,
-  //   id,
-  // ])
+  const [title, setTitle] = useReduxState(course?.name, (name) =>
+    dispatch(editCourse({ id: id, name }))
+  )
+
+  const [credits, setCredits] = useReduxState(
+    course?.creditLoad,
+    (creditLoad) =>
+      dispatch(editCourse({ id: id, creditLoad: Number(creditLoad) }))
+  )
+
+  const [code, setCode] = useReduxState(course?.code, (code) =>
+    dispatch(editCourse({ id: id, code }))
+  )
+
+  const [grade, setGrade] = useReduxState(initialGrade, (grade) =>
+    dispatch(changeGrade({ id, semester, year, grade }))
+  )
 
   useEffect(() => {
     if (editingMode || grade || title != 'Untitled Course' || credits) return
@@ -56,37 +96,6 @@ export function CourseRow({ semester, year, id }) {
       setEditingMode(true)
     }
   }, [editingMode, grade, title, credits])
-
-  const onChangeName = useCallback(
-    (name) => {
-      setTitle(name)
-      dispatch(editCourse({ id: id, name }))
-    },
-    [id]
-  )
-
-  const onChangeCode = useCallback(
-    (code) => {
-      setCode(code)
-      dispatch(editCourse({ id: id, code }))
-    },
-    [id]
-  )
-
-  const onChangeCreditLoad = useCallback((creditLoad) => {
-    setCredits(Number(creditLoad))
-
-    dispatch(editCourse({ id: id, creditLoad: Number(creditLoad) }))
-  })
-
-  const onChangeGrade = useCallback(
-    (grade) => {
-      // toggleEditingMode()
-      // setGrade(grade)
-      dispatch(changeGrade({ id, semester, year, grade }))
-    },
-    [id, semester, year, dispatch]
-  )
 
   const tryDeregisterCourse = useCallback(() => {
     if (Platform.OS === 'web') {
@@ -155,13 +164,9 @@ export function CourseRow({ semester, year, id }) {
     >
       <FormGroup styleName="stretch">
         <Caption key="course">COURSE CODE</Caption>
-        <TextInput placeholder="..." value={code} onChangeText={onChangeCode} />
+        <TextInput placeholder="..." value={code} onChangeText={setCode} />
         <Caption>COURSE TITLE</Caption>
-        <TextInput
-          placeholder="..."
-          value={title}
-          onChangeText={onChangeName}
-        />
+        <TextInput placeholder="..." value={title} onChangeText={setTitle} />
         <Divider styleName="line" />
       </FormGroup>
       <Row>
@@ -174,7 +179,7 @@ export function CourseRow({ semester, year, id }) {
             containerStyle={{
               justifyContent: 'flex-end',
             }}
-            onValueChange={onChangeCreditLoad}
+            onValueChange={setCredits}
             initialValue={credits}
           />
         </View>
@@ -183,7 +188,7 @@ export function CourseRow({ semester, year, id }) {
         <Caption style={{ textAlign: 'center' }}>GRADE</Caption>
 
         <View style={{ alignSelf: 'center' }}>
-          <GradeSelector value={grade} onChangeValue={onChangeGrade} />
+          <GradeSelector value={grade} onChangeValue={setGrade} />
         </View>
       </FormGroup>
     </RNView>

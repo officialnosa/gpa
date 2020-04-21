@@ -35,7 +35,9 @@ const mapStateToProps = (state) => ({
   currentSemester: state.field.currentSemester,
 })
 
-class SettingsX extends React.Component {
+const year = new Date().getFullYear()
+
+export default class Settings extends React.Component {
   constructor(props) {
     super(props)
     const { numOfYears, currentLevel, currentSemester } = props
@@ -142,13 +144,13 @@ class SettingsX extends React.Component {
 
   renderNumOfYears = () => {
     const { numOfYears } = this.state
-    const data = [
-      { key: 0, section: true, label: 'Years required' },
-      ...Array.from(new Array(10), (val, index) => ({
-        key: ++index,
-        label: `${index} year${index === 1 ? '' : 's'}`,
-      })),
-    ]
+    // const data = [
+    //   { key: 0, section: true, label: 'Years required' },
+    //   ...Array.from(new Array(10), (val, index) => ({
+    //     key: ++index,
+    //     label: `${index} year${index === 1 ? '' : 's'}`,
+    //   })),
+    // ]
 
     return (
       <Row style={styles.underline}>
@@ -258,7 +260,7 @@ class SettingsX extends React.Component {
   }
 }
 
-const Settings = connect(mapStateToProps)(SettingsX)
+Settings = connect(mapStateToProps)(Settings)
 
 export class SettingsScreen extends React.PureComponent {
   static navigationOptions = {
@@ -276,7 +278,7 @@ export class SettingsScreen extends React.PureComponent {
         <ScrollView>
           <Settings navigation={navigation} />
           <Divider />
-          <Text styleName="h-center">&copy; 2018 NOSAKHARE GROUP</Text>
+          <Text styleName="h-center">&copy; {year} Nosa</Text>
           <Text styleName="h-center">www.osarogie.com</Text>
           <Divider />
         </ScrollView>

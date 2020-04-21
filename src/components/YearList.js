@@ -4,7 +4,7 @@ import {
   Dimensions,
   View as RNView,
   VirtualizedList,
-  Platform
+  Platform,
 } from 'react-native'
 import { TabViewAnimated, TabBar, TabViewPagerPan } from 'react-native-tab-view'
 import { SemesterCourseList } from './SemesterCourseList'
@@ -18,16 +18,16 @@ import { YearRow } from './YearRow'
 
 const initialLayout = {
   height: 0,
-  width: Dimensions.get('window').width
+  width: Dimensions.get('window').width,
 }
 
 const columns = 1
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   // field: state.field
   numOfYears: state.field.numOfYears,
   currentLevel: state.field.currentLevel,
-  currentSemester: state.field.currentSemester
+  currentSemester: state.field.currentSemester,
 })
 
 const nth = [undefined, '1st', '2nd']
@@ -42,7 +42,7 @@ export class YearList extends React.Component {
     routes: [
       // { key: '1', year: 4, semester: 1, title: 'Year 4 - 1st Semester' },
       // { key: '2', year: 4, semester: 2, title: 'Year 4 - 2nd Semester' }
-    ]
+    ],
   }
 
   openSettings = () => this.props.navigation.navigate('Settings')
@@ -67,14 +67,14 @@ export class YearList extends React.Component {
     )
   }
 
-  getRoute = i => {
+  getRoute = (i) => {
     const [year, semester] = [(i / 2).toFixed(), i % 2 || 2]
 
     return {
       key: String(i),
       year: i,
       semester,
-      title: `Year ${year} / ${nth[semester]} Semester`
+      title: `Year ${year} / ${nth[semester]} Semester`,
     }
   }
 
@@ -88,18 +88,18 @@ export class YearList extends React.Component {
 
     this.setState({
       routes,
-      index: routes.length - 1
+      index: routes.length - 1,
     })
   }
 
-  _handleIndexChange = index =>
+  _handleIndexChange = (index) =>
     this.setState({
-      index
+      index,
     })
 
   onTabPress = ({ route }) => {}
 
-  _renderHeader = props => (
+  _renderHeader = (props) => (
     <TabBar
       {...props}
       onTabPress={this.onTabPress}
@@ -115,7 +115,7 @@ export class YearList extends React.Component {
     if (this.state.routes.length)
       return (
         <VirtualizedList
-          ref={e => (this.list = e)}
+          ref={(e) => (this.list = e)}
           data={this.state.routes}
           style={{ paddingBottom: 30, flex: 1 }}
           // ItemSeparatorComponent={() => (
@@ -131,7 +131,7 @@ export class YearList extends React.Component {
                 style={{
                   alignItems: 'center',
                   flexDirection: 'row',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
                 }}
               >
                 <Text style={{ color: '#fff' }}>
@@ -140,8 +140,8 @@ export class YearList extends React.Component {
               </TouchableOpacity>
             </View>
           }
-          keyExtractor={item => item.key}
-          getItemCount={data => data.length}
+          keyExtractor={(item) => item.key}
+          getItemCount={(data) => data.length}
           getItem={(data, ii) => data[ii]}
         />
       )
@@ -158,7 +158,7 @@ const NoSemesters = () => (
       flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
     }}
   >
     <View
@@ -169,40 +169,40 @@ const NoSemesters = () => (
         borderRadius: 100,
         backgroundColor: '#ffd200',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
       }}
     >
       <Icon name="calendar" size={130} color="#333" />
     </View>
     <Subheading style={{ textAlign: 'center' }}>
       To manage your registered courses, you need at least{' '}
-      <Subheading styleName="bold">one</Subheading> active semester
+      <Subheading>one</Subheading> active semester
     </Subheading>
   </View>
 )
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   text: {
     color: '#000',
-    ...Platform.select({ web: { fontWeight: 'bold' }, default: {} })
+    ...Platform.select({ web: { fontWeight: 'bold' }, default: {} }),
   },
   tabbar: {
-    backgroundColor: '#000'
+    backgroundColor: '#000',
   },
   tab: {
     width: 240,
-    height: 50
+    height: 50,
   },
   indicator: {
-    backgroundColor: '#ffd200'
+    backgroundColor: '#ffd200',
   },
   label: {
     color: '#fff',
 
-    ...Platform.select({ web: { fontWeight: 'bold' }, default: {} })
+    ...Platform.select({ web: { fontWeight: 'bold' }, default: {} }),
   },
   button: {
     flex: 1,
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#ffd200',
-    borderRadius: 5
+    borderRadius: 5,
     // width: initialLayout.width / columns - 40
-  }
+  },
 })

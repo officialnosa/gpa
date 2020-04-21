@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Feather'
 import { withNavigation } from 'react-navigation'
 import { YELLOW } from '../ui'
 
-class ToolbarX extends React.Component {
+export class Toolbar extends React.Component {
   renderLeftComponent() {
     const { leftComponent } = this.props
     if (leftComponent)
@@ -30,14 +30,14 @@ class ToolbarX extends React.Component {
       light,
       style,
       textStyle,
-      titleStyle
+      titleStyle,
     } = this.props
     return (
       <View
         style={[
           styles.container,
           { backgroundColor: clear ? 'transparent' : light ? '#fff' : YELLOW },
-          style
+          style,
         ]}
       >
         {showNavIcon ? (
@@ -58,13 +58,12 @@ class ToolbarX extends React.Component {
   }
 }
 
-const Toolbar = withNavigation(ToolbarX)
+Toolbar = withNavigation(Toolbar)
 
-export { Toolbar }
 const iconStyle = { marginRight: 15 }
 const defaultTitleStyle = {
   color: '#000',
-  fontFamily: 'Paprika-Regular'
+  fontFamily: 'Paprika-Regular',
 }
 const styles = StyleSheet.create({
   container: {
@@ -74,10 +73,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: Platform.select({
       web: 0,
-      default: 0
-    })
+      default: 0,
+    }),
     // paddingBottom: 15,
   },
   middleRight: { flex: 1, alignItems: 'flex-end', justifyContent: 'center' },
-  middleLeft: { flex: 1, alignItems: 'flex-start', justifyContent: 'center' }
+  middleLeft: { flex: 1, alignItems: 'flex-start', justifyContent: 'center' },
 })

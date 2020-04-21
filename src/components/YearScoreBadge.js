@@ -9,7 +9,7 @@ const mapStateToProps = (state) => ({
   firstClass: state.school.gradingSystem.firstClass,
 })
 
-export function YearScoreBadge({ style, styleName, year }) {
+export function YearScoreBadge({ style, year }) {
   const { field, firstClass, courses } = useSelector(mapStateToProps)
 
   const gpa = useMemo(
@@ -17,9 +17,5 @@ export function YearScoreBadge({ style, styleName, year }) {
     [firstClass, field, courses, year]
   )
 
-  return (
-    <Text styleName={styleName} style={style}>
-      {gpa}
-    </Text>
-  )
+  return <Text style={style}>{gpa}</Text>
 }

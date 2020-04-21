@@ -1,59 +1,58 @@
-import React from 'react'
-import { Title, Button } from 'react-native-paper'
-import { connect } from 'react-redux'
-import { View } from 'react-native'
+import React, { useCallback } from 'react'
+import { Title, Button, TouchableRipple, Divider } from 'react-native-paper'
+import { View, StyleSheet } from 'react-native'
 import { initField, initCourses } from '../redux/actions'
-import { NavigationActions } from 'react-navigation'
 import { Toolbar } from '../components/Toolbar'
 import fields from '../offlineData/fields'
+import { useDispatch } from 'react-redux'
 // import Icon from 'react-native-vector-icons/Feather'
 
-export class ChooseStructureScreenX extends React.PureComponent {
-  select = key => {
-    const { navigation, dispatch } = this.props
-    const { field: fieldId, school: schoolId } = navigation.state.params
+export function ChooseStructureScreen({ navigation }) {
+  const { field: fieldId, school: schoolId } = navigation.state.params
+  const dispatch = useDispatch()
 
-    const field = fields[schoolId][fieldId]
+  const field = fields[schoolId][fieldId]
 
-    dispatch(initField(field.structure[key]))
-    dispatch(initCourses(field.courses))
+  const { structure } = field
 
-    navigation.navigate('Tabs')
-  }
-  render() {
-    const {
-      field: fieldId,
-      school: schoolId
-    } = this.props.navigation.state.params
+  const select = useCallback(
+    (key) => {
+      dispatch(initField(field.structure[key]))
+      dispatch(initCourses(field.courses))
 
-    const field = fields[schoolId][fieldId]
+      navigation.navigate('Tabs')
+    },
+    [field, navigation, dispatch]
+  )
 
-    const { structure } = field
-    return (
-      <View styleName="paper middleCenter" style={styles.screen}>
-        <Toolbar showNavIcon clear />
-        <Title style={styles.title} styleName="h-center">
-          Choose your Structure
-        </Title>
-        {Object.keys(structure || {}).map(key => (
-          <View key={key}>
-            <Button styleName="clear" onPress={_ => this.select(key)}>
-              <Title styleName="bold">{structure[key].label}</Title>
-            </Button>
-          </View>
-        ))}
-      </View>
-    )
-  }
+  return (
+    <View style={styles.screen}>
+      <Toolbar showNavIcon clear />
+
+      <Title style={styles.title}>Choose your Structure</Title>
+
+      {Object.keys(structure || {}).map((key) => (
+        <React.Fragment key={key}>
+          <TouchableRipple
+            style={{ paddingHorizontal: 20, paddingVertical: 10 }}
+            onPress={() => select(key)}
+          >
+            <Title>{structure[key].label}</Title>
+          </TouchableRipple>
+          <Divider />
+        </React.Fragment>
+      ))}
+    </View>
+  )
 }
-const ChooseStructureScreen = connect(state => ({
-  user: state.user,
-  school: state.school,
-  schoolName: state.school.name
-}))(ChooseStructureScreenX)
-export { ChooseStructureScreen }
 
-const styles = {
-  screen: { backgroundColor: '#ffd200' },
-  title: { marginTop: 100, marginBottom: 80 }
-}
+const styles = StyleSheet.create({
+  screen: { backgroundColor: '#ffd200', flex: 1 },
+  title: {
+    marginTop: 30,
+    marginBottom: 20,
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginStart: 20,
+  },
+})

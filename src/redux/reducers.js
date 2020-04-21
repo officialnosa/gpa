@@ -5,16 +5,17 @@ import field from './field'
 import courses from './courses'
 import user from './user'
 
-import storage from 'redux-persist/lib/storage' // or whatever storage you are using
+import { AsyncStorage } from 'react-native'
+// import storage from 'redux-persist/lib/storage' // or whatever storage you are using
 
 const config = {
   key: 'root',
-  storage
+  storage: AsyncStorage,
 }
 
 export default persistCombineReducers(config, {
   school,
   field,
   courses,
-  user
+  user,
 })

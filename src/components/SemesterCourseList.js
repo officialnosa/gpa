@@ -89,7 +89,7 @@ export function SemesterCourseList({ semester, year }) {
             style={styles.addCourseButton}
           >
             <View styleName="flexible">
-              <Title className="h-center">Add Course</Title>
+              <Title>Add Course</Title>
             </View>
           </TouchableOpacity>
         }
