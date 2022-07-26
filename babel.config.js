@@ -22,6 +22,7 @@ module.exports = function (api) {
             '@lib': './src/lib',
             '@screens': './src/screens',
             '@navigation': './src/navigation',
+            '@': './src',
           },
         },
       ],
