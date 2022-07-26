@@ -4,7 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 
 import { persistStore, persistReducer } from 'redux-persist'
 // import storage from 'redux-persist/lib/storage'
-import { AsyncStorage } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import rootReducer from './reducers'
 const config = {
   key: 'root',

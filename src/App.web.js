@@ -22,13 +22,13 @@ const uiTheme = {
 
     primaryTextColor: '#000',
     secondaryTextColor: '#000',
-    alternateTextColor: '#000'
+    alternateTextColor: '#000',
   },
   toolbar: {
     container: {
-      height: 50
-    }
-  }
+      height: 50,
+    },
+  },
 }
 update.extend('$auto', (v, obj) => (obj ? update(obj, v) : update({}, v)))
 
@@ -41,13 +41,13 @@ const Splash = () => (
       backgroundColor: '#ffd200',
 
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
     }}
   >
     <Text
       style={{
         fontSize: 80,
-        ...Platform.select({ web: { fontWeight: 'bold' }, default: {} })
+        ...Platform.select({ web: { fontWeight: 'bold' }, default: {} }),
       }}
     >
       GPA
