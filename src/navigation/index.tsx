@@ -14,11 +14,12 @@ import { SetFieldScreen } from '../screens/SetFieldScreen'
 import { SetSchoolScreen } from '../screens/SetSchoolScreen'
 import { SettingsScreen } from '../screens/SettingsScreen'
 import { WelcomeScreen } from '../screens/WelcomeScreen'
+import { YearScreen } from '../screens/YearScreen'
 
 const config = {
   screens: {
     Tabs: 'home',
-    Year: 'courses/:year:/semester',
+    Year: 'courses/:year/:semester',
     AdvancedSettings: 'settings/advanced',
     Settings: 'settings',
     ChooseField: 'choose/:school/fields',
@@ -50,7 +51,7 @@ export const Root: FC = () => {
         {isOnboarding && (
           <RootStack.Screen name="Welcome" component={WelcomeScreen} />
         )}
-        {/* <RootStack.Screen name="Tabs" component={YearScreen} /> */}
+        <RootStack.Screen name="Tabs" component={YearScreen} />
         <RootStack.Screen name="Year" component={HomeScreen} />
         <RootStack.Screen
           name="AdvancedSettings"

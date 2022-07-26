@@ -57,8 +57,6 @@ export function ChooseFieldScreen({ navigation }) {
     return navigation?.state?.params?.school
   }, [navigation])
 
-  console.log('school', school)
-
   const fieldObject = useMemo(() => fields[school], [school])
   const fieldIds = useMemo(() => Object.keys(fieldObject || {}), [fieldObject])
 

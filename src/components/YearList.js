@@ -1,30 +1,16 @@
 import React from 'react'
-import {
-  Dimensions,
-  Platform,
-  StyleSheet,
-  View as RNView,
-  VirtualizedList,
-} from 'react-native'
+import { Dimensions, Platform, StyleSheet, VirtualizedList } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import { View } from 'react-native'
 import { Subheading, Text } from 'react-native-paper'
-import { TabBar, TabViewAnimated, TabViewPagerPan } from 'react-native-tab-view'
+import { TabBar } from 'react-native-tab-view'
 import { connect } from 'react-redux'
 
 import Icon from '@expo/vector-icons/EvilIcons'
 
 import { withNavigation } from '@navigation/hoc'
 
-import { SemesterCourseList } from './SemesterCourseList'
 import { YearRow } from './YearRow'
-
-const initialLayout = {
-  height: 0,
-  width: Dimensions.get('window').width,
-}
-
-const columns = 1
 
 const mapStateToProps = (state) => ({
   // field: state.field
@@ -81,7 +67,7 @@ export class YearList extends React.Component {
     }
   }
 
-  getRoutes = ({ numOfYears, currentLevel, currentSemester }) => {
+  getRoutes = ({ currentLevel }) => {
     const routes = []
     const it = currentLevel //2 * (currentLevel - 1) + currentSemester
 
@@ -100,7 +86,7 @@ export class YearList extends React.Component {
       index,
     })
 
-  onTabPress = ({ route }) => {}
+  onTabPress = () => {}
 
   _renderHeader = (props) => (
     <TabBar
@@ -185,13 +171,6 @@ const NoSemesters = () => (
 )
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  text: {
-    color: '#000',
-    ...Platform.select({ web: { fontWeight: 'bold' }, default: {} }),
-  },
   tabbar: {
     backgroundColor: '#000',
   },
@@ -206,15 +185,5 @@ const styles = StyleSheet.create({
     color: '#fff',
 
     ...Platform.select({ web: { fontWeight: 'bold' }, default: {} }),
-  },
-  button: {
-    flex: 1,
-    padding: 15,
-    margin: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ffd200',
-    borderRadius: 5,
-    // width: initialLayout.width / columns - 40
   },
 })

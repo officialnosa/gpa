@@ -1,18 +1,18 @@
 import React from 'react'
+import { ScrollView } from 'react-native'
+import { connect } from 'react-redux'
 
+// import ModalSelector from 'react-native-modal-selector'
+// import { resolve } from 'any-promise')
+import { CommonActions } from '@react-navigation/native'
 import { Button } from '@shoutem/ui/components/Button'
 import { Divider } from '@shoutem/ui/components/Divider'
 import { Row } from '@shoutem/ui/components/Row'
 import { Screen } from '@shoutem/ui/components/Screen'
 import { Caption, Subtitle, Text } from '@shoutem/ui/components/Text'
 
-import { ScrollView } from 'react-native'
-import { connect } from 'react-redux'
-import { NumberSelector } from '../components/NumberSelector'
-// import ModalSelector from 'react-native-modal-selector'
-// import { resolve } from 'any-promise')
-import { CommonActions } from '@react-navigation/native'
 import { GradesEditor } from '../components/GradesEditor'
+import { NumberSelector } from '../components/NumberSelector'
 import { Stepper } from '../components/Stepper'
 import { Toolbar } from '../components/Toolbar'
 import { initField } from '../redux/actions'
@@ -52,19 +52,18 @@ class SettingsX extends React.Component {
   }
 
   save = () => {
-    this.setState({ grades: this.gradeEditor.getGrades() }, () =>
+    this.setState({ grades: this.gradeEditor.getGrades() }, () => {
       this.props.dispatch(
         initField({
           ...this.state,
         })
       )
-    )
-
-    const resetAction = CommonActions.reset({
-      index: 0,
-      actions: [CommonActions.navigate({ name: 'Tabs' })],
+      const resetAction = CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'Tabs' }],
+      })
+      this.props.navigation.dispatch(resetAction)
     })
-    this.props.navigation.dispatch(resetAction)
   }
   changeLevelWeight = (data) =>
     this.setState((prev) => ({

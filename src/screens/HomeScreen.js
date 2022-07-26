@@ -1,79 +1,33 @@
 import React from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
-import { Text } from 'react-native-paper'
-
-import Icon from '@expo/vector-icons/Entypo'
+import { StyleSheet, Text, View } from 'react-native'
 
 import { SemesterPager } from '../components/SemesterPager'
 import { Toolbar } from '../components/Toolbar'
 import { YearScoreBadge } from '../components/YearScoreBadge'
 
-export class HomeScreen extends React.Component {
-  static navigationOptions = {
-    tabBarLabel: 'Courses',
-    tabBarIcon: ({ tintColor, focused }) => (
-      <Icon name="open-book" size={focused ? 25 : 23} color={tintColor} />
-    ),
+export const HomeScreen = ({ route }) => {
+  const { year, semester } = route.params
+
+  if (!year || !semester) {
+    return null
   }
 
-  render() {
-    const { year, semester } = this.props.navigation.state.params
-    return (
-      <View style={styles.container}>
-        {/* <Toolbar title="Registered Courses" /> */}
-        {/* <NavigationBar
-          style={{
-            componentsContainer: {
-              paddingLeft: 20,
-              backgroundColor: '#000'
-            }
-          }}
-          leftComponent={
-            <Title style={{ color: '#fff' }} styleName="bold white">
-              Courses
-            </Title>
-          }
-          rightComponent={
-            <Button styleName="clear secondary">
-              <Text>Add Course </Text>
-              <Icon name="add-to-list" color="#fff" size={20} />
-            </Button>
-          }
-        /> */}
-        {/* <View
-          style={{
-            backgroundColor: '#000',
-            height: Platform.select({ default: 23, web: 0 })
-          }}
-        /> */}
-        {/* <View
-          style={{
-            flexDirection: 'row',
-            paddingVertical: 10,
-            justifyContent: 'center',
-            backgroundColor: '#000'
-          }}
-        >
-          <Text styleName="h-center" style={{ color: '#fff' }}>
-            Year {this.props.navigation.state.params.year}
+  return (
+    <View style={styles.container}>
+      <Toolbar
+        style={styles.toolbar}
+        textStyle={styles.toolbarText}
+        showNavIcon
+        title={`Year ${year}`}
+        rightComponent={
+          <Text>
+            GPA <YearScoreBadge year={year} style={styles.yearScore} />
           </Text>
-        </View> */}
-        <Toolbar
-          style={styles.toolbar}
-          textStyle={styles.toolbarText}
-          showNavIcon
-          title={`Year ${year}`}
-          rightComponent={
-            <Text styleName="h-right">
-              Year {year} GPA{' '}
-              <YearScoreBadge year={year} style={styles.yearScore} />
-            </Text>
-          }
-        />
-        <SemesterPager year={year} semester={semester} />
-      </View>
-    )
-  }
+        }
+      />
+      <SemesterPager year={year} semester={semester} />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({

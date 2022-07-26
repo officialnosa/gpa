@@ -55,7 +55,7 @@
     "@babel/core": "^7.12.9",
     "@expo/next-adapter": "~2.1.52",
     "@react-native-community/eslint-config": "^2.0.0",
-    "@types/react": "^18.0.15",
+    "@types/react": "^17.0.1",
     "@types/react-native": "^0.69.3",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",

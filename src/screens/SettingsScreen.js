@@ -108,7 +108,7 @@ export default class Settings extends React.Component {
         this.props.dispatch(resetData())
         const resetAction = CommonActions.reset({
           index: 0,
-          actions: [CommonActions.navigate({ name: 'Welcome' })],
+          routes: [{ name: 'Welcome' }],
         })
         this.props.navigation.dispatch(resetAction)
       }
@@ -129,7 +129,7 @@ export default class Settings extends React.Component {
               this.props.dispatch(resetData())
               const resetAction = CommonActions.reset({
                 index: 0,
-                actions: [CommonActions.navigate({ routeName: 'Welcome' })],
+                routes: [{ routeName: 'Welcome' }],
               })
               this.props.navigation.dispatch(resetAction)
             },
