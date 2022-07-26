@@ -14,7 +14,7 @@ import fields from '../offlineData/fields'
 import { useSelector } from 'react-redux'
 import { ScrollView } from 'react-native'
 import { Toolbar } from '../components/Toolbar'
-import { withNavigation } from 'react-navigation'
+import { withNavigation } from '@navigation'
 // import { initField } from '../redux/actions'
 // import Icon from 'react-native-vector-icons/Feather'
 

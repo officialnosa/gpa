@@ -25,8 +25,8 @@ import { runAsync } from '../utils'
 import { Stepper } from '../components/Stepper'
 import { Toolbar } from '../components/Toolbar'
 import { initField } from '../redux/actions'
-import { NavigationActions } from 'react-navigation'
 import { GradesEditor } from '../components/GradesEditor'
+import { CommonActions } from '@react-navigation/native'
 class SettingsX extends React.Component {
   state = {
     name: '',
@@ -71,9 +71,9 @@ class SettingsX extends React.Component {
       )
     )
 
-    const resetAction = NavigationActions.reset({
+    const resetAction = CommonActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'Tabs' })],
+      actions: [CommonActions.navigate({ name: 'Tabs' })],
     })
     this.props.navigation.dispatch(resetAction)
   }

@@ -24,8 +24,8 @@ import { updateField, updateSchool, resetData } from '../redux/actions'
 import { runAsync } from '../utils'
 // import { resolve } from 'any-promise')
 import { Stepper } from '../components/Stepper'
-import { NavigationActions } from 'react-navigation'
 import { Toolbar } from '../components/Toolbar'
+import { CommonActions } from '@react-navigation/native'
 
 const mapStateToProps = (state) => ({
   schoolName: state.school.name,
@@ -110,9 +110,9 @@ export default class Settings extends React.Component {
         )
       ) {
         this.props.dispatch(resetData())
-        const resetAction = NavigationActions.reset({
+        const resetAction = CommonActions.reset({
           index: 0,
-          actions: [NavigationActions.navigate({ routeName: 'Welcome' })],
+          actions: [CommonActions.navigate({ name: 'Welcome' })],
         })
         this.props.navigation.dispatch(resetAction)
       }
@@ -172,13 +172,8 @@ export default class Settings extends React.Component {
   }
 
   render() {
-    const {
-      schoolName,
-      fieldName,
-      currentSemester,
-      currentLevel,
-      numOfYears,
-    } = this.state
+    const { schoolName, fieldName, currentSemester, currentLevel, numOfYears } =
+      this.state
 
     return (
       <View>

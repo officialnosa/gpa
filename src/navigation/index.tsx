@@ -1,20 +1,17 @@
 import { Platform } from 'react-native'
-import { HomeScreen } from './screens/HomeScreen'
+import { HomeScreen } from '../screens/HomeScreen'
 // import { TimelineScreen } from './screens/TimelineScreen'
-import { SettingsScreen } from './screens/SettingsScreen'
-import { AdvancedSettingsScreen } from './screens/AdvancedSettingsScreen'
-import { EmptyScreen } from './screens/EmptyScreen'
+import { SettingsScreen } from '../screens/SettingsScreen'
+import { AdvancedSettingsScreen } from '../screens/AdvancedSettingsScreen'
+import { EmptyScreen } from '../screens/EmptyScreen'
 // import { FieldSelectScreen } from './screens/FieldSelectScreen'
-import { ChooseFieldScreen } from './screens/ChooseFieldScreen'
-import { ChooseSchoolScreen } from './screens/ChooseSchoolScreen'
-import { ChooseStructureScreen } from './screens/ChooseStructureScreen'
-import { SetSchoolScreen } from './screens/SetSchoolScreen'
-import { SetFieldScreen } from './screens/SetFieldScreen'
-import { YearScreen } from './screens/YearScreen'
-import { WelcomeScreen } from './screens/WelcomeScreen'
-import { createStackNavigator } from 'react-navigation-stack'
-import { createBottomTabNavigator } from 'react-navigation-tabs'
-import { createSwitchNavigator, createAppContainer } from 'react-navigation'
+import { ChooseFieldScreen } from '../screens/ChooseFieldScreen'
+import { ChooseSchoolScreen } from '../screens/ChooseSchoolScreen'
+import { ChooseStructureScreen } from '../screens/ChooseStructureScreen'
+import { SetSchoolScreen } from '../screens/SetSchoolScreen'
+import { SetFieldScreen } from '../screens/SetFieldScreen'
+import { YearScreen } from '../screens/YearScreen'
+import { WelcomeScreen } from '../screens/WelcomeScreen'
 
 export const Settings = createStackNavigator(
   {
@@ -149,3 +146,5 @@ export const Root = createAppContainer(
     Main,
   })
 )
+
+export { withNavigation } from './hoc'

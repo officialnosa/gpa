@@ -4,20 +4,22 @@ import { Root } from './navigation'
 import getStore from './redux/store'
 import { PersistGate } from 'redux-persist/es/integration/react'
 import update from 'immutability-helper'
-import 'react-native-gesture-handler'
+import { createBrowserApp } from '@react-navigation/web'
 
 update.extend('$auto', (v, obj) => (obj ? update(obj, v) : update({}, v)))
 
 const { store, persistor } = getStore()
 
-export default function App() {
-  return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <NavigationContainer>
-          <Root />
-        </NavigationContainer>
-      </PersistGate>
-    </Provider>
-  )
+const Nav = createBrowserApp(Root)
+
+export default class App extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <Nav />
+        </PersistGate>
+      </Provider>
+    )
+  }
 }

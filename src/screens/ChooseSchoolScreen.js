@@ -11,7 +11,7 @@ import { View, Platform, StyleSheet } from 'react-native'
 import { initSchool } from '../redux/actions'
 import { ScrollView } from 'react-native'
 import { Toolbar } from '../components/Toolbar'
-import { withNavigation } from 'react-navigation'
+import { withNavigation } from '@navigation'
 import { useDispatch } from 'react-redux'
 import { TouchableOpacity } from 'react-native'
 

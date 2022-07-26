@@ -24,3 +24,4 @@ export default () => {
   let persistor = persistStore(store)
   return { store, persistor }
 }
+console.log('r', process.env.NODE_ENV === 'development')
