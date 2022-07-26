@@ -1,19 +1,22 @@
 import React from 'react'
 import {
-  StyleSheet,
   Dimensions,
+  Platform,
+  StyleSheet,
   View as RNView,
   VirtualizedList,
-  Platform,
 } from 'react-native'
-import { TabViewAnimated, TabBar, TabViewPagerPan } from 'react-native-tab-view'
-import { SemesterCourseList } from './SemesterCourseList'
-import { Subheading, Text } from 'react-native-paper'
-import Icon from 'react-native-vector-icons/EvilIcons'
-import { connect } from 'react-redux'
-import { withNavigation } from '@navigation/hoc'
 import { TouchableOpacity } from 'react-native'
 import { View } from 'react-native'
+import { Subheading, Text } from 'react-native-paper'
+import { TabBar, TabViewAnimated, TabViewPagerPan } from 'react-native-tab-view'
+import { connect } from 'react-redux'
+
+import Icon from '@expo/vector-icons/EvilIcons'
+
+import { withNavigation } from '@navigation/hoc'
+
+import { SemesterCourseList } from './SemesterCourseList'
 import { YearRow } from './YearRow'
 
 const initialLayout = {

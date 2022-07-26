@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Alert, Platform, StyleSheet, View as RNView, View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
-import Icon from 'react-native-vector-icons/Entypo'
 import { useDispatch, useSelector } from 'react-redux'
 
+import Icon from '@expo/vector-icons/Entypo'
 import { Divider } from '@shoutem/ui/components/Divider'
 import { FormGroup } from '@shoutem/ui/components/FormGroup'
 import { Row } from '@shoutem/ui/components/Row'

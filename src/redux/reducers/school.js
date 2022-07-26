@@ -7,8 +7,8 @@ const initialState = {
     secondClassUpper: 3.5,
     secondClassLower: 2.5,
     thirdClass: 2.0,
-    pass: 2.0
-  }
+    pass: 2.0,
+  },
 }
 
 const school = (state = initialState, { type, updater, data }) => {

@@ -1,10 +1,12 @@
 import React from 'react'
-import { Platform, View, StyleSheet } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
+import { Text } from 'react-native-paper'
+
+import Icon from '@expo/vector-icons/Entypo'
+
 import { SemesterPager } from '../components/SemesterPager'
-import Icon from 'react-native-vector-icons/Entypo'
 import { Toolbar } from '../components/Toolbar'
 import { YearScoreBadge } from '../components/YearScoreBadge'
-import { Text } from 'react-native-paper'
 
 export class HomeScreen extends React.Component {
   static navigationOptions = {

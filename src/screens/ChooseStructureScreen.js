@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react'
-import { Title, Button, TouchableRipple, Divider } from 'react-native-paper'
-import { View, StyleSheet } from 'react-native'
-import { initField, initCourses } from '../redux/actions'
+import { StyleSheet, View } from 'react-native'
+import { Button, Divider, Title, TouchableRipple } from 'react-native-paper'
+import { useDispatch } from 'react-redux'
+
 import { Toolbar } from '../components/Toolbar'
 import fields from '../offlineData/fields'
-import { useDispatch } from 'react-redux'
-// import Icon from 'react-native-vector-icons/Feather'
+import { initCourses, initField } from '../redux/actions'
+// import Icon from '@expo/vector-icons/Feather'
 
 export function ChooseStructureScreen({ navigation }) {
   const { field: fieldId, school: schoolId } = navigation.state.params

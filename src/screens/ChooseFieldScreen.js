@@ -16,7 +16,7 @@ import { withNavigation } from '@navigation/hoc'
 import { Toolbar } from '../components/Toolbar'
 import fields from '../offlineData/fields'
 // import { initField } from '../redux/actions'
-// import Icon from 'react-native-vector-icons/Feather'
+// import Icon from '@expo/vector-icons/Feather'
 
 function FieldItem({ id, navigation, name, schoolId }) {
   const select = useCallback(() => {
@@ -56,6 +56,8 @@ export function ChooseFieldScreen({ navigation }) {
     // if (user.hasSchool) return school.id
     return navigation?.state?.params?.school
   }, [navigation])
+
+  console.log('school', school)
 
   const fieldObject = useMemo(() => fields[school], [school])
   const fieldIds = useMemo(() => Object.keys(fieldObject || {}), [fieldObject])
@@ -97,11 +99,6 @@ export function ChooseFieldScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   screen: { backgroundColor: '#ffd200', flex: 1 },
-  others: {
-    borderBottomWidth: 2,
-    ...Platform.select({ web: { borderBottomStyle: 'solid' }, default: {} }),
-    borderBottomColor: '#2c2c2c',
-  },
   title: {
     marginTop: 30,
     fontSize: 30,

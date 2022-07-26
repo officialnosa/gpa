@@ -61,7 +61,6 @@ export class Toolbar extends React.Component {
   }
 }
 
-console.log('withNavigation', typeof withNavigation, Toolbar)
 Toolbar = withNavigation(Toolbar)
 
 const iconStyle = { marginRight: 15 }

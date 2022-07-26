@@ -1,6 +1,8 @@
 import React from 'react'
-// import Icon from 'react-native-vector-icons/Ionicons'
+import { ScrollView, View } from 'react-native'
+import { connect } from 'react-redux'
 
+// import Icon from '@expo/vector-icons/Ionicons'
 import { Button } from '@shoutem/ui/components/Button'
 import { Divider } from '@shoutem/ui/components/Divider'
 import { FormGroup } from '@shoutem/ui/components/FormGroup'
@@ -9,8 +11,6 @@ import { Screen } from '@shoutem/ui/components/Screen'
 import { Caption, Subtitle, Text } from '@shoutem/ui/components/Text'
 import { TextInput } from '@shoutem/ui/components/TextInput'
 
-import { ScrollView, View } from 'react-native'
-import { connect } from 'react-redux'
 // import { NumberSelector } from '../components/NumberSelector'
 import { Toolbar } from '../components/Toolbar'
 import {

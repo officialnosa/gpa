@@ -8,9 +8,9 @@ import {
   View,
 } from 'react-native'
 import { Button, Divider, TextInput } from 'react-native-paper'
-import Icon from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux'
 
+import Icon from '@expo/vector-icons/MaterialIcons'
 // import { resolve } from 'any-promise')
 import { CommonActions } from '@react-navigation/native'
 

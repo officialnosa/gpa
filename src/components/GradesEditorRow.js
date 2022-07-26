@@ -1,10 +1,9 @@
 import { Component } from 'react'
-
 import { Text, TouchableOpacity } from 'react-native'
-
 import { View } from 'react-native'
 
-import Icon from 'react-native-vector-icons/EvilIcons'
+import Icon from '@expo/vector-icons/EvilIcons'
+
 import { YELLOW } from '../ui'
 export class GradesEditorRow extends Component {
   delete = () => {

@@ -1,8 +1,8 @@
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
 
+import Icon from '@expo/vector-icons/Ionicons'
 import { Divider } from '@shoutem/ui/components/Divider'
 import { Row } from '@shoutem/ui/components/Row'
 import { Screen } from '@shoutem/ui/components/Screen'
