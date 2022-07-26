@@ -1,17 +1,16 @@
 import React from 'react'
-// import Icon from 'react-native-vector-icons/Ionicons'
-
-import { TextInput } from '@shoutem/ui/components/TextInput'
-import { Button } from '@shoutem/ui/components/Button'
-import { Row } from '@shoutem/ui/components/Row'
-import { Title, Subtitle, Caption, Text } from '@shoutem/ui/components/Text'
-import { FormGroup } from '@shoutem/ui/components/FormGroup'
-import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
-import { Divider } from '@shoutem/ui/components/Divider'
-import { Screen } from '@shoutem/ui/components/Screen'
-
 import { ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
+
+// import Icon from '@expo/vector-icons/Ionicons'
+import { Button } from '@components/Button'
+import { Divider } from '@components/Divider'
+import { FormGroup } from '@components/FormGroup'
+import { Row } from '@components/Row'
+import { Screen } from '@components/Screen'
+import { Caption, Subtitle, Text } from '@components/Text'
+import { TextInput } from '@components/TextInput'
+
 // import { NumberSelector } from '../components/NumberSelector'
 import { Toolbar } from '../components/Toolbar'
 import {

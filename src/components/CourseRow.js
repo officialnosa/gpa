@@ -1,22 +1,26 @@
-import React, { useMemo, useState, useEffect, useCallback, useRef } from 'react'
-import { connect, useDispatch, useSelector, useStore } from 'react-redux'
-
-import { TextInput } from '@shoutem/ui/components/TextInput'
-import { Button } from '@shoutem/ui/components/Button'
-import { Row } from '@shoutem/ui/components/Row'
-import { Title, Subtitle, Caption } from '@shoutem/ui/components/Text'
-import { FormGroup } from '@shoutem/ui/components/FormGroup'
-import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
-import { Divider } from '@shoutem/ui/components/Divider'
-
-import { Alert, Platform, View as RNView, View, StyleSheet } from 'react-native'
-import { GradeIndicator } from './GradeIndicator'
-import { editCourse, deregisterCourse, changeGrade } from '../redux/actions'
-import { GradeSelector } from './GradeSelector'
-import { runAsync } from '../utils'
-import Icon from 'react-native-vector-icons/Entypo'
-import { Stepper } from '../components/Stepper'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  Alert,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import Collapsible from 'react-native-collapsible'
+import { useDispatch, useSelector } from 'react-redux'
+
+import Icon from '@expo/vector-icons/Entypo'
+
+import { Divider } from '@components/Divider'
+import { FormGroup } from '@components/FormGroup'
+import { Row } from '@components/Row'
+import { Caption, Subtitle, Title } from '@components/Text'
+import { TextInput } from '@components/TextInput'
+
+import { Stepper } from '../components/Stepper'
+import { changeGrade, deregisterCourse, editCourse } from '../redux/actions'
+import { GradeIndicator } from './GradeIndicator'
+import { GradeSelector } from './GradeSelector'
 
 // const options = [
 //   { grade: 'F', point: 0 },
@@ -47,7 +51,7 @@ function useReduxState(initialState, action, delay = 100) {
     return () => {
       clearTimeout(handle)
     }
-  }, [state])
+  }, [state]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return [state, setState]
 }
@@ -125,11 +129,11 @@ export function CourseRow({ semester, year, id }) {
           },
         ]
       )
-  }, [id, semester, year])
+  }, [dispatch, id, semester, year])
 
   const toggleEditingMode = useCallback(
-    () => setEditingMode((editingMode) => !editingMode),
-    [editingMode]
+    () => setEditingMode((value) => !value),
+    []
   )
 
   const renderNormalMode = () => (
@@ -156,7 +160,7 @@ export function CourseRow({ semester, year, id }) {
   )
 
   const renderEditingMode = () => (
-    <RNView
+    <View
       style={[
         styles.editorContainer,
         Platform.OS === 'web' && !editingMode && { display: 'none' },
@@ -191,15 +195,16 @@ export function CourseRow({ semester, year, id }) {
           <GradeSelector value={grade} onChangeValue={setGrade} />
         </View>
       </FormGroup>
-    </RNView>
+    </View>
   )
 
-  if (!course)
+  if (!course) {
     return (
       <Row>
         <Title>NO DATA</Title>
       </Row>
     )
+  }
 
   // const score = getScore(props)
   // const selectedGrade = options[score] || { point: 0, grade: '-' }
@@ -222,8 +227,6 @@ export function CourseRow({ semester, year, id }) {
 }
 
 const styles = StyleSheet.create({
-  red: { color: '#f56' },
-  blue: { color: '#05f' },
   editorContainer: {
     paddingTop: 15,
     paddingBottom: 15,
@@ -238,7 +241,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: 'row',
   },
-  underline: { borderBottomWidth: 2, borderBottomColor: '#ddd' },
   container: {
     marginHorizontal: 10,
     marginBottom: 20,

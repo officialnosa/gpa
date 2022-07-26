@@ -1,10 +1,12 @@
-import { Subheading } from 'react-native-paper'
-import React, { useCallback, useState, useMemo } from 'react'
-import { StyleSheet, Dimensions, Platform } from 'react-native'
-import { TabView, TabBar } from 'react-native-tab-view'
-import { SemesterCourseList } from './SemesterCourseList'
+import React, { useCallback, useMemo, useState } from 'react'
+import { Dimensions, Platform, StyleSheet } from 'react-native'
 import { View } from 'react-native'
-import Icon from 'react-native-vector-icons/EvilIcons'
+import { Subheading } from 'react-native-paper'
+import { TabBar, TabView } from 'react-native-tab-view'
+
+import Icon from '@expo/vector-icons/EvilIcons'
+
+import { SemesterCourseList } from './SemesterCourseList'
 
 const initialLayout = {
   height: 0,
@@ -25,10 +27,13 @@ export function SemesterPager({ year, semester, style }) {
   //   mapStateToProps
   // )
   const [index, setIndex] = useState(() => (semester ? semester - 1 : 0))
-  const routes = useMemo(() => [
-    { key: '1', year, semester: 1, title: '1st Semester' },
-    { key: '2', year, semester: 2, title: '2nd Semester' },
-  ])
+  const routes = useMemo(
+    () => [
+      { key: '1', year, semester: 1, title: '1st Semester' },
+      { key: '2', year, semester: 2, title: '2nd Semester' },
+    ],
+    [year]
+  )
   const navigationState = useMemo(() => ({ index, routes }), [index, routes])
 
   // getRoute = i => {

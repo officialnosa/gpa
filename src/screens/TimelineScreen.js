@@ -1,11 +1,13 @@
 import React from 'react'
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import { Title } from 'react-native-paper'
 import { ScrollView, View } from 'react-native'
+import { Title } from 'react-native-paper'
 import { connect } from 'react-redux'
-import { runAsync } from '../utils'
+
+import Icon from '@expo/vector-icons/MaterialIcons'
+
 import { getAverageBySemester } from '../calculations'
 import { Toolbar } from '../components/Toolbar'
+import { runAsync } from '../utils'
 
 const mapStateToProps = (state) => ({
   // schoolName: state.school.name,

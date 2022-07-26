@@ -1,18 +1,20 @@
 import React from 'react'
 import {
-  StyleSheet,
   Dimensions,
-  View,
+  Platform,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  Platform
+  View,
 } from 'react-native'
-import { withNavigation } from 'react-navigation'
+
+import { withNavigation } from '@navigation/hoc'
+
 import { SemesterScoreBadge } from './SemesterScoreBadge'
 
 const initialLayout = {
   height: 0,
-  width: Dimensions.get('window').width
+  width: Dimensions.get('window').width,
 }
 
 const colors = [
@@ -26,7 +28,7 @@ const colors = [
   '#b99903',
   '#a58701',
   '#9c8100',
-  '#826a00'
+  '#826a00',
 ]
 const columns = 2
 
@@ -54,30 +56,30 @@ export const YearRow = withNavigation(({ year, semester, navigation }) => (
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   text: {
     color: '#000',
-    ...Platform.select({ web: { fontWeight: 'bold' }, default: {} })
+    ...Platform.select({ web: { fontWeight: 'bold' }, default: {} }),
   },
   text2: {
     color: '#000',
     ...Platform.select({ web: { fontWeight: 'bold' }, default: {} }),
-    fontSize: 16
+    fontSize: 16,
   },
   tabbar: {
-    backgroundColor: '#000'
+    backgroundColor: '#000',
   },
   tab: {
     width: 240,
-    height: 50
+    height: 50,
   },
   indicator: {
-    backgroundColor: '#ffd200'
+    backgroundColor: '#ffd200',
   },
   label: {
     color: '#fff',
-    ...Platform.select({ web: { fontWeight: '400' }, default: {} })
+    ...Platform.select({ web: { fontWeight: '400' }, default: {} }),
   },
   button: {
     flex: 1,
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     justifyContent: 'center',
     // backgroundColor: '#ffd200',
-    borderRadius: 5
+    borderRadius: 5,
     // width: initialLayout.width / columns - 40
   },
   info: {
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // justifyContent: 'center',
     // backgroundColor: '#ffd200',
-    borderRadius: 5
+    borderRadius: 5,
     // width: initialLayout.width / columns - 40
   },
   gp: {
@@ -104,11 +106,11 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     backgroundColor: '#000',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   gpText: {
     flex: 1,
-    color: '#fff8'
+    color: '#fff8',
     // textAlign: 'center'
-  }
+  },
 })

@@ -1,8 +1,11 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import { Platform, View, Text, StyleSheet } from 'react-native'
-import Icon from 'react-native-vector-icons/Feather'
-import { withNavigation } from 'react-navigation'
+import { Platform, StyleSheet, Text, View } from 'react-native'
+
+import Icon from '@expo/vector-icons/Feather'
+
+import { withNavigation } from '@navigation/hoc'
+
 import { YELLOW } from '../ui'
 
 export class Toolbar extends React.Component {

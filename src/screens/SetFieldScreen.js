@@ -1,32 +1,22 @@
 import React from 'react'
-import Icon from 'react-native-vector-icons/Ionicons'
-
-import { TextInput } from '@shoutem/ui/components/TextInput'
-import { Button } from '@shoutem/ui/components/Button'
-import { Row } from '@shoutem/ui/components/Row'
-import {
-  Title,
-  Subtitle,
-  Caption,
-  Text,
-  Heading,
-} from '@shoutem/ui/components/Text'
-import { FormGroup } from '@shoutem/ui/components/FormGroup'
-import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
-import { Divider } from '@shoutem/ui/components/Divider'
-import { Screen } from '@shoutem/ui/components/Screen'
-
-import { ScrollView, Alert, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import { connect } from 'react-redux'
-import { NumberSelector } from '../components/NumberSelector'
+
 // import ModalSelector from 'react-native-modal-selector'
-import { runAsync } from '../utils'
 // import { resolve } from 'any-promise')
+import { CommonActions } from '@react-navigation/native'
+
+import { Button } from '@components/Button'
+import { Divider } from '@components/Divider'
+import { Row } from '@components/Row'
+import { Screen } from '@components/Screen'
+import { Caption, Subtitle, Text } from '@components/Text'
+
+import { GradesEditor } from '../components/GradesEditor'
+import { NumberSelector } from '../components/NumberSelector'
 import { Stepper } from '../components/Stepper'
 import { Toolbar } from '../components/Toolbar'
 import { initField } from '../redux/actions'
-import { NavigationActions } from 'react-navigation'
-import { GradesEditor } from '../components/GradesEditor'
 class SettingsX extends React.Component {
   state = {
     name: '',
@@ -63,19 +53,18 @@ class SettingsX extends React.Component {
   }
 
   save = () => {
-    this.setState({ grades: this.gradeEditor.getGrades() }, () =>
+    this.setState({ grades: this.gradeEditor.getGrades() }, () => {
       this.props.dispatch(
         initField({
           ...this.state,
         })
       )
-    )
-
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'Tabs' })],
+      const resetAction = CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'Tabs' }],
+      })
+      this.props.navigation.dispatch(resetAction)
     })
-    this.props.navigation.dispatch(resetAction)
   }
   changeLevelWeight = (data) =>
     this.setState((prev) => ({

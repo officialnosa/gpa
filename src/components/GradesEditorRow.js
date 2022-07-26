@@ -1,17 +1,9 @@
-import React, { Component } from 'react'
-
-import { TextInput } from '@shoutem/ui/components/TextInput'
-import { Button } from '@shoutem/ui/components/Button'
-import { Row } from '@shoutem/ui/components/Row'
-import { Title, Subtitle, Caption, Text } from '@shoutem/ui/components/Text'
-import { FormGroup } from '@shoutem/ui/components/FormGroup'
-import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
-import { Divider } from '@shoutem/ui/components/Divider'
-import { Screen } from '@shoutem/ui/components/Screen'
-
+import { Component } from 'react'
+import { Text, TouchableOpacity } from 'react-native'
 import { View } from 'react-native'
 
-import Icon from 'react-native-vector-icons/EvilIcons'
+import Icon from '@expo/vector-icons/EvilIcons'
+
 import { YELLOW } from '../ui'
 export class GradesEditorRow extends Component {
   delete = () => {

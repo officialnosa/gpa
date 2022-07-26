@@ -1,21 +1,20 @@
-import React, { Component } from 'react'
-
-import { TextInput } from '@shoutem/ui/components/TextInput'
-import { Button } from '@shoutem/ui/components/Button'
-import { Row } from '@shoutem/ui/components/Row'
-import { Title, Subtitle, Caption, Text } from '@shoutem/ui/components/Text'
-import { FormGroup } from '@shoutem/ui/components/FormGroup'
-import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
-import { Divider } from '@shoutem/ui/components/Divider'
-import { Screen } from '@shoutem/ui/components/Screen'
-
+import { Component } from 'react'
 import { Platform, View } from 'react-native'
 import { connect } from 'react-redux'
-import { GradesEditorRow } from './GradesEditorRow'
+
+import Icon from '@expo/vector-icons/MaterialIcons'
 import update from 'immutability-helper'
-import { Modal } from './modal'
+
+import { Button } from '@components/Button'
+import { Divider } from '@components/Divider'
+import { Row } from '@components/Row'
+import { Screen } from '@components/Screen'
+import { Caption, Text } from '@components/Text'
+import { TextInput } from '@components/TextInput'
+
 import { YELLOW } from '../ui'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import { GradesEditorRow } from './GradesEditorRow'
+import { Modal } from './modal'
 
 const mapStateToProps = (state) => ({
   grades: state.field.grades,

@@ -1,15 +1,16 @@
 import React from 'react'
 import { Platform } from 'react-native'
-import { View, ImageBackground, Image } from 'react-native'
-import { Text, Button } from 'react-native-paper'
-import Icon from 'react-native-vector-icons/Feather'
+import { Image, ImageBackground, View } from 'react-native'
+import { Button, Text } from 'react-native-paper'
+
+import Icon from '@expo/vector-icons/Feather'
 
 export class WelcomeScreen extends React.PureComponent {
   static navigationOptions = {
     tabBarLabel: 'Home',
     tabBarIcon: ({ tintColor, focused }) => (
       <Icon name="home" size={focused ? 25 : 23} color={tintColor} />
-    )
+    ),
   }
   openSchool = () => this.props.navigation.navigate('ChooseSchool')
   state = { schools: [] }
@@ -18,7 +19,7 @@ export class WelcomeScreen extends React.PureComponent {
       web: 'online ',
       android: 'Android',
       ios: 'iOS',
-      default: ''
+      default: '',
     })
     return (
       <ImageBackground
@@ -27,7 +28,7 @@ export class WelcomeScreen extends React.PureComponent {
           flex: 1,
           alignItems: 'center',
           position: 'relative',
-          justifyContent: 'center'
+          justifyContent: 'center',
           // backgroundColor: '#fff'
         }}
       >
@@ -38,7 +39,7 @@ export class WelcomeScreen extends React.PureComponent {
             height: '100%',
             top: 0,
             left: 0,
-            backgroundColor: '#0007'
+            backgroundColor: '#0007',
           }}
         />
         {/* <Screen
@@ -82,7 +83,7 @@ export class WelcomeScreen extends React.PureComponent {
           <Image
             style={{
               height: 150,
-              width: 150
+              width: 150,
             }}
             source={require('../images/logo.png')}
           />
@@ -96,7 +97,7 @@ export class WelcomeScreen extends React.PureComponent {
             maxWidth: 300,
             position: 'relative',
             textAlign: 'center',
-            color: '#fff'
+            color: '#fff',
           }}
         >
           {`Welcome to your ${platform} GPA assistant`}
@@ -112,7 +113,7 @@ export class WelcomeScreen extends React.PureComponent {
             maxWidth: 300,
             position: 'relative',
             textAlign: 'center',
-            color: '#fff'
+            color: '#fff',
           }}
         >
           Track your progress with ease
@@ -120,12 +121,12 @@ export class WelcomeScreen extends React.PureComponent {
         <Button
           styleName="clear"
           contentStyle={{
-            height: 50
+            height: 50,
           }}
           style={{
             width: 200,
             borderRadius: 5,
-            backgroundColor: '#fff'
+            backgroundColor: '#fff',
           }}
           onPress={this.openSchool}
         >
@@ -133,7 +134,7 @@ export class WelcomeScreen extends React.PureComponent {
             style={{
               // fontFamily: 'Paprika-Regular',
               color: '#000',
-              fontSize: 16
+              fontSize: 16,
             }}
           >
             Get Started

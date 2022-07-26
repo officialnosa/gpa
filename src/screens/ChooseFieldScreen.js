@@ -1,22 +1,22 @@
 import React, { useCallback, useMemo } from 'react'
-
+import { Platform, StyleSheet, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import {
-  Title,
   Button,
+  Caption,
   Divider,
   FAB,
+  Title,
   TouchableRipple,
-  Caption,
 } from 'react-native-paper'
-
-import { Platform, View, StyleSheet } from 'react-native'
-import fields from '../offlineData/fields'
 import { useSelector } from 'react-redux'
-import { ScrollView } from 'react-native'
+
+import { withNavigation } from '@navigation/hoc'
+
 import { Toolbar } from '../components/Toolbar'
-import { withNavigation } from 'react-navigation'
+import fields from '../offlineData/fields'
 // import { initField } from '../redux/actions'
-// import Icon from 'react-native-vector-icons/Feather'
+// import Icon from '@expo/vector-icons/Feather'
 
 function FieldItem({ id, navigation, name, schoolId }) {
   const select = useCallback(() => {
@@ -97,11 +97,6 @@ export function ChooseFieldScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   screen: { backgroundColor: '#ffd200', flex: 1 },
-  others: {
-    borderBottomWidth: 2,
-    ...Platform.select({ web: { borderBottomStyle: 'solid' }, default: {} }),
-    borderBottomColor: '#2c2c2c',
-  },
   title: {
     marginTop: 30,
     fontSize: 30,

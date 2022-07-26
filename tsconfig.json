@@ -1,11 +1,40 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "jsx": "react-native",
+    "jsx": "preserve",
     "lib": ["dom", "esnext"],
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
-  }
+    "resolveJsonModule": true,
+    "target": "es5",
+    "allowJs": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "isolatedModules": true,
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@lib": ["src/lib"],
+      "@components/*": ["src/components/*"],
+      "@screens": ["src/screens"],
+      "@navigation": ["src/navigation"],
+      "@providers": ["src/providers"],
+      "@*": ["src"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js",
+    "dist",
+    ".next",
+    "out",
+    "next.config.js"
+  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "extends": "expo/tsconfig.base"
 }
