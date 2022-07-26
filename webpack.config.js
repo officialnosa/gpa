@@ -5,6 +5,7 @@ module.exports = async function (env, argv) {
   config.resolve.alias = {
     ...config.resolve.alias,
     'react-native-linear-gradient': 'react-native-web-linear-gradient',
+    'react-native-vector-icons': '@expo/vector-icons',
   }
 
   if (config.mode === 'development') {

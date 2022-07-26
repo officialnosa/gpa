@@ -1,31 +1,24 @@
 import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
-import { TextInput } from '@shoutem/ui/components/TextInput'
 import { Button } from '@shoutem/ui/components/Button'
-import { Row } from '@shoutem/ui/components/Row'
-import {
-  Title,
-  Subtitle,
-  Caption,
-  Text,
-  Heading,
-} from '@shoutem/ui/components/Text'
-import { FormGroup } from '@shoutem/ui/components/FormGroup'
-import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
 import { Divider } from '@shoutem/ui/components/Divider'
+import { FormGroup } from '@shoutem/ui/components/FormGroup'
+import { Row } from '@shoutem/ui/components/Row'
 import { Screen } from '@shoutem/ui/components/Screen'
+import { Caption, Subtitle, Text } from '@shoutem/ui/components/Text'
+import { TextInput } from '@shoutem/ui/components/TextInput'
 
-import { ScrollView, Alert, Platform, View } from 'react-native'
+import { Alert, Platform, ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
 import { NumberSelector } from '../components/NumberSelector'
-import { updateField, updateSchool, resetData } from '../redux/actions'
+import { resetData, updateField, updateSchool } from '../redux/actions'
 // import ModalSelector from 'react-native-modal-selector'
 import { runAsync } from '../utils'
 // import { resolve } from 'any-promise')
+import { CommonActions } from '@react-navigation/native'
 import { Stepper } from '../components/Stepper'
 import { Toolbar } from '../components/Toolbar'
-import { CommonActions } from '@react-navigation/native'
 
 const mapStateToProps = (state) => ({
   schoolName: state.school.name,

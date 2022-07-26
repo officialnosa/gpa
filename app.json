@@ -22,12 +22,7 @@
     "web": {
       "build": {
         "babel": {
-          "include": [
-            "native-base-shoutem-theme",
-            "@shoutem/ui",
-            "ui",
-            "@shoutem"
-          ]
+          "include": ["@shoutem/ui"]
         }
       }
     }

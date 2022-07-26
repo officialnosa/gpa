@@ -41,7 +41,11 @@
     "node_modules",
     "babel.config.js",
     "metro.config.js",
-    "jest.config.js"
+    "jest.config.js",
+    "dist",
+    ".next",
+    "out",
+    "next.config.js",
   ],
   "include": [
     "next-env.d.ts",

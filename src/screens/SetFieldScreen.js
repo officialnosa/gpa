@@ -1,32 +1,21 @@
 import React from 'react'
-import Icon from 'react-native-vector-icons/Ionicons'
 
-import { TextInput } from '@shoutem/ui/components/TextInput'
 import { Button } from '@shoutem/ui/components/Button'
-import { Row } from '@shoutem/ui/components/Row'
-import {
-  Title,
-  Subtitle,
-  Caption,
-  Text,
-  Heading,
-} from '@shoutem/ui/components/Text'
-import { FormGroup } from '@shoutem/ui/components/FormGroup'
-import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
 import { Divider } from '@shoutem/ui/components/Divider'
+import { Row } from '@shoutem/ui/components/Row'
 import { Screen } from '@shoutem/ui/components/Screen'
+import { Caption, Subtitle, Text } from '@shoutem/ui/components/Text'
 
-import { ScrollView, Alert, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 import { NumberSelector } from '../components/NumberSelector'
 // import ModalSelector from 'react-native-modal-selector'
-import { runAsync } from '../utils'
 // import { resolve } from 'any-promise')
+import { CommonActions } from '@react-navigation/native'
+import { GradesEditor } from '../components/GradesEditor'
 import { Stepper } from '../components/Stepper'
 import { Toolbar } from '../components/Toolbar'
 import { initField } from '../redux/actions'
-import { GradesEditor } from '../components/GradesEditor'
-import { CommonActions } from '@react-navigation/native'
 class SettingsX extends React.Component {
   state = {
     name: '',
