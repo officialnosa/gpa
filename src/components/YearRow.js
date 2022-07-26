@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native'
-import { withNavigation } from '@navigation'
+import { withNavigation } from '@navigation/hoc'
 import { SemesterScoreBadge } from './SemesterScoreBadge'
 import { YELLOW } from '../ui'
 import { YearScoreBadge } from './YearScoreBadge'

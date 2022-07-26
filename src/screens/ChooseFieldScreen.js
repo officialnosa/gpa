@@ -1,20 +1,20 @@
 import React, { useCallback, useMemo } from 'react'
-
+import { Platform, StyleSheet, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import {
-  Title,
   Button,
+  Caption,
   Divider,
   FAB,
+  Title,
   TouchableRipple,
-  Caption,
 } from 'react-native-paper'
-
-import { Platform, View, StyleSheet } from 'react-native'
-import fields from '../offlineData/fields'
 import { useSelector } from 'react-redux'
-import { ScrollView } from 'react-native'
+
+import { withNavigation } from '@navigation/hoc'
+
 import { Toolbar } from '../components/Toolbar'
-import { withNavigation } from '@navigation'
+import fields from '../offlineData/fields'
 // import { initField } from '../redux/actions'
 // import Icon from 'react-native-vector-icons/Feather'
 

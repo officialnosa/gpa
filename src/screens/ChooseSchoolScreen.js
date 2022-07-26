@@ -1,19 +1,21 @@
 import React, { useCallback, useMemo } from 'react'
+import { Platform, StyleSheet, View } from 'react-native'
+import { ScrollView } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import {
-  Title,
   Button,
   Divider,
   FAB,
+  Title,
   TouchableRipple,
 } from 'react-native-paper'
-import schools from '../offlineData/schools'
-import { View, Platform, StyleSheet } from 'react-native'
-import { initSchool } from '../redux/actions'
-import { ScrollView } from 'react-native'
-import { Toolbar } from '../components/Toolbar'
-import { withNavigation } from '@navigation'
 import { useDispatch } from 'react-redux'
-import { TouchableOpacity } from 'react-native'
+
+import { withNavigation } from '@navigation/hoc'
+
+import { Toolbar } from '../components/Toolbar'
+import schools from '../offlineData/schools'
+import { initSchool } from '../redux/actions'
 
 function SchoolItem({ id, navigation }) {
   const dispatch = useDispatch()

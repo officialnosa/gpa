@@ -1,10 +1,16 @@
 import React from 'react'
+
 import { useNavigation } from '@react-navigation/native'
 
 export const withNavigation = (Component: React.FC) => {
-  return (props: any) => {
+  const NewComponent = (props: any) => {
     const navigation = useNavigation()
 
-    return <Component navigation={navigation} {...props} />
+    return React.createElement(Component, {
+      ...props,
+      navigation,
+    })
   }
+
+  return NewComponent
 }

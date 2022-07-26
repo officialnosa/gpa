@@ -1,24 +1,27 @@
 import React from 'react'
+import {
+  Alert,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
+import { Button, Divider, TextInput } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-
-import { Button } from '@shoutem/ui/components/Button'
-import { Divider } from '@shoutem/ui/components/Divider'
-import { FormGroup } from '@shoutem/ui/components/FormGroup'
-import { Row } from '@shoutem/ui/components/Row'
-import { Screen } from '@shoutem/ui/components/Screen'
-import { Caption, Subtitle, Text } from '@shoutem/ui/components/Text'
-import { TextInput } from '@shoutem/ui/components/TextInput'
-
-import { Alert, Platform, ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
+
+// import { resolve } from 'any-promise')
+import { CommonActions } from '@react-navigation/native'
+
+import { FormGroup } from '@components/form'
+
 import { NumberSelector } from '../components/NumberSelector'
+import { Stepper } from '../components/Stepper'
+import { Toolbar } from '../components/Toolbar'
 import { resetData, updateField, updateSchool } from '../redux/actions'
 // import ModalSelector from 'react-native-modal-selector'
 import { runAsync } from '../utils'
-// import { resolve } from 'any-promise')
-import { CommonActions } from '@react-navigation/native'
-import { Stepper } from '../components/Stepper'
-import { Toolbar } from '../components/Toolbar'
 
 const mapStateToProps = (state) => ({
   schoolName: state.school.name,
@@ -124,9 +127,9 @@ export default class Settings extends React.Component {
             style: 'destructive',
             onPress: () => {
               this.props.dispatch(resetData())
-              const resetAction = NavigationActions.reset({
+              const resetAction = CommonActions.reset({
                 index: 0,
-                actions: [NavigationActions.navigate({ routeName: 'Welcome' })],
+                actions: [CommonActions.navigate({ routeName: 'Welcome' })],
               })
               this.props.navigation.dispatch(resetAction)
             },
@@ -146,8 +149,8 @@ export default class Settings extends React.Component {
     // ]
 
     return (
-      <Row style={styles.underline}>
-        <Subtitle styleName="flexible">Years required</Subtitle>
+      <View style={[styles.numOfYears, styles.underline]}>
+        <Text style={{ flex: 1 }}>Years required</Text>
         <View>
           <Stepper
             label={numOfYears === 1 ? ' Year' : ' Years'}
@@ -160,7 +163,7 @@ export default class Settings extends React.Component {
             initialValue={numOfYears || 1}
           />
         </View>
-      </Row>
+      </View>
     )
   }
 
@@ -172,7 +175,7 @@ export default class Settings extends React.Component {
       <View>
         <Divider styleName="section-header" />
         <FormGroup>
-          <Caption>School name</Caption>
+          <Text style={styles.caption}>School name</Text>
           <TextInput
             ref={(_) => (this.school = _)}
             style={styles.underline}
@@ -183,7 +186,7 @@ export default class Settings extends React.Component {
         </FormGroup>
         <Divider styleName="section-header" />
         <FormGroup>
-          <Caption>Field of Study</Caption>
+          <Text style={styles.caption}>Field of Study</Text>
           <TextInput
             value={fieldName}
             onChangeText={this.changeFieldName}
@@ -195,11 +198,11 @@ export default class Settings extends React.Component {
 
         {this.renderNumOfYears()}
         <Divider styleName="section-header">
-          <Caption>ACADEMIC INFORMATION</Caption>
+          <Text style={styles.caption}>ACADEMIC INFORMATION</Text>
         </Divider>
 
-        <Row>
-          <Subtitle styleName="flexible">Your Current level</Subtitle>
+        <View style={styles.row}>
+          <Text style={styles.subtitle}>Your Current level</Text>
           {/* <NumberSelector
             max={numOfYears}
             value={currentLevel}
@@ -217,30 +220,30 @@ export default class Settings extends React.Component {
               initialValue={currentLevel || 1}
             />
           </View>
-        </Row>
-        <Row style={styles.underline}>
-          <Subtitle styleName="flexible">Your Current semester</Subtitle>
+        </View>
+        <View style={[styles.underline, styles.row]}>
+          <Text style={styles.subtitle}>Your Current semester</Text>
           <NumberSelector
             max={2}
             value={currentSemester}
             onChangeNumber={this.changeCurrentSemester}
           />
-        </Row>
+        </View>
         <Divider styleName="section-header" />
         <Button
           onPress={this.openAdvanced}
           style={{ ...styles.underline, height: 60 }}
         >
-          <Subtitle styleName="flexible">Advanced Settings</Subtitle>
+          <Text style={styles.subtitle}>Advanced Settings</Text>
         </Button>
         <Divider styleName="section-header" />
         <Button
           onPress={this.reset}
           style={{ ...styles.underline, height: 60 }}
         >
-          <Subtitle styleName="flexible" style={{ color: '#ec2222' }}>
+          <Text style={[styles.subtitle, { color: '#ec2222' }]}>
             Delete All Data
-          </Subtitle>
+          </Text>
         </Button>
         <Divider styleName="section-header" />
       </View>
@@ -261,7 +264,7 @@ export class SettingsScreen extends React.PureComponent {
   render() {
     const { navigation } = this.props
     return (
-      <Screen styleName="paper">
+      <View style={styles.container}>
         <Toolbar showNavIcon title="Settings" />
         <ScrollView>
           <Settings navigation={navigation} />
@@ -270,11 +273,28 @@ export class SettingsScreen extends React.PureComponent {
           <Text styleName="h-center">www.osarogie.com</Text>
           <Divider />
         </ScrollView>
-      </Screen>
+      </View>
     )
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   underline: { borderBottomWidth: 2, borderBottomColor: '#ddd' },
-}
+  numOfYears: {
+    flexDirection: 'row',
+  },
+  subtitle: {
+    fontSize: 18,
+    flex: 1,
+  },
+  caption: {
+    fontSize: 12,
+  },
+  row: {
+    flexDirection: 'row',
+  },
+})

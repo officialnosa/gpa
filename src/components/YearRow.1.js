@@ -1,13 +1,15 @@
 import React from 'react'
 import {
-  StyleSheet,
   Dimensions,
-  View,
+  Platform,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  Platform,
+  View,
 } from 'react-native'
-import { withNavigation } from '@navigation'
+
+import { withNavigation } from '@navigation/hoc'
+
 import { SemesterScoreBadge } from './SemesterScoreBadge'
 
 const initialLayout = {

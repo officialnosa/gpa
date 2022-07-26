@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-const mapStateToProps = state => ({
-  user: state.user
+const mapStateToProps = (state) => ({
+  user: state.user,
 })
 
 class EmptyScreenX extends React.Component {
   static navigationOptions = {
-    title: 'Hello'
+    title: 'Hello',
   }
   componentWillMount() {
     const { user } = this.props
@@ -25,7 +25,7 @@ class EmptyScreenX extends React.Component {
     this.navigate('ChooseField')
   }
   navigate(routeName) {
-    this.props.navigation.navigate(routeName)
+    this.props.navigation.dispatch(routeName)
   }
   render() {
     return null

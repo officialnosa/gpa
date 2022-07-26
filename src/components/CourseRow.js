@@ -1,4 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Alert, Platform, StyleSheet, View as RNView, View } from 'react-native'
+import Collapsible from 'react-native-collapsible'
+import Icon from 'react-native-vector-icons/Entypo'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Divider } from '@shoutem/ui/components/Divider'
@@ -8,9 +11,6 @@ import { Caption, Subtitle, Title } from '@shoutem/ui/components/Text'
 import { TextInput } from '@shoutem/ui/components/TextInput'
 import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
 
-import { Alert, Platform, StyleSheet, View as RNView, View } from 'react-native'
-import Collapsible from 'react-native-collapsible'
-import Icon from 'react-native-vector-icons/Entypo'
 import { Stepper } from '../components/Stepper'
 import { changeGrade, deregisterCourse, editCourse } from '../redux/actions'
 import { GradeIndicator } from './GradeIndicator'

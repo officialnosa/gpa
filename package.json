@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build": "next build"
+    "build": "next build",
+    "postinstall": "./scripts/patch-view-prop-types.sh"
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
@@ -30,20 +31,24 @@
     "react-native-collapsible": "^1.6.0",
     "react-native-device-info": "8.4.8",
     "react-native-gesture-handler": "~2.2.1",
+    "react-native-linear-gradient": "2.5.6",
     "react-native-modal-selector": "^1.1.1",
     "react-native-paper": "^4.12.4",
     "react-native-photo-view": "github:shoutem/react-native-photo-view#e7f0003",
     "react-native-reanimated": "~2.8.0",
+    "react-native-safe-area-context": "^4.3.1",
+    "react-native-screens": "^3.15.0",
     "react-native-svg": "12.1.1",
     "react-native-tab-view": "^2.10.0",
     "react-native-web": "^0.17.7",
     "react-native-web-linear-gradient": "^1.1.2",
     "react-native-webview": "11.0.3",
-    "react-redux": "^7.2.0",
+    "react-redux": "^8.0.2",
     "redux": "^4.2.0",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.3.0",
+    "redux-thunk": "^2.4.0",
+    "redux-toolkit": "^1.1.2",
     "setimmediate": "^1.0.5"
   },
   "devDependencies": {

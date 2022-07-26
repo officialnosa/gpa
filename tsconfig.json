@@ -2,10 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "jsx": "preserve",
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
@@ -20,21 +17,12 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@lib/*": [
-        "src/lib/*"
-      ],
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@screens/*": [
-        "src/screens/*"
-      ],
-      "@navigation/*": [
-        "src/navigation/*"
-      ],
-      "@*": [
-        "src/*"
-      ]
+      "@lib": ["src/lib"],
+      "@components": ["src/components"],
+      "@screens": ["src/screens"],
+      "@navigation": ["src/navigation"],
+      "@providers": ["src/providers"],
+      "@*": ["src"]
     }
   },
   "exclude": [
@@ -45,12 +33,8 @@
     "dist",
     ".next",
     "out",
-    "next.config.js",
+    "next.config.js"
   ],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "extends": "expo/tsconfig.base"
 }
