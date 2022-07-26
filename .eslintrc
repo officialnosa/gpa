@@ -1,0 +1,76 @@
+{
+  "root": true,
+  "extends": [
+    "@react-native-community",
+    "plugin:jest/recommended",
+    "prettier",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "simple-import-sort",
+    "prettier",
+    "react",
+    "react-native"
+  ],
+  "rules": {
+    "sort-imports": "off",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          [
+            "^\\u0000"
+          ],
+          [
+            "^react"
+          ],
+          [
+            "^"
+          ],
+          [
+            "^@?\\w"
+          ],
+          [
+            "^@src?\\w",
+            "^@assets?\\w",
+            "^@components?\\w",
+            "^@lib?\\w",
+            "^@navigation?\\w",
+            "^@screens?\\w"
+          ],
+          [
+            "^\\."
+          ]
+        ]
+      }
+    ],
+    "simple-import-sort/exports": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 80,
+        "trailingComma": "es5",
+        "useTabs": false,
+        "tabWidth": 2,
+        "semi": false,
+        "bracketSpacing": true,
+        "arrowParens": "always",
+        "singleQuote": true
+      }
+    ],
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports"
+      }
+    ],
+    "react-native/no-unused-styles": 2,
+    "react-native/split-platform-components": 2,
+    "react-native/no-inline-styles": 1,
+    "react-native/no-color-literals": 1,
+    "react-native/no-raw-text": 2,
+    "react-native/no-single-element-style-arrays": 2
+  }
+}
