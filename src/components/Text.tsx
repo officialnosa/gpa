@@ -15,6 +15,5 @@ export const Title: FC = () => {
 export const Subtitle: FC = () => {
   return null
 }
-export const Text: FC = () => {
-  return null
-}
+
+export { Text } from 'react-native-paper'

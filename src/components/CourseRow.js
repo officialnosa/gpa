@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { Alert, Platform, StyleSheet, View as RNView, View } from 'react-native'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { Alert, Platform, StyleSheet, View } from 'react-native'
 import Collapsible from 'react-native-collapsible'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -45,7 +45,7 @@ function useReduxState(initialState, action, delay = 100) {
     return () => {
       clearTimeout(handle)
     }
-  }, [state])
+  }, [state]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return [state, setState]
 }
@@ -123,11 +123,11 @@ export function CourseRow({ semester, year, id }) {
           },
         ]
       )
-  }, [id, semester, year])
+  }, [dispatch, id, semester, year])
 
   const toggleEditingMode = useCallback(
-    () => setEditingMode((editingMode) => !editingMode),
-    [editingMode]
+    () => setEditingMode((value) => !value),
+    []
   )
 
   const renderNormalMode = () => (
@@ -154,7 +154,7 @@ export function CourseRow({ semester, year, id }) {
   )
 
   const renderEditingMode = () => (
-    <RNView
+    <View
       style={[
         styles.editorContainer,
         Platform.OS === 'web' && !editingMode && { display: 'none' },
@@ -189,15 +189,16 @@ export function CourseRow({ semester, year, id }) {
           <GradeSelector value={grade} onChangeValue={setGrade} />
         </View>
       </FormGroup>
-    </RNView>
+    </View>
   )
 
-  if (!course)
+  if (!course) {
     return (
       <Row>
         <Title>NO DATA</Title>
       </Row>
     )
+  }
 
   // const score = getScore(props)
   // const selectedGrade = options[score] || { point: 0, grade: '-' }
@@ -220,8 +221,6 @@ export function CourseRow({ semester, year, id }) {
 }
 
 const styles = StyleSheet.create({
-  red: { color: '#f56' },
-  blue: { color: '#05f' },
   editorContainer: {
     paddingTop: 15,
     paddingBottom: 15,
@@ -236,7 +235,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: 'row',
   },
-  underline: { borderBottomWidth: 2, borderBottomColor: '#ddd' },
   container: {
     marginHorizontal: 10,
     marginBottom: 20,

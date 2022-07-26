@@ -1,10 +1,11 @@
-import React, { useMemo, useCallback } from 'react'
-import { View, TouchableOpacity, StyleSheet, FlatList } from 'react-native'
-import { CourseRow } from './CourseRow'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useCallback, useMemo } from 'react'
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Title } from 'react-native-paper'
+import { useDispatch, useSelector } from 'react-redux'
+
 import { getCoursesBySemester } from '../calculations'
 import { addCourse } from '../redux/actions'
+import { CourseRow } from './CourseRow'
 // import { SemesterScoreBadge } from './SemesterScoreBadge'
 
 const mapStateToProps = (state) => ({
