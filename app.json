@@ -22,7 +22,7 @@
     "web": {
       "build": {
         "babel": {
-          "include": ["@shoutem/ui","redux-persist"]
+          "include": ["redux-persist"]
         }
       }
     }

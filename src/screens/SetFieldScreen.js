@@ -5,11 +5,12 @@ import { connect } from 'react-redux'
 // import ModalSelector from 'react-native-modal-selector'
 // import { resolve } from 'any-promise')
 import { CommonActions } from '@react-navigation/native'
-import { Button } from '@shoutem/ui/components/Button'
-import { Divider } from '@shoutem/ui/components/Divider'
-import { Row } from '@shoutem/ui/components/Row'
-import { Screen } from '@shoutem/ui/components/Screen'
-import { Caption, Subtitle, Text } from '@shoutem/ui/components/Text'
+
+import { Button } from '@components/Button'
+import { Divider } from '@components/Divider'
+import { Row } from '@components/Row'
+import { Screen } from '@components/Screen'
+import { Caption, Subtitle, Text } from '@components/Text'
 
 import { GradesEditor } from '../components/GradesEditor'
 import { NumberSelector } from '../components/NumberSelector'

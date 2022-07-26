@@ -1,5 +1,9 @@
-import type { FC } from 'react'
+import type { ComponentProps, FC } from 'react'
+import React from 'react'
+import { TextInput as PaperTextInput } from 'react-native-paper'
 
-export const TextInput: FC = () => {
-  return null
+type Props = ComponentProps<typeof PaperTextInput>
+
+export const TextInput: FC<Props> = (props) => {
+  return <PaperTextInput {...props} />
 }

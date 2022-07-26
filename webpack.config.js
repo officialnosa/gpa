@@ -4,8 +4,7 @@ module.exports = async function (env, argv) {
   const config = await createExpoWebpackConfigAsync(env, argv)
   config.resolve.alias = {
     ...config.resolve.alias,
-    'react-native-linear-gradient': 'react-native-web-linear-gradient',
-    '@expo/vector-icons': '@expo/vector-icons',
+    'react-native-vector-icons': '@expo/vector-icons',
   }
 
   if (config.mode === 'development') {

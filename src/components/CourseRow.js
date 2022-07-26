@@ -1,15 +1,21 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Alert, Platform, StyleSheet, View } from 'react-native'
+import {
+  Alert,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import Collapsible from 'react-native-collapsible'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Icon from '@expo/vector-icons/Entypo'
-import { Divider } from '@shoutem/ui/components/Divider'
-import { FormGroup } from '@shoutem/ui/components/FormGroup'
-import { Row } from '@shoutem/ui/components/Row'
-import { Caption, Subtitle, Title } from '@shoutem/ui/components/Text'
-import { TextInput } from '@shoutem/ui/components/TextInput'
-import { TouchableOpacity } from '@shoutem/ui/components/TouchableOpacity'
+
+import { Divider } from '@components/Divider'
+import { FormGroup } from '@components/FormGroup'
+import { Row } from '@components/Row'
+import { Caption, Subtitle, Title } from '@components/Text'
+import { TextInput } from '@components/TextInput'
 
 import { Stepper } from '../components/Stepper'
 import { changeGrade, deregisterCourse, editCourse } from '../redux/actions'
