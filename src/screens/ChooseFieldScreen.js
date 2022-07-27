@@ -49,13 +49,13 @@ const mapStateToProps = (state) => ({
   schoolName: state.school.name,
 })
 
-export function ChooseFieldScreen({ navigation }) {
+export function ChooseFieldScreen({ navigation, route }) {
   const { schoolName } = useSelector(mapStateToProps)
 
   const school = useMemo(() => {
     // if (user.hasSchool) return school.id
-    return navigation?.state?.params?.school
-  }, [navigation])
+    return route?.params?.school
+  }, [route])
 
   const fieldObject = useMemo(() => fields[school], [school])
   const fieldIds = useMemo(() => Object.keys(fieldObject || {}), [fieldObject])
@@ -63,6 +63,13 @@ export function ChooseFieldScreen({ navigation }) {
   const openOthers = useCallback(() => {
     navigation.navigate('SetField')
   }, [navigation])
+
+  console.log({
+    school,
+
+    fieldObject,
+    fieldIds,
+  })
 
   return (
     <View style={styles.screen}>
