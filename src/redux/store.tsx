@@ -22,11 +22,15 @@ const logger = createLogger({
   predicate: () => process.env.NODE_ENV === 'development',
 })
 
+const store = configureStore({
+  reducer,
+  middleware: [thunk, logger],
+})
+
 export default () => {
-  let store = configureStore({
-    reducer,
-    middleware: [thunk, logger],
-  })
   let persistor = persistStore(store)
   return { store, persistor }
 }
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch

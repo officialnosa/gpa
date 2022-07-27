@@ -3,7 +3,7 @@ import update from 'immutability-helper'
 const initialState = {
   name: '',
   hasSchool: false,
-  hasField: false
+  hasField: false,
 }
 
 const user = (state = initialState, { type, updater }) => {

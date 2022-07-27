@@ -12,8 +12,8 @@ const school = (state = initialState, { type, id, data }) => {
 
       return update(state, {
         [id]: {
-          $merge: data
-        }
+          $merge: data,
+        },
       })
     case 'RESET':
       return initialState
@@ -22,8 +22,8 @@ const school = (state = initialState, { type, id, data }) => {
         ...state,
         [data.key]: {
           name: data.name,
-          creditLoad: 0
-        }
+          creditLoad: 0,
+        },
       }
     default:
       return state

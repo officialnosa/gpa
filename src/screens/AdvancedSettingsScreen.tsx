@@ -3,6 +3,8 @@ import React from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
+import type { RootState } from '@redux'
+
 import { Divider } from '@components/Divider'
 import { Row } from '@components/Row'
 import { Screen } from '@components/Screen'
@@ -12,7 +14,7 @@ import { TextInput } from '@components/TextInput'
 import { Toolbar } from '../components/Toolbar'
 import { updateField, updateSchool } from '../redux/actions'
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   field: state.field,
   gradingSystem: state.school.gradingSystem,
 })
@@ -110,7 +112,7 @@ export const AdvancedSettingsScreen: FC = () => {
           </Divider>
           <Row>
             <View style={styles.flex}>
-              {Array.from(new Array(field.numOfYears), (v, year) => (
+              {Array.from(new Array(field.numOfYears), (_v, year) => (
                 <View style={styles.classType} key={year++}>
                   <Subtitle style={styles.flex}>Year {year}</Subtitle>
                   <TextInput

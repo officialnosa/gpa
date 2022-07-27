@@ -23,6 +23,7 @@ module.exports = function (api) {
             '@screens': './src/screens',
             '@navigation': './src/navigation',
             '@providers': './src/providers',
+            '@redux': './src/redux',
             '@': './src',
           },
         },

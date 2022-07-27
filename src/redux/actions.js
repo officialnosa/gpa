@@ -1,16 +1,16 @@
 export const setUser = (user, api_key = null) => ({
   type: 'SET_USER',
   user,
-  api_key
+  api_key,
 })
 
-export const logout = _ => ({
-  type: 'LOGOUT'
+export const logout = (_) => ({
+  type: 'LOGOUT',
 })
 
-export const setNightMode = night_mode => ({
+export const setNightMode = (night_mode) => ({
   type: 'SET_NIGHT_MODE',
-  night_mode
+  night_mode,
 })
 
 // export const addCourse = ({ course }) => ({
@@ -21,19 +21,19 @@ export const setNightMode = night_mode => ({
 export const editCourse = ({ id, ...data }) => ({
   type: 'EDIT_COURSE',
   id,
-  data
+  data,
 })
 
 export const deleteCourse = ({ id }) => ({
   type: 'DELETE_COURSE',
-  id
+  id,
 })
 
 export const deregisterCourse = ({ id, semester, year }) => ({
   type: 'DEREGISTER_COURSE',
   id,
   semester,
-  year
+  year,
 })
 
 export const changeGrade = ({ id, semester, year, grade }) => ({
@@ -41,55 +41,55 @@ export const changeGrade = ({ id, semester, year, grade }) => ({
   id,
   semester,
   year,
-  grade
+  grade,
 })
 
-export const updateField = updater => ({
+export const updateField = (updater) => ({
   type: 'UPDATE_FIELD',
-  updater
+  updater,
 })
 
-export const updateSchool = updater => ({
+export const updateSchool = (updater) => ({
   type: 'UPDATE_SCHOOL',
-  updater
+  updater,
 })
 
-export const updateUser = updater => ({
+export const updateUser = (updater) => ({
   type: 'UPDATE_USER',
-  updater
+  updater,
 })
 
 export const editSchool = ({ course, semester, year }) => ({
   type: 'EDIT_SCHOOL',
   course,
   semester,
-  year
+  year,
 })
 
-export const initSchool = data => ({
+export const initSchool = (data) => ({
   type: 'INIT_SCHOOL',
-  data
+  data,
 })
 
-export const initField = data => ({
+export const initField = (data) => ({
   type: 'INIT_FIELD',
-  data
+  data,
 })
 
-export const initCourses = data => ({
+export const initCourses = (data) => ({
   type: 'INIT_COURSES',
-  data
+  data,
 })
 
 export const resetData = () => ({ type: 'RESET' })
 
-export const addCourse = data => ({
+export const addCourse = (data) => ({
   type: 'ADD_COURSE',
   data: {
     ...data,
     key: new Date().getTime(),
-    name: data.name || 'Untitled Course'
+    name: data.name || 'Untitled Course',
   },
   year: data.year,
-  semester: data.semester
+  semester: data.semester,
 })

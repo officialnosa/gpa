@@ -1,6 +1,19 @@
+import type { Reducer } from 'react'
+
 import update from 'immutability-helper'
 
-const initialState = {
+type SchoolState = {
+  name: string
+  gradingSystem: {
+    firstClass: number
+    secondClassUpper: number
+    secondClassLower: number
+    thirdClass: number
+    pass: number
+  }
+}
+
+const initialState: SchoolState = {
   name: '',
   gradingSystem: {
     firstClass: 4.0,
@@ -11,7 +24,10 @@ const initialState = {
   },
 }
 
-const school = (state = initialState, { type, updater, data }) => {
+const school: Reducer<SchoolState, any> = (
+  state = initialState,
+  { type, updater, data }
+) => {
   switch (type) {
     case 'INIT_SCHOOL':
       return { ...initialState, ...data }
