@@ -1,24 +1,18 @@
 import React, { useCallback, useMemo } from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { ScrollView } from 'react-native'
-import { TouchableOpacity } from 'react-native'
-import {
-  Button,
-  Divider,
-  FAB,
-  Title,
-  TouchableRipple,
-} from 'react-native-paper'
+import { Divider, FAB, Title, TouchableRipple } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
 
-import { withNavigation } from '@navigation/hoc'
+import { useNavigation } from '@react-navigation/native'
 
 import { Toolbar } from '../components/Toolbar'
 import schools from '../offlineData/schools'
 import { initSchool } from '../redux/actions'
 
-function SchoolItem({ id, navigation }) {
+function SchoolItem({ id }) {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
   const select = useCallback(() => {
     dispatch(initSchool(schools[id]))
     navigation.navigate('ChooseField', { school: id })
@@ -26,10 +20,7 @@ function SchoolItem({ id, navigation }) {
 
   return (
     <>
-      <TouchableRipple
-        onPress={select}
-        style={{ paddingHorizontal: 20, paddingVertical: 10 }}
-      >
+      <TouchableRipple onPress={select} style={styles.schoolItem}>
         <Title>{schools[id].name}</Title>
       </TouchableRipple>
       <Divider />
@@ -37,14 +28,12 @@ function SchoolItem({ id, navigation }) {
   )
 }
 
-SchoolItem = withNavigation(SchoolItem)
-
 export function ChooseSchoolScreen({ navigation }) {
   const openOthers = useCallback(() => {
     navigation.navigate('SetSchool')
   }, [navigation])
 
-  const schoolIds = useMemo(() => Object.keys(schools || {}), [schools])
+  const schoolIds = useMemo(() => Object.keys(schools || {}), [])
 
   return (
     <View style={styles.screen}>
@@ -70,12 +59,6 @@ export function ChooseSchoolScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   screen: { backgroundColor: '#ffd200', flex: 1 },
-  others: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#2c2c2c',
-
-    ...Platform.select({ web: { borderBottomStyle: 'solid' }, default: {} }),
-  },
   title: {
     marginTop: 30,
     marginBottom: 20,
@@ -91,4 +74,5 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     backgroundColor: '#000',
   },
+  schoolItem: { paddingHorizontal: 20, paddingVertical: 10 },
 })

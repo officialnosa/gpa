@@ -1,95 +1,46 @@
-export const setUser = (user, api_key = null) => ({
-  type: 'SET_USER',
-  user,
-  api_key,
-})
+import { coursesSlice } from './slices/courses'
+import { fieldSlice } from './slices/field'
+import { schoolSlice } from './slices/school'
+import { userSlice } from './slices/user'
 
-export const logout = (_) => ({
-  type: 'LOGOUT',
-})
+export const editCourse = coursesSlice.actions.editCourse
+export const deregisterCourse = fieldSlice.actions.deregisterCourse
+export const changeGrade = fieldSlice.actions.changeGrade
+export const updateField = fieldSlice.actions.updateField
+export const updateUser = userSlice.actions.updateUser
+export const initSchool = (school) => (dispatch) => {
+  dispatch(schoolSlice.actions.initSchool(school))
+  dispatch(userSlice.actions.initSchool())
+}
 
-export const setNightMode = (night_mode) => ({
-  type: 'SET_NIGHT_MODE',
-  night_mode,
-})
+export const updateSchool = schoolSlice.actions.updateSchool
 
-// export const addCourse = ({ course }) => ({
-//   type: 'ADD_COURSE',
-//   course
-// })
+export const initField = (data) => (dispatch) => {
+  dispatch(fieldSlice.actions.initField(data))
+  dispatch(userSlice.actions.initField())
+}
 
-export const editCourse = ({ id, ...data }) => ({
-  type: 'EDIT_COURSE',
-  id,
-  data,
-})
+export const initCourses = coursesSlice.actions.initCourses
 
-export const deleteCourse = ({ id }) => ({
-  type: 'DELETE_COURSE',
-  id,
-})
+export const resetData = () => (dispatch) => {
+  dispatch(userSlice.actions.resetUser())
+  dispatch(fieldSlice.actions.resetField())
+  dispatch(coursesSlice.actions.resetCourses())
+  dispatch(schoolSlice.actions.resetSchool())
 
-export const deregisterCourse = ({ id, semester, year }) => ({
-  type: 'DEREGISTER_COURSE',
-  id,
-  semester,
-  year,
-})
+  return dispatch({ type: 'RESET' })
+}
 
-export const changeGrade = ({ id, semester, year, grade }) => ({
-  type: 'CHANGE_GRADE',
-  id,
-  semester,
-  year,
-  grade,
-})
+export const addCourse = (data) => (dispatch) => {
+  const key = new Date().getTime()
+  const name = data.name || 'Untitled Course'
 
-export const updateField = (updater) => ({
-  type: 'UPDATE_FIELD',
-  updater,
-})
-
-export const updateSchool = (updater) => ({
-  type: 'UPDATE_SCHOOL',
-  updater,
-})
-
-export const updateUser = (updater) => ({
-  type: 'UPDATE_USER',
-  updater,
-})
-
-export const editSchool = ({ course, semester, year }) => ({
-  type: 'EDIT_SCHOOL',
-  course,
-  semester,
-  year,
-})
-
-export const initSchool = (data) => ({
-  type: 'INIT_SCHOOL',
-  data,
-})
-
-export const initField = (data) => ({
-  type: 'INIT_FIELD',
-  data,
-})
-
-export const initCourses = (data) => ({
-  type: 'INIT_COURSES',
-  data,
-})
-
-export const resetData = () => ({ type: 'RESET' })
-
-export const addCourse = (data) => ({
-  type: 'ADD_COURSE',
-  data: {
-    ...data,
-    key: new Date().getTime(),
-    name: data.name || 'Untitled Course',
-  },
-  year: data.year,
-  semester: data.semester,
-})
+  dispatch(coursesSlice.actions.addCourse({ key, name }))
+  dispatch(
+    fieldSlice.actions.addCourse({
+      key,
+      year: data.year,
+      semester: data.semester,
+    })
+  )
+}

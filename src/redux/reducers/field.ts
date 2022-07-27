@@ -1,23 +1,25 @@
 import update from 'immutability-helper'
 
+import { fieldSlice } from '../slices/field'
+
 const initialState = {
   id: '[FIELD]',
   name: '',
   structure: {},
   levelWeight: {
-    1: 1
+    1: 1,
   },
   grades: {
     a: 4,
     b: 3,
     c: 2,
     d: 1,
-    f: 0
+    f: 0,
   },
   courses: {},
   numOfYears: 1,
   currentLevel: 1,
-  currentSemester: 1
+  currentSemester: 1,
 }
 
 const field = (
@@ -31,9 +33,9 @@ const field = (
       return update(state, {
         structure: {
           [`${year}$${semester}`]: {
-            $unset: [id]
-          }
-        }
+            $unset: [id],
+          },
+        },
       })
     case 'UPDATE_FIELD':
       return update(state, updater)
@@ -43,11 +45,11 @@ const field = (
           [`${year}$${semester}`]: {
             $auto: {
               [id]: {
-                $set: grade
-              }
-            }
-          }
-        }
+                $set: grade,
+              },
+            },
+          },
+        },
       })
     case 'RESET':
       return initialState
@@ -58,15 +60,15 @@ const field = (
           [`${year}$${semester}`]: {
             $auto: {
               [data.key]: {
-                $set: Math.max(...Object.values(state.grades || {}))
-              }
-            }
-          }
-        }
+                $set: Math.max(...Object.values(state.grades || {})),
+              },
+            },
+          },
+        },
       })
     default:
       return state
   }
 }
 
-export default field
+export default fieldSlice.reducer
