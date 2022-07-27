@@ -64,13 +64,6 @@ export function ChooseFieldScreen({ navigation, route }) {
     navigation.navigate('SetField')
   }, [navigation])
 
-  console.log({
-    school,
-
-    fieldObject,
-    fieldIds,
-  })
-
   return (
     <View style={styles.screen}>
       <Toolbar showNavIcon clear />

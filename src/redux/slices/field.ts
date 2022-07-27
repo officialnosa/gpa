@@ -34,7 +34,7 @@ type Structure = {
 export type FieldState = {
   id: string
   name: string
-  structure: Structure
+  structure: Structure | any
   levelWeight: { [x: number]: number }
   grades: { [x: string]: number }
   courses: { [x: string]: CourseState }
