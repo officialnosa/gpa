@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Image,
   ImageBackground,
   Platform,
   StatusBar,
@@ -9,6 +10,7 @@ import {
 import { Text } from 'react-native-paper'
 
 import Icon from '@expo/vector-icons/MaterialCommunityIcons'
+import { CogIcon } from 'src/assets/images/svg'
 
 // import Icon from '@expo/vector-icons/Entypo'
 import { Toolbar } from '../components/Toolbar'
@@ -72,7 +74,12 @@ export class YearScreen extends React.PureComponent {
                     onPress={this.openSettings}
                     style={{ marginLeft: 10 }}
                   >
-                    <Icon name="settings" size={25} color="#fff" />
+                    {/* <CogIcon size={25} color="#fff" /> */}
+                    <Image
+                      source={{
+                        uri: CogIcon,
+                      }}
+                    />
                   </TouchableOpacity>
                 )}
               </View>
