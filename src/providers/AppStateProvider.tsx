@@ -22,7 +22,9 @@ const firebaseConfig = {
   measurementId: 'G-K86VNBND4K',
 }
 const rrfConfig: Partial<ReactReduxFirebaseConfig> = {
-  userProfile: 'users',
+  userProfile: 'users', // where profiles are stored in database
+  presence: 'presence', // where list of online users is stored in database
+  sessions: 'sessions', // where list of user sessions is stored in database (presence must be enabled)
   useFirestoreForProfile: true,
 }
 
@@ -38,6 +40,7 @@ export const AppStateProvider: FC = ({ children }) => {
         config={rrfConfig}
         dispatch={store.dispatch}
       >
+        {/* @ts-ignore */}
         <PersistGate persistor={persistor}>{children}</PersistGate>
       </ReactReduxFirebaseProvider>
     </ReduxProvider>

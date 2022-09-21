@@ -7,10 +7,10 @@ import {
   Text,
   View,
 } from 'react-native'
+import { Cog6ToothIcon } from 'react-native-heroicons/outline'
 import { Button, Divider, TextInput } from 'react-native-paper'
 import { connect } from 'react-redux'
 
-import Icon from '@expo/vector-icons/MaterialIcons'
 // import { resolve } from 'any-promise')
 import { CommonActions } from '@react-navigation/native'
 
@@ -257,7 +257,7 @@ export class SettingsScreen extends React.PureComponent {
   static navigationOptions = {
     tabBarLabel: 'Settings',
     tabBarIcon: ({ tintColor, focused }) => (
-      <Icon name="settings" size={focused ? 25 : 23} color={tintColor} />
+      <Cog6ToothIcon size={focused ? 25 : 23} color={tintColor} />
     ),
   }
 

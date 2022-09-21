@@ -22,7 +22,7 @@ const initialLayout = {
 
 const nth = [undefined, '1st', '2nd']
 
-export function SemesterPager({ year, semester, style }) {
+export function SemesterPager({ year, semester, style = null }) {
   // const { numOfYears, currentLevel, currentSemester } = useSelector(
   //   mapStateToProps
   // )

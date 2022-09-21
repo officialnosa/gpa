@@ -34,6 +34,7 @@
     "react-native-collapsible": "^1.6.0",
     "react-native-device-info": "8.4.8",
     "react-native-gesture-handler": "~2.5.0",
+    "react-native-heroicons": "^3.2.0",
     "react-native-modal-selector": "^1.1.1",
     "react-native-paper": "^4.12.4",
     "react-native-reanimated": "~2.9.1",
@@ -55,7 +56,6 @@
     "@babel/core": "^7.18.6",
     "@expo/next-adapter": "~2.1.52",
     "@react-native-community/eslint-config": "^2.0.0",
-    "@types/react": "~17.0.0",
     "@types/react-native": "~0.69.1",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
@@ -69,6 +69,9 @@
     "jest": "^26.6.3",
     "jest-fetch-mock": "^3.0.3",
     "typescript": "^4.6.3"
+  },
+  "resolutions": {
+    "@types/react": "^17"
   },
   "private": true,
   "version": "1.0.0",
