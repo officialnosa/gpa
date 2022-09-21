@@ -1,9 +1,9 @@
 import type { FC } from 'react'
 import React from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
 
 import type { RootState } from '@redux'
+import { useAppDispatch, useAppSelector } from 'src/providers/ReduxProvider'
 
 import { Divider } from '@components/Divider'
 import { Row } from '@components/Row'
@@ -20,8 +20,8 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 export const AdvancedSettingsScreen: FC = () => {
-  const dispatch = useDispatch()
-  const { field, gradingSystem } = useSelector(mapStateToProps)
+  const dispatch = useAppDispatch()
+  const { field, gradingSystem } = useAppSelector(mapStateToProps)
   const changeGradingSystem = (data) => {
     dispatch(updateSchool({ gradingSystem: { $merge: data } }))
   }
