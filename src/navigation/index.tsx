@@ -34,9 +34,9 @@ export const Root: FC = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={isOnboarding ? 'welcome' : 'home'}
     >
-      {isOnboarding && <Stack.Screen name="welcome" />}
+      <Stack.Screen name="index" />
+      <Stack.Screen name="welcome" />
       <Stack.Screen name="home" />
       <Stack.Screen name="courses/[year]/[semester]" />
       <Stack.Screen name="settings/advanced" />
