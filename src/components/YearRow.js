@@ -1,16 +1,15 @@
 import React from 'react'
 import {
-  StyleSheet,
   Dimensions,
-  View,
+  Platform,
   Text,
   TouchableOpacity,
-  Platform,
+  View,
 } from 'react-native'
-import { withNavigation } from '@navigation/hoc'
 import { SemesterScoreBadge } from './SemesterScoreBadge'
-import { YELLOW } from '../ui'
 import { YearScoreBadge } from './YearScoreBadge'
+import { router } from 'expo-router'
+import { ScreenMap } from '@/navigation'
 
 const initialLayout = {
   height: 0,
@@ -32,10 +31,12 @@ const colors = [
 ]
 const columns = 2
 
-export const YearRow = withNavigation(({ id, year, semester, navigation }) => (
+export const YearRow = ({ id, year, semester }) => (
   <TouchableOpacity
     style={[styles.button, { backgroundColor: '#fff' }]}
-    onPress={() => navigation.navigate('Year', { year, semester: 1 })}
+    onPress={() =>
+      router.push({ pathname: ScreenMap.Year, params: { year, semester: 1 } })
+    }
   >
     <View style={styles.info}>
       <Text style={styles.text}>Year {year}</Text>
@@ -62,7 +63,10 @@ export const YearRow = withNavigation(({ id, year, semester, navigation }) => (
         </View>
       </View>
       <TouchableOpacity
-        onPress={() => navigation.navigate('Year', { year, semester: 2 })}
+        onPress={() => 
+          router.push({ pathname: ScreenMap.Year, params: { year, semester: 2 } })
+      
+      }
         style={{
           flex: 1,
           backgroundColor: colors[year % colors.length] + '55',
@@ -81,7 +85,7 @@ export const YearRow = withNavigation(({ id, year, semester, navigation }) => (
       </TouchableOpacity>
     </View>
   </TouchableOpacity>
-))
+)
 
 const styles = {
   container: {
@@ -91,13 +95,15 @@ const styles = {
     color: '#000',
     fontSize: 20,
     flex: 1,
-    ...Platform.select({ web: { fontWeight: 'bold' }, default: {} }),
+    ...Platform.select({
+      web: { fontWeight: 'bold' },
+      default: {},
+    }),
   },
   text2: {
     color: '#000',
     marginLeft: 15,
-    marginTop: 15,
-    // backgroundColor: '#000',
+    marginTop: 15, // backgroundColor: '#000',
     // ...Platform.select({ web: { fontWeight: 'bold' }, default: {} }),
     fontSize: 16,
   },
@@ -118,17 +124,13 @@ const styles = {
   button: {
     flex: 1,
     marginHorizontal: 15,
-    marginVertical: 15,
-    // alignItems: 'center',
-    justifyContent: 'center',
-    // backgroundColor: '#ffd200',
-    borderRadius: 5,
-    // width: initialLayout.width / columns - 40
+    marginVertical: 15, // alignItems: 'center',
+    justifyContent: 'center', // backgroundColor: '#ffd200',
+    borderRadius: 5, // width: initialLayout.width / columns - 40
   },
   info: {
     padding: 15,
-    flexDirection: 'row',
-    // alignItems: 'center',
+    flexDirection: 'row', // alignItems: 'center',
     // justifyContent: 'center',
     // backgroundColor: '#ffd200',
     // borderRadius: 5
@@ -137,14 +139,12 @@ const styles = {
   gp: {
     width: '100%',
     paddingVertical: 10,
-    paddingHorizontal: 15,
-    // backgroundColor: '#000',
+    paddingHorizontal: 15, // backgroundColor: '#000',
     flexDirection: 'row',
   },
   gpText: {
     flex: 1,
     color: '#0008',
-    fontSize: 18,
-    // textAlign: 'center'
+    fontSize: 18, // textAlign: 'center'
   },
 }

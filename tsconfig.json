@@ -1,41 +1,17 @@
 {
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "jsx": "preserve",
-    "lib": ["dom", "esnext"],
-    "moduleResolution": "node",
-    "noEmit": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "target": "es5",
-    "allowJs": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "isolatedModules": true,
-    "incremental": true,
-    "baseUrl": ".",
+    "strict": true,
     "paths": {
-      "@lib": ["src/lib"],
-      "@components/*": ["src/components/*"],
-      "@screens": ["src/screens"],
-      "@navigation": ["src/navigation"],
-      "@providers": ["src/providers"],
-      "@redux": ["src/redux"],
-      "@*": ["src"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
-  "exclude": [
-    "node_modules",
-    "babel.config.js",
-    "metro.config.js",
-    "jest.config.js",
-    "dist",
-    ".next",
-    "out",
-    "next.config.js"
-  ],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "extends": "expo/tsconfig.base"
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ]
 }

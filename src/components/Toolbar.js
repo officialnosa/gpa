@@ -4,7 +4,7 @@ import { Platform, StyleSheet, Text, View } from 'react-native'
 
 import Icon from '@expo/vector-icons/Feather'
 
-import { withNavigation } from '@navigation/hoc'
+import { withNavigation } from '@/navigation/hoc'
 
 import { YELLOW } from '../ui'
 

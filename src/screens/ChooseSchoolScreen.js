@@ -1,22 +1,20 @@
 import React, { useCallback, useMemo } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { ScrollView } from 'react-native'
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native'
 import { Divider, FAB, Title, TouchableRipple } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
 
-import { useNavigation } from '@react-navigation/native'
-
-import { Toolbar } from '../components/Toolbar'
+import { Toolbar } from '@/components/Toolbar'
 import schools from '../offlineData/schools'
-import { initSchool } from '../redux/actions'
+import { initSchool } from '@/redux/actions'
+import { ScreenMap } from '@/navigation'
+import { router } from 'expo-router'
 
 function SchoolItem({ id }) {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
   const select = useCallback(() => {
     dispatch(initSchool(schools[id]))
-    navigation.navigate('ChooseField', { school: id })
-  }, [navigation, id, dispatch])
+    router.push({ pathname: ScreenMap.ChooseField, params: { school: id } })
+  }, [id, dispatch])
 
   return (
     <>
@@ -28,15 +26,15 @@ function SchoolItem({ id }) {
   )
 }
 
-export function ChooseSchoolScreen({ navigation }) {
+export function ChooseSchoolScreen() {
   const openOthers = useCallback(() => {
-    navigation.navigate('SetSchool')
-  }, [navigation])
+    router.push(ScreenMap.SetSchool)
+  }, [])
 
   const schoolIds = useMemo(() => Object.keys(schools || {}), [])
 
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen}>
       <Toolbar showNavIcon clear />
 
       <ScrollView>
@@ -47,13 +45,13 @@ export function ChooseSchoolScreen({ navigation }) {
       </ScrollView>
 
       <FAB
-        icon="add"
+        icon="plus"
         label="Add Yours"
         onPress={openOthers}
         color="#fff"
         style={styles.fab}
       />
-    </View>
+    </SafeAreaView>
   )
 }
 

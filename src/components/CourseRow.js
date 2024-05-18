@@ -11,11 +11,11 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import Icon from '@expo/vector-icons/Entypo'
 
-import { Divider } from '@components/Divider'
-import { FormGroup } from '@components/FormGroup'
-import { Row } from '@components/Row'
-import { Caption, Subtitle, Title } from '@components/Text'
-import { TextInput } from '@components/TextInput'
+import { Divider } from '@/components/Divider'
+import { FormGroup } from '@/components/FormGroup'
+import { Row } from '@/components/Row'
+import { Caption, Subtitle, Title } from '@/components/Text'
+import { TextInput } from '@/components/TextInput'
 
 import { Stepper } from '../components/Stepper'
 import { changeGrade, deregisterCourse, editCourse } from '../redux/actions'

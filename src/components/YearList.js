@@ -8,9 +8,11 @@ import { connect } from 'react-redux'
 
 import Icon from '@expo/vector-icons/EvilIcons'
 
-import { withNavigation } from '@navigation/hoc'
+import { withNavigation } from '@/navigation/hoc'
 
 import { YearRow } from './YearRow'
+import { router } from 'expo-router'
+import { ScreenMap } from '@/navigation'
 
 const mapStateToProps = (state) => ({
   // field: state.field
@@ -34,7 +36,7 @@ export class YearList extends React.Component {
     ],
   }
 
-  openSettings = () => this.props.navigation.navigate('Settings')
+  openSettings = () => router.push(ScreenMap.Settings)
 
   componentDidMount() {
     this.getRoutes(this.props)
@@ -101,7 +103,7 @@ export class YearList extends React.Component {
   )
 
   render() {
-    if (this.state.routes.length)
+    if (this.state.routes.length) {
       return (
         <VirtualizedList
           ref={(e) => (this.list = e)}
@@ -134,6 +136,7 @@ export class YearList extends React.Component {
           getItem={(data, ii) => data[ii]}
         />
       )
+    }
 
     return <NoSemesters />
   }

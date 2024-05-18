@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native'
 
-import { withNavigation } from '@navigation/hoc'
+import { withNavigation } from '@/navigation/hoc'
 
 import { SemesterScoreBadge } from './SemesterScoreBadge'
 

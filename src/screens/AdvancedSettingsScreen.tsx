@@ -3,16 +3,16 @@ import React from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
-import type { RootState } from '@redux'
+import type { RootState } from '@/redux'
 
-import { Divider } from '@components/Divider'
-import { Row } from '@components/Row'
-import { Screen } from '@components/Screen'
-import { Caption, Subtitle } from '@components/Text'
-import { TextInput } from '@components/TextInput'
+import { Divider } from '@/components/Divider'
+import { Row } from '@/components/Row'
+import { Screen } from '@/components/Screen'
+import { Caption, Subtitle } from '@/components/Text'
+import { TextInput } from '@/components/TextInput'
 
-import { Toolbar } from '../components/Toolbar'
-import { updateField, updateSchool } from '../redux/actions'
+import { Toolbar } from '@/components/Toolbar'
+import { updateField, updateSchool } from '@/redux/actions'
 
 const mapStateToProps = (state: RootState) => ({
   field: state.field,
@@ -104,12 +104,9 @@ export const AdvancedSettingsScreen: FC = () => {
               </View>
             </View>
           </Row>
-          <Divider styleName="section-header">
-            <Caption>
-              THE PERCENTAGE OF YOUR CGPA THAT EACH YEAR CARRIES
-            </Caption>
-            {/* <Caption>Percentage (%)</Caption> */}
-          </Divider>
+          <Divider styleName="section-header" />
+          <Caption>THE PERCENTAGE OF YOUR CGPA THAT EACH YEAR CARRIES</Caption>
+          {/* <Caption>Percentage (%)</Caption> */}
           <Row>
             <View style={styles.flex}>
               {Array.from(new Array(field.numOfYears), (_v, year) => (

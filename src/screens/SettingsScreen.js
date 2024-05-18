@@ -14,7 +14,7 @@ import Icon from '@expo/vector-icons/MaterialIcons'
 // import { resolve } from 'any-promise')
 import { CommonActions } from '@react-navigation/native'
 
-import { FormGroup } from '@components/form'
+import { FormGroup } from '@/components/form'
 
 import { NumberSelector } from '../components/NumberSelector'
 import { Stepper } from '../components/Stepper'
@@ -22,6 +22,8 @@ import { Toolbar } from '../components/Toolbar'
 import { resetData, updateField, updateSchool } from '../redux/actions'
 // import ModalSelector from 'react-native-modal-selector'
 import { runAsync } from '../utils'
+import { router } from 'expo-router'
+import { ScreenMap } from '@/navigation'
 
 const mapStateToProps = (state) => ({
   schoolName: state.school.name,
@@ -48,7 +50,7 @@ export default class Settings extends React.Component {
   //   this.setState({...props})
   // }
 
-  openAdvanced = () => this.props.navigation.navigate('AdvancedSettings')
+  openAdvanced = () => router.push(ScreenMap.AdvancedSettings)
 
   changeCurrentLevel = (currentLevel) => {
     this.setState({ currentLevel })
@@ -112,7 +114,7 @@ export default class Settings extends React.Component {
         })
         this.props.navigation.dispatch(resetAction)
       }
-    } else
+    } else {
       Alert.alert(
         'Are you sure?',
         'You are about to delete all your data. This cannot be undone.',
@@ -136,6 +138,7 @@ export default class Settings extends React.Component {
           },
         ]
       )
+    }
   }
 
   renderNumOfYears = () => {

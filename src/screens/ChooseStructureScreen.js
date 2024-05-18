@@ -1,14 +1,16 @@
 import React, { useCallback } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { Divider, Title, TouchableRipple } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
 
-import { Toolbar } from '../components/Toolbar'
+import { Toolbar } from '@/components/Toolbar'
 import fields from '../offlineData/fields'
-import { initCourses, initField } from '../redux/actions'
+import { initCourses, initField } from '@/redux/actions'
+import { router, useLocalSearchParams } from 'expo-router'
+import { ScreenMap } from '@/navigation'
 
-export function ChooseStructureScreen({ navigation, route }) {
-  const { field: fieldId, school: schoolId } = route.params
+export function ChooseStructureScreen() {
+  const { field: fieldId, school: schoolId } = useLocalSearchParams()
   const dispatch = useDispatch()
 
   const field = fields[schoolId][fieldId]
@@ -20,13 +22,13 @@ export function ChooseStructureScreen({ navigation, route }) {
       dispatch(initField(field.structure[key]))
       dispatch(initCourses(field.courses))
 
-      navigation.navigate('Tabs')
+      router.push(ScreenMap.Tabs)
     },
-    [field, navigation, dispatch]
+    [field, dispatch]
   )
 
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen}>
       <Toolbar showNavIcon clear />
 
       <Title style={styles.title}>Choose your Structure</Title>
@@ -42,7 +44,7 @@ export function ChooseStructureScreen({ navigation, route }) {
           <Divider />
         </React.Fragment>
       ))}
-    </View>
+    </SafeAreaView>
   )
 }
 

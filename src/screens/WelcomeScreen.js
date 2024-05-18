@@ -4,6 +4,7 @@ import { Image, ImageBackground, View } from 'react-native'
 import { Button, Text } from 'react-native-paper'
 
 import Icon from '@expo/vector-icons/Feather'
+import { Link } from 'expo-router'
 
 export class WelcomeScreen extends React.PureComponent {
   static navigationOptions = {
@@ -12,8 +13,8 @@ export class WelcomeScreen extends React.PureComponent {
       <Icon name="home" size={focused ? 25 : 23} color={tintColor} />
     ),
   }
-  openSchool = () => this.props.navigation.navigate('ChooseSchool')
   state = { schools: [] }
+
   render() {
     const platform = Platform.select({
       web: 'online ',
@@ -28,8 +29,7 @@ export class WelcomeScreen extends React.PureComponent {
           flex: 1,
           alignItems: 'center',
           position: 'relative',
-          justifyContent: 'center',
-          // backgroundColor: '#fff'
+          justifyContent: 'center', // backgroundColor: '#fff'
         }}
       >
         <View
@@ -92,15 +92,14 @@ export class WelcomeScreen extends React.PureComponent {
           style={{
             // fontFamily: 'Paprika-Regular',
             fontSize: 25,
-            marginTop: 20,
-            // marginBottom: 20,
+            marginTop: 20, // marginBottom: 20,
             maxWidth: 300,
             position: 'relative',
             textAlign: 'center',
             color: '#fff',
           }}
         >
-          {`Welcome to your ${platform} GPA assistant`}
+          Welcome
         </Text>
         <Text
           style={{
@@ -118,28 +117,29 @@ export class WelcomeScreen extends React.PureComponent {
         >
           Track your progress with ease
         </Text>
-        <Button
-          styleName="clear"
-          contentStyle={{
-            height: 50,
-          }}
-          style={{
-            width: 200,
-            borderRadius: 5,
-            backgroundColor: '#fff',
-          }}
-          onPress={this.openSchool}
-        >
-          <Text
+        <Link href="/schools" asChild>
+          <Button
+            styleName="clear"
+            contentStyle={{
+              height: 50,
+            }}
             style={{
-              // fontFamily: 'Paprika-Regular',
-              color: '#000',
-              fontSize: 16,
+              width: 200,
+              borderRadius: 5,
+              backgroundColor: '#fff',
             }}
           >
-            Get Started
-          </Text>
-        </Button>
+            <Text
+              style={{
+                // fontFamily: 'Paprika-Regular',
+                color: '#000',
+                fontSize: 16,
+              }}
+            >
+              Get Started
+            </Text>
+          </Button>
+        </Link>
         {/* </Screen> */}
       </ImageBackground>
     )

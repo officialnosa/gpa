@@ -1,8 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
-import { ScrollView } from 'react-native'
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native'
 import {
-  Button,
   Caption,
   Divider,
   FAB,
@@ -11,22 +9,21 @@ import {
 } from 'react-native-paper'
 import { useSelector } from 'react-redux'
 
-import { withNavigation } from '@navigation/hoc'
-
-import { Toolbar } from '../components/Toolbar'
+import { Toolbar } from '@/components/Toolbar'
 import fields from '../offlineData/fields'
-// import { initField } from '../redux/actions'
-// import Icon from '@expo/vector-icons/Feather'
+import { router, useLocalSearchParams } from 'expo-router'
+import { ScreenMap } from '@/navigation'
 
-function FieldItem({ id, navigation, name, schoolId }) {
+function FieldItem({ id, name, schoolId }) {
   const select = useCallback(() => {
-    // const dispatch = useDispatch()
-    // dispatch(initField(fields[id]))
-    navigation.navigate('ChooseStructure', {
-      field: id,
-      school: schoolId,
+    router.push({
+      pathname: ScreenMap.ChooseStructure,
+      params: {
+        field: id,
+        school: schoolId,
+      },
     })
-  }, [navigation, id, schoolId])
+  }, [id, schoolId])
 
   return (
     <>
@@ -41,31 +38,23 @@ function FieldItem({ id, navigation, name, schoolId }) {
   )
 }
 
-FieldItem = withNavigation(FieldItem)
-
-const mapStateToProps = (state) => ({
-  // user: state.user,
-  // school: state.school,
-  schoolName: state.school.name,
-})
-
-export function ChooseFieldScreen({ navigation, route }) {
-  const { schoolName } = useSelector(mapStateToProps)
-
-  const school = useMemo(() => {
-    // if (user.hasSchool) return school.id
-    return route?.params?.school
-  }, [route])
-
-  const fieldObject = useMemo(() => fields[school], [school])
-  const fieldIds = useMemo(() => Object.keys(fieldObject || {}), [fieldObject])
-
+export function ChooseFieldScreen() {
+  const { schoolName } = useSelector((state) => ({
+    schoolName: state.school.name,
+  }))
+  const { school } = useLocalSearchParams()
+  const fieldsOfStudy = fields[school]
+  const fieldIds = useMemo(
+    () => Object.keys(fieldsOfStudy || {}),
+    [fieldsOfStudy]
+  )
+  console.log({ school })
   const openOthers = useCallback(() => {
-    navigation.navigate('SetField')
-  }, [navigation])
+    router.push(ScreenMap.SetField)
+  }, [])
 
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen}>
       <Toolbar showNavIcon clear />
 
       <ScrollView>
@@ -78,20 +67,20 @@ export function ChooseFieldScreen({ navigation, route }) {
           <FieldItem
             key={id}
             id={id}
-            name={fieldObject[id].name}
+            name={fieldsOfStudy[id].name}
             schoolId={school}
           />
         ))}
       </ScrollView>
 
       <FAB
-        icon="add"
+        icon="plus"
         label="Add Yours"
         onPress={openOthers}
         color="#fff"
         style={styles.fab}
       />
-    </View>
+    </SafeAreaView>
   )
 }
 

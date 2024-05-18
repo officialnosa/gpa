@@ -1,19 +1,20 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text } from 'react-native'
 
-import { SemesterPager } from '../components/SemesterPager'
-import { Toolbar } from '../components/Toolbar'
-import { YearScoreBadge } from '../components/YearScoreBadge'
+import { SemesterPager } from '@/components/SemesterPager'
+import { Toolbar } from '@/components/Toolbar'
+import { YearScoreBadge } from '@/components/YearScoreBadge'
+import { useLocalSearchParams } from 'expo-router'
 
-export const HomeScreen = ({ route }) => {
-  const { year, semester } = route.params
+export function HomeScreen() {
+  const { year, semester } = useLocalSearchParams()
 
   if (!year || !semester) {
     return null
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Toolbar
         style={styles.toolbar}
         textStyle={styles.toolbarText}
@@ -26,7 +27,7 @@ export const HomeScreen = ({ route }) => {
         }
       />
       <SemesterPager year={year} semester={semester} />
-    </View>
+    </SafeAreaView>
   )
 }
 

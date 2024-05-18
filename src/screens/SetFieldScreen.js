@@ -1,22 +1,24 @@
 import React from 'react'
-import { ScrollView } from 'react-native'
+import { SafeAreaView, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 
 // import ModalSelector from 'react-native-modal-selector'
 // import { resolve } from 'any-promise')
 import { CommonActions } from '@react-navigation/native'
 
-import { Button } from '@components/Button'
-import { Divider } from '@components/Divider'
-import { Row } from '@components/Row'
-import { Screen } from '@components/Screen'
-import { Caption, Subtitle, Text } from '@components/Text'
+import { Button } from '@/components/Button'
+import { Divider } from '@/components/Divider'
+import { Row } from '@/components/Row'
+import { Screen } from '@/components/Screen'
+import { Caption, Subtitle, Text } from '@/components/Text'
 
 import { GradesEditor } from '../components/GradesEditor'
 import { NumberSelector } from '../components/NumberSelector'
 import { Stepper } from '../components/Stepper'
 import { Toolbar } from '../components/Toolbar'
 import { initField } from '../redux/actions'
+import { YELLOW } from '@/ui'
+
 class SettingsX extends React.Component {
   state = {
     name: '',
@@ -32,8 +34,6 @@ class SettingsX extends React.Component {
       4: 0.4,
     },
   }
-
-  openAdvanced = () => this.props.navigation.navigate('AdvancedSettings')
 
   changeCurrentLevel = (currentLevel) => {
     this.setState({ currentLevel })
@@ -74,7 +74,11 @@ class SettingsX extends React.Component {
   renderNumOfYears = () => {
     const { numOfYears } = this.state
     const data = [
-      { key: 0, section: true, label: 'Years required' },
+      {
+        key: 0,
+        section: true,
+        label: 'Years required',
+      },
       ...Array.from(new Array(10), (val, index) => ({
         key: ++index,
         label: `${index} year${index === 1 ? '' : 's'}`,
@@ -108,7 +112,7 @@ class SettingsX extends React.Component {
     const { name, currentSemester, currentLevel, numOfYears } = this.state
 
     return (
-      <Screen>
+      <SafeAreaView style={{ flex: 1, backgroundColor: YELLOW }}>
         <Toolbar
           showNavIcon
           title="Field of Study"
@@ -120,18 +124,11 @@ class SettingsX extends React.Component {
           //   </TouchableOpacity>
           // }
         />
-        <ScrollView>
+        <ScrollView
+          style={{ backgroundColor: '#fff' }}
+          contentContainerStyle={{ padding: 10 }}
+        >
           <Screen>
-            {/* <Divider styleName="section-header" />
-            <FormGroup>
-              <Caption>Field of Study</Caption>
-              <TextInput
-                value={name}
-                onChangeText={this.changeFieldName}
-                style={styles.underline}
-                placeholder="eg. Computer Science"
-              />
-            </FormGroup> */}
             <Divider styleName="section-header" />
 
             {this.renderNumOfYears()}
@@ -193,7 +190,7 @@ class SettingsX extends React.Component {
             </Button>
           }
         />
-      </Screen>
+      </SafeAreaView>
     )
   }
 }
