@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Report Card",
-    "slug": "scorecard",
+    "slug": "schoolassistant",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -32,6 +32,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "8471cb63-f0b2-43ab-9b8b-caa67e8815a6"
+      }
+    },
+    "owner": "osarogie"
   }
 }
