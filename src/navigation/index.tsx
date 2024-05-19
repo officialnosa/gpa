@@ -7,7 +7,7 @@ export const ScreenMap = {
   Tabs: 'home',
   Year: 'courses/[year]/[semester]',
   AdvancedSettings: 'settings/advanced',
-  Settings: 'settings/index',
+  Settings: 'settings',
   ChooseField: 'choose/[school]/fields',
   ChooseSchool: 'schools',
   ChooseStructure: 'choose/[school]/[field]/structure',
@@ -40,7 +40,7 @@ export const Root: FC = () => {
       <Stack.Screen name="home" />
       <Stack.Screen name="courses/[year]/[semester]" />
       <Stack.Screen name="settings/advanced" />
-      <Stack.Screen name="settings/index" />
+      <Stack.Screen name="settings" />
       <Stack.Screen name="choose/[school]/fields" />
       <Stack.Screen name="schools" />
       <Stack.Screen name="choose/[school]/[field]/structure" />
@@ -50,5 +50,3 @@ export const Root: FC = () => {
     </Stack>
   )
 }
-
-export { withNavigation } from './hoc'

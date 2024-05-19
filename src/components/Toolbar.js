@@ -1,67 +1,62 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 
 import Icon from '@expo/vector-icons/Feather'
 
-import { withNavigation } from '@/navigation/hoc'
+import { YELLOW } from '@/ui'
+import { router } from 'expo-router'
 
-import { YELLOW } from '../ui'
-
-export class Toolbar extends React.Component {
-  renderLeftComponent() {
-    const { leftComponent } = this.props
-    if (leftComponent)
-      return <View style={styles.middleLeft}>{leftComponent}</View>
-    return null
+export function Toolbar({
+  leftComponent,
+  rightComponent,
+  showNavIcon,
+  title,
+  clear,
+  light,
+  style,
+  textStyle,
+  titleStyle,
+}) {
+  const goBack = () => {
+    if (router.canGoBack()) {
+      router.back()
+    } else {
+      router.push('/')
+    }
   }
 
-  renderRightComponent() {
-    const { rightComponent } = this.props
-    if (rightComponent)
-      return <View style={styles.middleRight}>{rightComponent}</View>
-    return null
-  }
-
-  render() {
-    const {
-      showNavIcon,
-      backToHome,
-      title,
-      navigation,
-      clear,
-      light,
-      style,
-      textStyle,
-      titleStyle,
-    } = this.props
-    return (
-      <View
-        style={[
-          styles.container,
-          { backgroundColor: clear ? 'transparent' : light ? '#fff' : YELLOW },
-          style,
-        ]}
-      >
-        {showNavIcon ? (
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Icon
-              name="chevron-left"
-              size={25}
-              color={light ? '#fff' : '#000'}
-              style={iconStyle}
-            />
-          </TouchableOpacity>
-        ) : null}
-        {this.renderLeftComponent()}
-        <Text style={[defaultTitleStyle, titleStyle, textStyle]}>{title}</Text>
-        {this.renderRightComponent()}
-      </View>
-    )
-  }
+  return (
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: clear ? 'transparent' : light ? '#fff' : YELLOW },
+        style,
+      ]}
+    >
+      {showNavIcon ? (
+        <TouchableOpacity onPress={goBack}>
+          <Icon
+            name="chevron-left"
+            size={25}
+            color={light ? '#fff' : '#000'}
+            style={iconStyle}
+          />
+        </TouchableOpacity>
+      ) : null}
+      {leftComponent && <View style={styles.middleLeft}>{leftComponent}</View>}
+      <Text style={[defaultTitleStyle, titleStyle, textStyle]}>{title}</Text>
+      {rightComponent && (
+        <View style={styles.middleRight}>{rightComponent}</View>
+      )}
+    </View>
+  )
 }
-
-Toolbar = withNavigation(Toolbar)
 
 const iconStyle = { marginRight: 15 }
 const defaultTitleStyle = {
@@ -77,9 +72,16 @@ const styles = StyleSheet.create({
     marginTop: Platform.select({
       web: 0,
       default: 0,
-    }),
-    // paddingBottom: 15,
+    }), // paddingBottom: 15,
   },
-  middleRight: { flex: 1, alignItems: 'flex-end', justifyContent: 'center' },
-  middleLeft: { flex: 1, alignItems: 'flex-start', justifyContent: 'center' },
+  middleRight: {
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  middleLeft: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
 })

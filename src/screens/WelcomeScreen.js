@@ -16,20 +16,17 @@ export class WelcomeScreen extends React.PureComponent {
   state = { schools: [] }
 
   render() {
-    const platform = Platform.select({
-      web: 'online ',
-      android: 'Android',
-      ios: 'iOS',
-      default: '',
-    })
     return (
       <ImageBackground
         source={require('../images/bg.jpeg')}
+        imageStyle={{
+          width: null,
+          height: null,
+        }}
         style={{
           flex: 1,
           alignItems: 'center',
           position: 'relative',
-          justifyContent: 'center', // backgroundColor: '#fff'
         }}
       >
         <View

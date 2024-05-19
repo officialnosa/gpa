@@ -1,14 +1,13 @@
 import React from 'react'
 import {
   ImageBackground,
-  Platform,
   SafeAreaView,
   StatusBar,
   TouchableOpacity,
   View,
 } from 'react-native'
 import { Text } from 'react-native-paper'
-import Icon from '@expo/vector-icons/MaterialCommunityIcons'
+import Icon from '@expo/vector-icons/Feather'
 import { Toolbar } from '@/components/Toolbar'
 import { YearList } from '@/components/YearList'
 import { router } from 'expo-router'
@@ -25,8 +24,11 @@ export function YearScreen() {
           flex: 1,
           alignItems: 'flex-start',
           position: 'relative',
-          justifyContent: 'flex-start', // backgroundColor:
-          // '#fff'
+          justifyContent: 'flex-start',
+        }}
+        imageStyle={{
+          width: null,
+          height: null,
         }}
       >
         <View
@@ -62,14 +64,12 @@ export function YearScreen() {
                 }}
               >
                 <Text style={{ color: '#eee' }}>Overall CGPA ...</Text>
-                {Platform.select({ web: true }) && (
-                  <TouchableOpacity
-                    onPress={openSettings}
-                    style={{ marginLeft: 10 }}
-                  >
-                    <Icon name="settings" size={25} color="#fff" />
-                  </TouchableOpacity>
-                )}
+                <TouchableOpacity
+                  onPress={openSettings}
+                  style={{ marginLeft: 10 }}
+                >
+                  <Icon name="settings" size={25} color="#fff" />
+                </TouchableOpacity>
               </View>
             }
           />

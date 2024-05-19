@@ -122,7 +122,7 @@ export default class Settings extends React.Component {
           {
             text: 'Cancel',
             style: 'cancel',
-            onPress: () => {},
+            onPress: () => { },
           },
           {
             text: 'Delete',
@@ -272,7 +272,6 @@ export class SettingsScreen extends React.PureComponent {
         <ScrollView>
           <Settings navigation={navigation} />
           <Divider />
-          <Text styleName="h-center">&copy; {year} Nosa</Text>
           <Text styleName="h-center">www.osarogie.com</Text>
           <Divider />
         </ScrollView>

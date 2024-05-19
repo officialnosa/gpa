@@ -17,8 +17,8 @@ import { Row } from '@/components/Row'
 import { Caption, Subtitle, Title } from '@/components/Text'
 import { TextInput } from '@/components/TextInput'
 
-import { Stepper } from '../components/Stepper'
-import { changeGrade, deregisterCourse, editCourse } from '../redux/actions'
+import { Stepper } from '@/components/Stepper'
+import { changeGrade, deregisterCourse, editCourse } from '@/redux/actions'
 import { GradeIndicator } from './GradeIndicator'
 import { GradeSelector } from './GradeSelector'
 

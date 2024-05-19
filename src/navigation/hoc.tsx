@@ -1,6 +1,5 @@
 import React from 'react'
-
-import { useNavigation } from '@react-navigation/native'
+import {useNavigation} from "expo-router";
 
 export const withNavigation = (Component: React.FC) => {
   const NewComponent = (props: any) => {
