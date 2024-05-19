@@ -17,5 +17,12 @@
       "extends": "production",
       "distribution": "internal"
     }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "track": "internal"
+      }
+    }
   }
 }
