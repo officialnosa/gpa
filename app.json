@@ -2,7 +2,7 @@
   "expo": {
     "name": "Report Card",
     "slug": "schoolassistant",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "aplus",
@@ -13,17 +13,14 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true,
-      "buildNumber": "1.0.0"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "ng.nosakhare.aplus",
-      "versionCode": 11,
-      "version": "1.0.3"
+      "package": "ng.nosakhare.aplus"
     },
     "web": {
       "bundler": "metro",
