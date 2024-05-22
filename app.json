@@ -22,7 +22,8 @@
         "backgroundColor": "#ffffff"
       },
       "package": "ng.nosakhare.aplus",
-      "version": "1.0.2"
+      "versionCode": 11,
+      "version": "1.0.3"
     },
     "web": {
       "bundler": "metro",
