@@ -61,7 +61,7 @@ export function Toolbar({
 const iconStyle = { marginRight: 15 }
 const defaultTitleStyle = {
   color: '#000',
-  fontFamily: 'Paprika-Regular',
+  fontFamily: 'Paprika',
 }
 const styles = StyleSheet.create({
   container: {

@@ -1,4 +1,7 @@
 {
+  "cli": {
+    "appVersionSource": "remote"
+  },
   "build": {
     "production": {
       "android": {
@@ -6,7 +9,8 @@
       },
       "ios": {
         "image": "latest"
-      }
+      },
+      "autoIncrement": true
     },
     "development": {
       "extends": "production",
